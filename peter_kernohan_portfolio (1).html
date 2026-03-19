@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peter Kernohan — Robotics & Electronics Engineering Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white:    #ffffff;
+    --bg:       #f8f9fa;
+    --bg2:      #f2f4f6;
+    --border:   #e4e7ec;
+    --border2:  #d0d5dd;
+    --text:     #0f1117;
+    --muted:    #6b7280;
+    --soft:     #9ca3af;
+    --accent:   #e8510a;
+    --accent-l: #fff0eb;
+    --blue:     #1a56db;
+    --blue-l:   #eff6ff;
+    --display:  'Syne', sans-serif;
+    --body:     'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* scroll offset so fixed nav doesn't cover section headings */
+  #projects, #about, #leadership, #experience, #contact {
+    scroll-margin-top: 68px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo { text-decoration: none; }
+
+  .nav-logo-name {
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .nav-logo-sub {
+    font-size: 0.68rem;
+    color: var(--muted);
+    font-weight: 400;
+    display: block;
+    margin-top: -1px;
+  }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+
+  .nav-links a {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  #hero {
+    padding: 130px 5% 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--blue);
+    background: var(--blue-l);
+    padding: 0.3rem 0.85rem;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s 0.1s both;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+    flex-shrink: 0;
+  }
+
+  h1.hero-name {
+    font-family: var(--display);
+    font-size: clamp(3.8rem, 9vw, 8rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 0.92;
+    color: var(--text);
+    animation: fadeUp 0.6s 0.2s both;
+  }
+
+  h1.hero-name .accent { color: var(--accent); }
+
+  .hero-desc {
+    margin-top: 2rem;
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.75;
+    font-weight: 400;
+    animation: fadeUp 0.6s 0.35s both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.45s both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1.4rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: var(--text);
+    color: var(--white);
+    border-radius: 6px;
+    text-decoration: none;
+    border: 1px solid var(--text);
+    transition: background 0.15s, transform 0.15s;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover { background: #2a2f3a; transform: translateY(-1px); }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1.4rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    background: transparent;
+    color: var(--text);
+    border-radius: 6px;
+    text-decoration: none;
+    border: 1px solid var(--border2);
+    transition: border-color 0.15s, background 0.15s, transform 0.15s;
+    cursor: pointer;
+  }
+
+  .btn-outline:hover { border-color: var(--text); background: var(--bg); transform: translateY(-1px); }
+
+  /* ── SECTION SHARED ── */
+  .section-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 5%;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-header {
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+
+  .section-header.visible { opacity: 1; transform: none; }
+
+  .section-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .project-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.8rem;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  .project-card.visible { opacity: 1; transform: none; }
+
+  .project-card:hover {
+    border-color: var(--border2);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    transform: translateY(-2px);
+  }
+
+  .project-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+  }
+
+  .project-tag {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-l);
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+  }
+
+  .project-num {
+    font-family: var(--display);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--border2);
+    line-height: 1;
+  }
+
+  .project-title {
+    font-family: var(--display);
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .project-role {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 0.9rem;
+  }
+
+  .project-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.72;
+    margin-bottom: 1.2rem;
+  }
+
+  .metrics { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.1rem; }
+
+  .metric {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 0.22rem 0.55rem;
+    border-radius: 4px;
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .chip {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--muted);
+    background: var(--bg2);
+    padding: 0.18rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  /* ── ABOUT ── */
+  #about-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .about-text {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s 0.1s, transform 0.5s 0.1s;
+  }
+
+  .about-text.visible { opacity: 1; transform: none; }
+
+  .about-text p {
+    font-size: 0.97rem;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .about-text p:last-child { margin-bottom: 0; }
+
+  .em { color: var(--text); font-weight: 600; }
+
+  .about-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s 0.2s, transform 0.5s 0.2s;
+  }
+
+  .about-cards.visible { opacity: 1; transform: none; }
+
+  .mini-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem;
+  }
+
+  .mini-card-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+  }
+
+  .mini-list { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+
+  .mini-list li {
+    font-size: 0.86rem;
+    color: var(--text);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    line-height: 1.5;
+  }
+
+  .mini-list li::before {
+    content: '';
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 0.48em;
+  }
+
+  /* ── LEADERSHIP ── */
+  #leadership-bg {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .leadership-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .lead-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.8rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s, box-shadow 0.2s, border-color 0.2s;
+  }
+
+  .lead-card.visible { opacity: 1; transform: none; }
+  .lead-card:hover { border-color: var(--border2); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+
+  .lead-card-date {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--blue);
+    background: var(--blue-l);
+    padding: 0.22rem 0.6rem;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+
+  .lead-card-title {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+
+  .lead-card-org {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 1.1rem;
+    line-height: 1.45;
+  }
+
+  .lead-card-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .lead-card-list li {
+    font-size: 0.86rem;
+    color: var(--muted);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .lead-card-list li::before { content: '–'; position: absolute; left: 0; color: var(--soft); }
+
+  /* ── EXPERIENCE ── */
+  .timeline { position: relative; }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 6px; bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .tl-item {
+    padding-left: 2rem;
+    padding-bottom: 2.5rem;
+    position: relative;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.4s, transform 0.4s;
+  }
+
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item.visible { opacity: 1; transform: none; }
+
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -3px; top: 7px;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--white);
+    outline: 1px solid var(--border);
+  }
+
+  .tl-date {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.02em;
+  }
+
+  .tl-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.15rem;
+  }
+
+  .tl-org { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.7rem; }
+
+  .tl-list { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+
+  .tl-list li {
+    font-size: 0.86rem;
+    color: var(--muted);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .tl-list li::before { content: '–'; position: absolute; left: 0; color: var(--soft); }
+
+  /* ── CONTACT ── */
+  #contact-inner { text-align: center; }
+
+  .contact-email {
+    display: inline-block;
+    font-family: var(--display);
+    font-size: clamp(1.6rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    text-decoration: none;
+    margin: 1.5rem 0 2.5rem;
+    transition: color 0.15s;
+    border-bottom: 2px solid transparent;
+  }
+
+  .contact-email:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .contact-sub {
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  .contact-btns { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 1.8rem;
+    font-size: 0.75rem;
+    color: var(--soft);
+  }
+
+  /* ── FADE UTILITY ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 768px) {
+    #about-wrap { grid-template-columns: 1fr; gap: 2rem; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo" href="#hero">
+    <div class="nav-logo-name">Peter Kernohan</div>
+    <span class="nav-logo-sub">Robotics &amp; Electronics Engineering Portfolio</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#leadership">Leadership</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<div id="hero">
+  <div class="hero-tag">BSc Robotics &amp; Intelligent Devices · Maynooth University · 2nd Year</div>
+  <h1 class="hero-name">PETER<br><span class="accent">KERNOHAN</span></h1>
+  <p class="hero-desc">
+    Robotics &amp; Electronics Engineering Portfolio. Embedded systems, autonomous robots, control dynamics, and computer vision — building hardware that delivers measurable results.
+  </p>
+  <div class="hero-cta">
+    <a class="btn-outline" href="#about">About Me</a>
+    <a class="btn-outline" href="#leadership">Leadership</a>
+    <a class="btn-outline" href="https://github.com/peterk05" target="_blank">GitHub ↗</a>
+    <a class="btn-outline" href="https://www.linkedin.com/in/peter-kernohan-a4b788356/" target="_blank">LinkedIn ↗</a>
+    <a class="btn-outline" href="#contact">Contact</a>
+  </div>
+</div>
+
+<!-- ── PROJECTS ── -->
+<div id="projects" class="section-wrap">
+  <div class="section-header">
+    <div class="section-eyebrow">Work</div>
+    <div class="section-title">PROJECTS</div>
+  </div>
+
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-card-top">
+        <span class="project-tag">Combat Robotics</span>
+        <span class="project-num">01</span>
+      </div>
+      <div class="project-title">RoboRiotz Combat Robot</div>
+      <div class="project-role">Team Lead — Featherweight Class</div>
+      <p class="project-desc">Led full system architecture of a featherweight combat robot. Secured €2,000 in independent sponsorship. Applied MATLAB modelling to optimise rotational dynamics, achieving a 35% increase in rotational force and 95% competition reliability.</p>
+      <div class="metrics">
+        <span class="metric">€2K Sponsored</span>
+        <span class="metric">+35% Rotational Force</span>
+        <span class="metric">95% Reliability</span>
+      </div>
+      <div class="stack">
+        <span class="chip">MATLAB</span>
+        <span class="chip">BLDC Motors</span>
+        <span class="chip">Power Systems</span>
+        <span class="chip">System Architecture</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-top">
+        <span class="project-tag">Autonomous Systems</span>
+        <span class="project-num">02</span>
+      </div>
+      <div class="project-title">Autonomous Pick-and-Place Robot</div>
+      <div class="project-role">Developer</div>
+      <p class="project-desc">Ultrasonic sensor-based object detection with PID motor control on Raspberry Pi. Encoder feedback maintains speed stability within 5% across variable loads up to 5 kg, achieving 92% detection accuracy with 38 mm max positional error.</p>
+      <div class="metrics">
+        <span class="metric">92% Accuracy</span>
+        <span class="metric">±38mm Max Error</span>
+        <span class="metric">5% Speed Stability</span>
+      </div>
+      <div class="stack">
+        <span class="chip">Raspberry Pi</span>
+        <span class="chip">Python</span>
+        <span class="chip">PID Control</span>
+        <span class="chip">Ultrasonic</span>
+        <span class="chip">Encoders</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-top">
+        <span class="project-tag">AI · Computer Vision</span>
+        <span class="project-num">03</span>
+      </div>
+      <div class="project-title">Intelligent Bird Recognition System</div>
+      <div class="project-role">Co-Project Leader</div>
+      <p class="project-desc">End-to-end YOLOv8 inference pipeline on Raspberry Pi 5. Model quantisation and pruning achieve 15 FPS on embedded hardware with 87% species classification accuracy for population monitoring applications.</p>
+      <div class="metrics">
+        <span class="metric">87% Accuracy</span>
+        <span class="metric">15 FPS Embedded</span>
+        <span class="metric">RPi 5</span>
+      </div>
+      <div class="stack">
+        <span class="chip">YOLOv8</span>
+        <span class="chip">Python</span>
+        <span class="chip">Raspberry Pi 5</span>
+        <span class="chip">Quantisation</span>
+        <span class="chip">Pruning</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-top">
+        <span class="project-tag">Control Systems</span>
+        <span class="project-num">04</span>
+      </div>
+      <div class="project-title">Reaction Wheel Inverted Pendulum</div>
+      <div class="project-role">EE291 Project-Based Learning</div>
+      <p class="project-desc">Reaction wheel arm balancing system modelled from first principles. Full derivation of rotational dynamics, control strategy design and implementation, interactive mathematical reference materials, and structured video presentation.</p>
+      <div class="metrics">
+        <span class="metric">Full Derivation</span>
+        <span class="metric">Control Design</span>
+        <span class="metric">Interactive Docs</span>
+      </div>
+      <div class="stack">
+        <span class="chip">MATLAB/Simulink</span>
+        <span class="chip">Control Theory</span>
+        <span class="chip">Rotational Dynamics</span>
+        <span class="chip">PID</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-top">
+        <span class="project-tag">Computer Vision · Robotics</span>
+        <span class="project-num">05</span>
+      </div>
+      <div class="project-title">Autonomous Humanoid Eye</div>
+      <div class="project-role">Developer</div>
+      <p class="project-desc">Camera-driven animatronic eye system that detects and tracks a person's position in real time, physically moving the eye mechanism to follow them around the room. Computer vision pipeline on Raspberry Pi drives servo-actuated eye movement with smooth, continuous tracking.</p>
+      <div class="metrics">
+        <span class="metric">Real-time Tracking</span>
+        <span class="metric">Person Detection</span>
+        <span class="metric">Servo Actuation</span>
+      </div>
+      <div class="stack">
+        <span class="chip">Raspberry Pi</span>
+        <span class="chip">OpenCV</span>
+        <span class="chip">Python</span>
+        <span class="chip">Servo Control</span>
+        <span class="chip">Computer Vision</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── ABOUT ── -->
+<div id="about" class="section-wrap">
+  <div class="section-header">
+    <div class="section-eyebrow">Background</div>
+    <div class="section-title">ABOUT</div>
+  </div>
+  <div id="about-wrap">
+    <div class="about-text">
+      <p>I'm a <span class="em">2nd year BSc Robotics &amp; Intelligent Devices student</span> at Maynooth University, driven by a genuine interest in building intelligent systems from the ground up.</p>
+      <p>My work spans the full stack: embedded firmware, circuit design, computer vision, and control theory. I build hardware that demonstrates these disciplines with real, measurable outcomes.</p>
+      <p>Alongside my studies I hold leadership roles across the university — running the Engineering &amp; Robotics Society, representing my year group to faculty, and coaching at the BJJ Club.</p>
+    </div>
+    <div class="about-cards">
+      <div class="mini-card">
+        <div class="mini-card-title">Degree</div>
+        <ul class="mini-list">
+          <li>BSc Robotics &amp; Intelligent Devices — Maynooth University</li>
+          <li>Analog/Digital Circuit Design, Embedded Systems, Control Dynamics</li>
+          <li>Digital Logic, PCB Design with Altium Designer</li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-title">Technical Skills</div>
+        <ul class="mini-list">
+          <li>Embedded Systems — Arduino, Raspberry Pi, ESP32</li>
+          <li>Circuit &amp; PCB Design — Altium Designer</li>
+          <li>Programming — C, C++, Python, MATLAB</li>
+          <li>Robotics &amp; Control — PID, dynamics, state machines</li>
+          <li>AI &amp; Vision — YOLOv8, edge inference, OpenCV</li>
+          <li>CAD — Fusion 360, 3D prototyping</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── LEADERSHIP ── -->
+<div id="leadership-bg">
+  <div id="leadership" class="section-wrap" style="border-bottom: none;">
+    <div class="section-header">
+      <div class="section-eyebrow">Roles</div>
+      <div class="section-title">LEADERSHIP</div>
+    </div>
+    <div class="leadership-grid">
+
+      <div class="lead-card">
+        <span class="lead-card-date">2025 – Present</span>
+        <div class="lead-card-title">President</div>
+        <div class="lead-card-org">Engineering &amp; Robotics Society — Maynooth University</div>
+        <ul class="lead-card-list">
+          <li>Grew society from 5 to 60 active members within 2 weeks through cross-programme outreach and inter-society collaboration</li>
+          <li>Delivers at least one structured event per week — technical lectures, weekly Makers Club, cross-society competitions</li>
+          <li>Plans and executes society trips, managing all logistics, budgeting, and scheduling</li>
+        </ul>
+      </div>
+
+      <div class="lead-card">
+        <span class="lead-card-date">2024 – Present</span>
+        <div class="lead-card-title">Head Student Rep</div>
+        <div class="lead-card-org">Robotics &amp; Intelligent Devices Programme — Maynooth University</div>
+        <ul class="lead-card-list">
+          <li>Represents the 2nd year cohort — presents student feedback to faculty and drives curriculum change</li>
+          <li>Secured adoption of Altium Designer across three lab courses for the programme</li>
+        </ul>
+      </div>
+
+      <div class="lead-card">
+        <span class="lead-card-date">2024 – Present</span>
+        <div class="lead-card-title">Assistant Coach</div>
+        <div class="lead-card-org">Brazilian Jiu-Jitsu Club — Maynooth University</div>
+        <ul class="lead-card-list">
+          <li>Coaches regular BJJ classes across all skill levels, 2+ years of continued involvement</li>
+          <li>Manages competition logistics and coordinates club events and scheduling</li>
+          <li>Sourced world-class guest coaches to deliver seminars at Maynooth, raising the club's profile and training standard</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── EXPERIENCE ── -->
+<div id="experience" class="section-wrap">
+  <div class="section-header">
+    <div class="section-eyebrow">History</div>
+    <div class="section-title">EXPERIENCE</div>
+  </div>
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-date">2025 – Present</div>
+      <div class="tl-title">President — Engineering &amp; Robotics Society</div>
+      <div class="tl-org">Maynooth University</div>
+      <ul class="tl-list">
+        <li>Grew society from 5 to 60 active members within 2 weeks of election</li>
+        <li>Runs weekly structured events — technical lectures, Makers Club, competitions</li>
+      </ul>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2024 – Present</div>
+      <div class="tl-title">Head 2nd Year Student Representative</div>
+      <div class="tl-org">Robotics &amp; Intelligent Devices Programme, Maynooth University</div>
+      <ul class="tl-list">
+        <li>Presents student feedback to faculty; secured adoption of Altium Designer across three lab courses</li>
+      </ul>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2024 – Present</div>
+      <div class="tl-title">Assistant Coach &amp; Committee Member — BJJ Club</div>
+      <div class="tl-org">Maynooth University</div>
+      <ul class="tl-list">
+        <li>Coaches regular classes across all levels; sourced world-class guest coaches for club seminars</li>
+      </ul>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2024 – Present</div>
+      <div class="tl-title">BSc Student — Robotics &amp; Intelligent Devices</div>
+      <div class="tl-org">Maynooth University</div>
+      <ul class="tl-list">
+        <li>Coursework: Analog/Digital Circuit Design, Embedded Systems, Control Dynamics, Digital Logic, PCB Design</li>
+        <li>All major projects completed alongside and beyond formal coursework requirements</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── CONTACT ── -->
+<div id="contact" class="section-wrap" style="border-bottom: none;">
+  <div id="contact-inner">
+    <div class="section-header" style="margin-bottom: 0;">
+      <div class="section-eyebrow">Get In Touch</div>
+      <div class="section-title">CONTACT</div>
+    </div>
+    <p class="contact-sub fade-in" style="margin-top: 1rem; margin-bottom: 0;">Open to internships, collaborations, robotics competitions, and new projects.</p>
+    <a class="contact-email fade-in" href="mailto:peterjohnkernohan@gmail.com">peterjohnkernohan@gmail.com</a>
+    <div class="contact-btns fade-in">
+      <a class="btn-primary" href="mailto:peterjohnkernohan@gmail.com">Email Me</a>
+      <a class="btn-outline" href="https://github.com/peterk05" target="_blank">GitHub ↗</a>
+      <a class="btn-outline" href="https://www.linkedin.com/in/peter-kernohan-a4b788356/" target="_blank">LinkedIn ↗</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2025 Peter Kernohan · BSc Robotics &amp; Intelligent Devices · Maynooth University · Ireland
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const staggered = ['project-card', 'lead-card', 'tl-item', 'fade-in'];
+      if (staggered.some(c => el.classList.contains(c))) {
+        const idx = [...el.parentElement.children].indexOf(el);
+        setTimeout(() => el.classList.add('visible'), idx * 80);
+      } else {
+        el.classList.add('visible');
+      }
+      io.unobserve(el);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+
+  document.querySelectorAll(
+    '.section-header, .about-text, .about-cards, .project-card, .lead-card, .tl-item, .fade-in'
+  ).forEach(el => io.observe(el));
+</script>
+</body>
+</html>
