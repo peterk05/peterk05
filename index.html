@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Peter Kernohan’s engineering portfolio: robotics, embedded systems, control dynamics and computer vision projects at Maynooth University.">
 <title>Peter Kernohan — Robotics & Electronics Engineering Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -118,7 +119,7 @@
 
   h1.hero-name {
     font-family: var(--display);
-    font-size: clamp(3.8rem, 9vw, 8rem);
+    font-size: clamp(2.45rem, 8.3vw, 7rem);
     font-weight: 800;
     letter-spacing: -0.03em;
     line-height: 0.92;
@@ -192,7 +193,7 @@
 
   .section-header {
     margin-bottom: 3rem;
-    opacity: 0;
+    opacity: 1;
     transform: translateY(16px);
     transition: opacity 0.5s, transform 0.5s;
   }
@@ -220,7 +221,7 @@
   /* ── PROJECTS ── */
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
     gap: 1.25rem;
   }
 
@@ -230,7 +231,7 @@
     border-radius: 10px;
     padding: 1.8rem;
     transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-    opacity: 0;
+    opacity: 1;
     transform: translateY(24px);
   }
 
@@ -330,7 +331,7 @@
   }
 
   .about-text {
-    opacity: 0;
+    opacity: 1;
     transform: translateY(16px);
     transition: opacity 0.5s 0.1s, transform 0.5s 0.1s;
   }
@@ -352,7 +353,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    opacity: 0;
+    opacity: 1;
     transform: translateY(16px);
     transition: opacity 0.5s 0.2s, transform 0.5s 0.2s;
   }
@@ -404,7 +405,7 @@
 
   .leadership-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
     gap: 1.25rem;
   }
 
@@ -413,7 +414,7 @@
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 1.8rem;
-    opacity: 0;
+    opacity: 1;
     transform: translateY(20px);
     transition: opacity 0.5s, transform 0.5s, box-shadow 0.2s, border-color 0.2s;
   }
@@ -475,7 +476,7 @@
     padding-left: 2rem;
     padding-bottom: 2.5rem;
     position: relative;
-    opacity: 0;
+    opacity: 1;
     transform: translateY(16px);
     transition: opacity 0.4s, transform 0.4s;
   }
@@ -559,7 +560,7 @@
 
   /* ── FADE UTILITY ── */
   .fade-in {
-    opacity: 0;
+    opacity: 1;
     transform: translateY(14px);
     transition: opacity 0.5s, transform 0.5s;
   }
@@ -567,7 +568,7 @@
   .fade-in.visible { opacity: 1; transform: none; }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 1; transform: translateY(20px); }
     to   { opacity: 1; transform: none; }
   }
 
@@ -575,12 +576,46 @@
     #about-wrap { grid-template-columns: 1fr; gap: 2rem; }
     .nav-links { display: none; }
   }
+
+  /* Readable, resilient portfolio layout */
+  :root { --muted: #535d6c; --soft: #657080; --accent: #b83d08; }
+  :focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; }
+  .skip-link { position: fixed; top: 8px; left: 8px; z-index: 200; padding: 12px 20px; background: var(--text); color: white; transform: translateY(-160%); }
+  .skip-link:focus { transform: none; }
+  .nav-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: .875rem; }
+  #hero { background-image: linear-gradient(90deg, transparent 99%, var(--border) 99%), linear-gradient(transparent 99%, var(--border) 99%); background-size: 48px 48px; }
+  .hero-tag { max-width: 100%; border: 1px solid #dbe7fc; border-radius: 6px; font-size: .875rem; }
+  .hero-desc { color: var(--text); max-width: 610px; font-size: 1.125rem; }
+  .btn-primary, .btn-outline { min-height: 48px; font-size: .875rem; }
+  .section-header, .about-text, .about-cards, .project-card, .lead-card, .tl-item, .fade-in { transform: none; }
+  .project-card { display: flex; flex-direction: column; border-top: 3px solid var(--accent); padding: 1.5rem; }
+  .project-card .stack { margin-top: auto; }
+  .project-desc, .lead-card-list li, .tl-list li, .mini-list li { font-size: 1rem; }
+  .project-role, .metric, .chip, .project-tag, .lead-card-date, .lead-card-org, .tl-date, .tl-org, .mini-card-title { font-size: .875rem; }
+  .project-num { color: var(--muted); }
+  .contact-email { max-width: 100%; overflow-wrap: anywhere; }
+  @media (max-width: 768px) {
+    nav { position: sticky; height: auto; flex-direction: column; align-items: stretch; padding: 10px 5% 0; }
+    .nav-links { display: flex; overflow-x: auto; gap: 1.25rem; }
+    .nav-links li { flex: 0 0 auto; }
+    .nav-logo-sub { font-size: .75rem; }
+    #hero { padding: 48px 5% 56px; }
+    .hero-tag { margin-bottom: 1.5rem; }
+    .section-wrap { padding: 56px 5%; }
+    .section-header { margin-bottom: 2rem; }
+    #projects, #about, #leadership, #experience, #contact, #main, #hero { scroll-margin-top: 120px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <!-- ── NAV ── -->
-<nav>
+<nav aria-label="Main navigation">
   <a class="nav-logo" href="#hero">
     <div class="nav-logo-name">Peter Kernohan</div>
     <span class="nav-logo-sub">Robotics &amp; Electronics Engineering Portfolio</span>
@@ -594,6 +629,7 @@
   </ul>
 </nav>
 
+<main id="main" tabindex="-1">
 <!-- ── HERO ── -->
 <div id="hero">
   <div class="hero-tag">BSc Robotics &amp; Intelligent Devices · Maynooth University · 2nd Year</div>
@@ -602,10 +638,11 @@
     Robotics &amp; Electronics Engineering Portfolio. Embedded systems, autonomous robots, control dynamics, and computer vision — building hardware that delivers measurable results.
   </p>
   <div class="hero-cta">
-    <a class="btn-outline" href="#about">About Me</a>
+    <a class="btn-primary" href="#projects">View projects <span aria-hidden="true">↗</span></a>
+    <a class="btn-outline" href="#about">About me</a>
     <a class="btn-outline" href="#leadership">Leadership</a>
-    <a class="btn-outline" href="https://github.com/peterk05" target="_blank">GitHub ↗</a>
-    <a class="btn-outline" href="https://www.linkedin.com/in/peter-kernohan-a4b788356/" target="_blank">LinkedIn ↗</a>
+    <a class="btn-outline" href="https://github.com/peterk05" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+    <a class="btn-outline" href="https://www.linkedin.com/in/peter-kernohan-a4b788356/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
     <a class="btn-outline" href="#contact">Contact</a>
   </div>
 </div>
@@ -614,7 +651,7 @@
 <div id="projects" class="section-wrap">
   <div class="section-header">
     <div class="section-eyebrow">Work</div>
-    <div class="section-title">PROJECTS</div>
+    <h2 class="section-title">PROJECTS</h2>
   </div>
 
   <div class="projects-grid">
@@ -624,7 +661,7 @@
         <span class="project-tag">Combat Robotics</span>
         <span class="project-num">01</span>
       </div>
-      <div class="project-title">RoboRiotz Combat Robot</div>
+      <h3 class="project-title">RoboRiotz Combat Robot</h3>
       <div class="project-role">Team Lead — Featherweight Class</div>
       <p class="project-desc">Led full system architecture of a featherweight combat robot. Secured €2,000 in independent sponsorship. Applied MATLAB modelling to optimise rotational dynamics, achieving a 35% increase in rotational force and 95% competition reliability.</p>
       <div class="metrics">
@@ -645,7 +682,7 @@
         <span class="project-tag">Autonomous Systems</span>
         <span class="project-num">02</span>
       </div>
-      <div class="project-title">Autonomous Pick-and-Place Robot</div>
+      <h3 class="project-title">Autonomous Pick-and-Place Robot</h3>
       <div class="project-role">Developer</div>
       <p class="project-desc">Ultrasonic sensor-based object detection with PID motor control on Raspberry Pi. Encoder feedback maintains speed stability within 5% across variable loads up to 5 kg, achieving 92% detection accuracy with 38 mm max positional error.</p>
       <div class="metrics">
@@ -667,7 +704,7 @@
         <span class="project-tag">AI · Computer Vision</span>
         <span class="project-num">03</span>
       </div>
-      <div class="project-title">Intelligent Bird Recognition System</div>
+      <h3 class="project-title">Intelligent Bird Recognition System</h3>
       <div class="project-role">Co-Project Leader</div>
       <p class="project-desc">End-to-end YOLOv8 inference pipeline on Raspberry Pi 5. Model quantisation and pruning achieve 15 FPS on embedded hardware with 87% species classification accuracy for population monitoring applications.</p>
       <div class="metrics">
@@ -689,7 +726,7 @@
         <span class="project-tag">Control Systems</span>
         <span class="project-num">04</span>
       </div>
-      <div class="project-title">Reaction Wheel Inverted Pendulum</div>
+      <h3 class="project-title">Reaction Wheel Inverted Pendulum</h3>
       <div class="project-role">EE291 Project-Based Learning</div>
       <p class="project-desc">Reaction wheel arm balancing system modelled from first principles. Full derivation of rotational dynamics, control strategy design and implementation, interactive mathematical reference materials, and structured video presentation.</p>
       <div class="metrics">
@@ -710,7 +747,7 @@
         <span class="project-tag">Computer Vision · Robotics</span>
         <span class="project-num">05</span>
       </div>
-      <div class="project-title">Autonomous Humanoid Eye</div>
+      <h3 class="project-title">Autonomous Humanoid Eye</h3>
       <div class="project-role">Developer</div>
       <p class="project-desc">Camera-driven animatronic eye system that detects and tracks a person's position in real time, physically moving the eye mechanism to follow them around the room. Computer vision pipeline on Raspberry Pi drives servo-actuated eye movement with smooth, continuous tracking.</p>
       <div class="metrics">
@@ -734,7 +771,7 @@
 <div id="about" class="section-wrap">
   <div class="section-header">
     <div class="section-eyebrow">Background</div>
-    <div class="section-title">ABOUT</div>
+    <h2 class="section-title">ABOUT</h2>
   </div>
   <div id="about-wrap">
     <div class="about-text">
@@ -771,13 +808,13 @@
   <div id="leadership" class="section-wrap" style="border-bottom: none;">
     <div class="section-header">
       <div class="section-eyebrow">Roles</div>
-      <div class="section-title">LEADERSHIP</div>
+      <h2 class="section-title">LEADERSHIP</h2>
     </div>
     <div class="leadership-grid">
 
       <div class="lead-card">
         <span class="lead-card-date">2025 – Present</span>
-        <div class="lead-card-title">President</div>
+        <h3 class="lead-card-title">President</h3>
         <div class="lead-card-org">Engineering &amp; Robotics Society — Maynooth University</div>
         <ul class="lead-card-list">
           <li>Grew society from 5 to 60 active members within 2 weeks through cross-programme outreach and inter-society collaboration</li>
@@ -788,7 +825,7 @@
 
       <div class="lead-card">
         <span class="lead-card-date">2024 – Present</span>
-        <div class="lead-card-title">Head Student Rep</div>
+        <h3 class="lead-card-title">Head Student Rep</h3>
         <div class="lead-card-org">Robotics &amp; Intelligent Devices Programme — Maynooth University</div>
         <ul class="lead-card-list">
           <li>Represents the 2nd year cohort — presents student feedback to faculty and drives curriculum change</li>
@@ -798,7 +835,7 @@
 
       <div class="lead-card">
         <span class="lead-card-date">2024 – Present</span>
-        <div class="lead-card-title">Assistant Coach</div>
+        <h3 class="lead-card-title">Assistant Coach</h3>
         <div class="lead-card-org">Brazilian Jiu-Jitsu Club — Maynooth University</div>
         <ul class="lead-card-list">
           <li>Coaches regular BJJ classes across all skill levels, 2+ years of continued involvement</li>
@@ -815,13 +852,13 @@
 <div id="experience" class="section-wrap">
   <div class="section-header">
     <div class="section-eyebrow">History</div>
-    <div class="section-title">EXPERIENCE</div>
+    <h2 class="section-title">EXPERIENCE</h2>
   </div>
   <div class="timeline">
 
     <div class="tl-item">
       <div class="tl-date">2025 – Present</div>
-      <div class="tl-title">President — Engineering &amp; Robotics Society</div>
+      <h3 class="tl-title">President — Engineering &amp; Robotics Society</h3>
       <div class="tl-org">Maynooth University</div>
       <ul class="tl-list">
         <li>Grew society from 5 to 60 active members within 2 weeks of election</li>
@@ -831,7 +868,7 @@
 
     <div class="tl-item">
       <div class="tl-date">2024 – Present</div>
-      <div class="tl-title">Head 2nd Year Student Representative</div>
+      <h3 class="tl-title">Head 2nd Year Student Representative</h3>
       <div class="tl-org">Robotics &amp; Intelligent Devices Programme, Maynooth University</div>
       <ul class="tl-list">
         <li>Presents student feedback to faculty; secured adoption of Altium Designer across three lab courses</li>
@@ -840,7 +877,7 @@
 
     <div class="tl-item">
       <div class="tl-date">2024 – Present</div>
-      <div class="tl-title">Assistant Coach &amp; Committee Member — BJJ Club</div>
+      <h3 class="tl-title">Assistant Coach &amp; Committee Member — BJJ Club</h3>
       <div class="tl-org">Maynooth University</div>
       <ul class="tl-list">
         <li>Coaches regular classes across all levels; sourced world-class guest coaches for club seminars</li>
@@ -849,7 +886,7 @@
 
     <div class="tl-item">
       <div class="tl-date">2024 – Present</div>
-      <div class="tl-title">BSc Student — Robotics &amp; Intelligent Devices</div>
+      <h3 class="tl-title">BSc Student — Robotics &amp; Intelligent Devices</h3>
       <div class="tl-org">Maynooth University</div>
       <ul class="tl-list">
         <li>Coursework: Analog/Digital Circuit Design, Embedded Systems, Control Dynamics, Digital Logic, PCB Design</li>
@@ -865,41 +902,23 @@
   <div id="contact-inner">
     <div class="section-header" style="margin-bottom: 0;">
       <div class="section-eyebrow">Get In Touch</div>
-      <div class="section-title">CONTACT</div>
+      <h2 class="section-title">CONTACT</h2>
     </div>
     <p class="contact-sub fade-in" style="margin-top: 1rem; margin-bottom: 0;">Open to internships, collaborations, robotics competitions, and new projects.</p>
     <a class="contact-email fade-in" href="mailto:peterjohnkernohan@gmail.com">peterjohnkernohan@gmail.com</a>
     <div class="contact-btns fade-in">
       <a class="btn-primary" href="mailto:peterjohnkernohan@gmail.com">Email Me</a>
-      <a class="btn-outline" href="https://github.com/peterk05" target="_blank">GitHub ↗</a>
-      <a class="btn-outline" href="https://www.linkedin.com/in/peter-kernohan-a4b788356/" target="_blank">LinkedIn ↗</a>
+      <a class="btn-outline" href="https://github.com/peterk05" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      <a class="btn-outline" href="https://www.linkedin.com/in/peter-kernohan-a4b788356/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
     </div>
   </div>
 </div>
 
+</main>
 <footer>
   © 2025 Peter Kernohan · BSc Robotics &amp; Intelligent Devices · Maynooth University · Ireland
 </footer>
 
-<script>
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el = entry.target;
-      const staggered = ['project-card', 'lead-card', 'tl-item', 'fade-in'];
-      if (staggered.some(c => el.classList.contains(c))) {
-        const idx = [...el.parentElement.children].indexOf(el);
-        setTimeout(() => el.classList.add('visible'), idx * 80);
-      } else {
-        el.classList.add('visible');
-      }
-      io.unobserve(el);
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
 
-  document.querySelectorAll(
-    '.section-header, .about-text, .about-cards, .project-card, .lead-card, .tl-item, .fade-in'
-  ).forEach(el => io.observe(el));
-</script>
 </body>
 </html>
