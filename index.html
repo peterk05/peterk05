@@ -671,6 +671,31 @@
  .case-gallery img { height:auto; max-height:420px; }
 }
 
+
+.unified-timeline{max-width:1080px;margin:auto;padding:80px 5%;position:relative}
+.timeline-anchor{display:block;scroll-margin-top:120px}
+#timeline{scroll-margin-top:90px}
+.unified-header{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:56px;flex-wrap:wrap}
+.unified-header h2{font:italic clamp(2.5rem,5vw,4rem) Georgia,serif;letter-spacing:-.04em}
+.timeline-key{display:flex;gap:16px;flex-wrap:wrap}
+.kind{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--kind-color,#67717a)}
+.kind-project{--kind-color:#b74717}.kind-experience{--kind-color:#246377}.kind-education{--kind-color:#655594}.kind-leadership{--kind-color:#4f7046}
+.journey{list-style:none}
+.journey-event{display:grid;grid-template-columns:168px 1fr;position:relative}
+.journey-date{font-size:.85rem;color:#646c74;padding:30px 26px 30px 0}
+.journey-content{border-left:1px solid #d3d6d7;padding:12px 0 12px 34px;position:relative}
+.journey-content:before{content:"";position:absolute;left:-5px;top:44px;width:9px;height:9px;border-radius:50%;background:var(--kind-color);box-shadow:0 0 0 5px white}
+.journey-row{display:flex;align-items:center;gap:20px;padding:14px 18px;min-height:92px;text-decoration:none;color:inherit;border-radius:8px;cursor:pointer;list-style:none}
+.journey-row::-webkit-details-marker{display:none}
+.journey-row:hover{background:#f5f5f2}
+.journey-thumb{width:64px;height:64px;object-fit:contain;flex:0 0 64px;border-radius:5px;background:#f1f2ee}
+.journey-monogram{display:grid;place-items:center;color:var(--kind-color);font:italic 1.15rem Georgia,serif}
+.journey-title{display:grid;gap:6px}.journey-name{font-size:1.05rem;line-height:1.45;font-weight:500}
+.journey-arrow{margin-left:auto;color:#78818a;font-size:1.25rem}
+.journey-detail{padding:10px 24px 24px 102px;color:var(--muted);font-size:.95rem;line-height:1.8}
+.journey-detail ul{padding-left:18px}.journey-detail li{margin-bottom:8px}
+details[open] .journey-arrow{transform:rotate(45deg)}
+@media(max-width:640px){.unified-timeline{padding:52px 5%}.unified-header{margin-bottom:32px}.journey-event{grid-template-columns:1fr;padding-left:14px;border-left:1px solid #d3d6d7;margin-left:5px}.journey-date{padding:20px 12px 0;font-size:.8rem}.journey-content{border:0;padding:0 0 12px}.journey-content:before{left:-19px;top:37px}.journey-row{gap:12px;padding:12px}.journey-thumb{width:48px;height:48px;flex-basis:48px}.journey-name{font-size:.95rem}.journey-detail{padding:8px 12px 20px}.timeline-key{gap:12px}.kind{font-size:.65rem}}
 </style>
 </head>
 <body>
@@ -682,13 +707,7 @@
     <div class="nav-logo-name">Peter Kernohan</div>
     <span class="nav-logo-sub">Robotics &amp; Electronics Engineering Portfolio</span>
   </a>
-  <ul class="nav-links">
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#leadership">Leadership</a></li>
-    <li><a href="#experience">Education &amp; Experience</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+  <ul class="nav-links"><li><a href="#timeline">Timeline</a></li><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li></ul>
 </nav>
 
 <main id="main" tabindex="-1">
@@ -700,16 +719,16 @@
     Robotics &amp; Electronics Engineering Portfolio. Embedded systems, autonomous robots, control dynamics, and computer vision — building hardware that delivers measurable results.
   </p>
   <div class="hero-cta">
-    <a class="btn-primary" href="#projects">View projects <span aria-hidden="true">↗</span></a>
+    <a class="btn-primary" href="#timeline">Explore timeline <span aria-hidden="true">↗</span></a>
     <a class="btn-outline" href="#about">About me</a>
-    <a class="btn-outline" href="#leadership">Leadership</a>
+
     <a class="btn-outline" href="https://github.com/peterk05" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
     <a class="btn-outline" href="https://www.linkedin.com/in/peter-kernohan-a4b788356/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
     <a class="btn-outline" href="#contact">Contact</a>
   </div>
 </div>
 
-<section id="projects" class="project-section"><p class="section-eyebrow">Engineering in practice</p><h2 class="project-heading">Project timeline</h2><p class="timeline-intro">From control systems to autonomous robotics. Explore each project’s design, development and results.</p><ol class="project-timeline"><li class="project-event"><p class="project-date">July 2026 – Present</p><a class="project-link" href="projects/mobile-manipulator.html"><span class="project-category">Mobile Robotics</span><h3>Autonomous Mobile Manipulator</h3><p><em>Project Lead</em></p><p>Leading a low-cost mobile manipulator for an international robotics hackathon. Built four carbon-fibre SO-101 arms, implementing teleoperation with autonomous sorting planned.</p><span class="case-action">Explore the full project <span aria-hidden="true">↗</span></span></a></li><li class="project-event"><p class="project-date">January – June 2026</p><a class="project-link" href="projects/reaction-wheel.html"><span class="project-category">Control Systems</span><h3>Reaction Wheel Inverted Pendulum</h3><p><em>Team Lead</em></p><p>Modelled system dynamics in MATLAB/Simulink and implemented state-feedback control, achieving stable balancing for four seconds from a 10° initial offset.</p><span class="case-action">Explore the full project <span aria-hidden="true">↗</span></span></a></li><li class="project-event"><p class="project-date">September – December 2025</p><a class="project-link" href="projects/bird-recognition.html"><span class="project-category">AI · Computer Vision</span><h3>Intelligent Bird Recognition System</h3><p><em>Project Leader</em></p><p>Built an OpenCV and YOLOv11s pipeline on Raspberry Pi 5 using 2,000+ annotated images. The system recorded 15 FPS and 87% recognition accuracy across four species.</p><span class="case-action">Explore the full project <span aria-hidden="true">↗</span></span></a></li><li class="project-event"><p class="project-date">May – August 2025</p><a class="project-link" href="projects/roboriotz.html"><span class="project-category">Combat Robotics</span><h3>RoboRiotz Combat Robot</h3><p><em>Team Lead — Featherweight Class</em></p><img class="project-cover" src="assets/images/roboriotz/img%201%20how%20robot%20hits.png" alt="Combat robot strike mechanism" loading="lazy"><p>Led full system architecture of a featherweight combat robot. Secured €2,000 in independent sponsorship. Applied MATLAB modelling to optimise rotational dynamics, achieving a 35% increase in rotational force and 95% competition reliability.</p><span class="case-action">Explore the full project <span aria-hidden="true">↗</span></span></a></li><li class="project-event"><p class="project-date">January – June 2025</p><a class="project-link" href="projects/pick-and-place.html"><span class="project-category">Autonomous Systems</span><h3>Autonomous Pick-and-Place Robot</h3><p><em>Developer</em></p><img class="project-cover" src="assets/images/pick-place/pick%20and%20place%20robot%20onshape%201.png" alt="Pick-and-place robot CAD model" loading="lazy"><p>Developed an Arduino-based pick-and-place mechanism with ultrasonic sensing, a DC motor and PID control for a smooth approach to the object.</p><span class="case-action">Explore the full project <span aria-hidden="true">↗</span></span></a></li><li class="project-event"><p class="project-date">Date to be added</p><a class="project-link" href="projects/humanoid-eye.html"><span class="project-category">Computer Vision · Robotics</span><h3>Autonomous Humanoid Eye</h3><p><em>Developer</em></p><p>Camera-driven animatronic eye system that detects and tracks a person's position in real time, physically moving the eye mechanism to follow them around the room. Computer vision pipeline on Raspberry Pi drives servo-actuated eye movement with smooth, continuous tracking.</p><span class="case-action">Explore the full project <span aria-hidden="true">↗</span></span></a></li></ol></section>
+<section id="timeline" class="unified-timeline"><span id="projects" class="timeline-anchor"></span><span id="experience" class="timeline-anchor"></span><span id="education" class="timeline-anchor"></span><span id="leadership" class="timeline-anchor"></span><header class="unified-header"><h2>Along the way.</h2><div class="timeline-key" aria-label="Timeline categories"><span class="kind kind-project">Project</span><span class="kind kind-experience">Experience</span><span class="kind kind-education">Education</span><span class="kind kind-leadership">Leadership</span></div></header><ol class="journey"><li class="journey-event kind-experience"><p class="journey-date">September 2026 · Upcoming</p><div class="journey-content"><details><summary class="journey-row"><span class="journey-thumb journey-monogram" aria-hidden="true">EX</span><span class="journey-title"><span class="kind">Experience</span><span class="journey-name">Python Lab Demonstrator — upcoming · Maynooth University — Maynooth, Ireland</span></span><span class="journey-arrow" aria-hidden="true">+</span></summary><div class="journey-detail"><ul><li>Selected to support Introduction to Programming laboratories for around 40 students; the role is due to begin in September 2026.</li></ul></div></details></div></li><li class="journey-event kind-project"><p class="journey-date">July 2026 – Present</p><div class="journey-content"><a class="journey-row" href="projects/mobile-manipulator.html"><span class="journey-thumb journey-monogram" aria-hidden="true">↗</span><span class="journey-title"><span class="kind">Project</span><span class="journey-name">Autonomous Mobile Manipulator</span></span><span class="journey-arrow" aria-hidden="true">↗</span></a></div></li><li class="journey-event kind-experience"><p class="journey-date">Summer 2026</p><div class="journey-content"><details><summary class="journey-row"><span class="journey-thumb journey-monogram" aria-hidden="true">EX</span><span class="journey-title"><span class="kind">Experience</span><span class="journey-name">Robotics Teacher &amp; Programme Lead · North Shore Day Camp — New York, USA</span></span><span class="journey-arrow" aria-hidden="true">+</span></summary><div class="journey-detail"><ul><li>Established and ran the camp’s first Robotics Lab, designing a two-month programme for students aged 8–12.</li><li>Taught robotics, programming, CAD, electronics and structural engineering through robot kits, bridges and functional 3D-printed tools.</li><li>Helped students with no prior robotics experience program robots to autonomously navigate a maze within hours.</li></ul></div></details></div></li><li class="journey-event kind-project"><p class="journey-date">January – June 2026</p><div class="journey-content"><a class="journey-row" href="projects/reaction-wheel.html"><span class="journey-thumb journey-monogram" aria-hidden="true">↗</span><span class="journey-title"><span class="kind">Project</span><span class="journey-name">Reaction Wheel Inverted Pendulum</span></span><span class="journey-arrow" aria-hidden="true">↗</span></a></div></li><li class="journey-event kind-project"><p class="journey-date">September – December 2025</p><div class="journey-content"><a class="journey-row" href="projects/bird-recognition.html"><span class="journey-thumb journey-monogram" aria-hidden="true">↗</span><span class="journey-title"><span class="kind">Project</span><span class="journey-name">Intelligent Bird Recognition System</span></span><span class="journey-arrow" aria-hidden="true">↗</span></a></div></li><li class="journey-event kind-leadership"><p class="journey-date">2025 – Present</p><div class="journey-content"><details><summary class="journey-row"><span class="journey-thumb journey-monogram" aria-hidden="true">LE</span><span class="journey-title"><span class="kind">Leadership</span><span class="journey-name">President · Engineering &amp; Robotics Society — Maynooth University</span></span><span class="journey-arrow" aria-hidden="true">+</span></summary><div class="journey-detail"><ul><li>Grew active membership from 5 to 60 members in two weeks.</li><li>Organised an international robotics hackathon in which a Maynooth team placed third.</li><li>Lead weekly engineering lectures, Makers Club sessions, robotics competitions and member development.</li></ul></div></details></div></li><li class="journey-event kind-leadership"><p class="journey-date">2025 – Present</p><div class="journey-content"><details><summary class="journey-row"><span class="journey-thumb journey-monogram" aria-hidden="true">LE</span><span class="journey-title"><span class="kind">Leadership</span><span class="journey-name">Treasurer · IEEE Maynooth Student Branch</span></span><span class="journey-arrow" aria-hidden="true">+</span></summary><div class="journey-detail"><ul><li>Manage finances and budgeting for IEEE events.</li><li>Selected to represent IEEE UK &amp; Ireland at the upcoming IEEE Global Robotics Championship in a two-person team. The SO-101 competition build is in preparation.</li></ul></div></details></div></li><li class="journey-event kind-project"><p class="journey-date">May – August 2025</p><div class="journey-content"><a class="journey-row" href="projects/roboriotz.html"><img class="journey-thumb" src="assets/images/roboriotz/img%201%20how%20robot%20hits.png" alt="" loading="lazy" width="64" height="64"><span class="journey-title"><span class="kind">Project</span><span class="journey-name">RoboRiotz Combat Robot</span></span><span class="journey-arrow" aria-hidden="true">↗</span></a></div></li><li class="journey-event kind-project"><p class="journey-date">January – June 2025</p><div class="journey-content"><a class="journey-row" href="projects/pick-and-place.html"><img class="journey-thumb" src="assets/images/pick-place/pick%20and%20place%20robot%20onshape%201.png" alt="" loading="lazy" width="64" height="64"><span class="journey-title"><span class="kind">Project</span><span class="journey-name">Autonomous Pick-and-Place Robot</span></span><span class="journey-arrow" aria-hidden="true">↗</span></a></div></li><li class="journey-event kind-education"><p class="journey-date">September 2024 – 2028</p><div class="journey-content"><details><summary class="journey-row"><span class="journey-thumb journey-monogram" aria-hidden="true">ED</span><span class="journey-title"><span class="kind">Education</span><span class="journey-name">BSc Robotics &amp; Intelligent Devices · Maynooth University</span></span><span class="journey-arrow" aria-hidden="true">+</span></summary><div class="journey-detail"><p>3rd Year · Expected: First Class Honours (1.1)</p><h4>Coursework</h4><ul><li>Analog/Digital Circuit Design</li><li>Embedded Systems and Control Dynamics</li><li>Digital Logic and PCB Design</li></ul><h4>Involvement</h4><ul><li>Engineering &amp; Robotics Society — President</li><li>IEEE Maynooth Student Branch — Treasurer</li><li>Robotics &amp; Intelligent Devices — Student Representative</li></ul></div></details></div></li><li class="journey-event kind-leadership"><p class="journey-date">2024 – Present</p><div class="journey-content"><details><summary class="journey-row"><span class="journey-thumb journey-monogram" aria-hidden="true">LE</span><span class="journey-title"><span class="kind">Leadership</span><span class="journey-name">Head Student Representative · Maynooth University</span></span><span class="journey-arrow" aria-hidden="true">+</span></summary><div class="journey-detail"><p>Represent student feedback to faculty and support improvements to the programme.</p></div></details></div></li><li class="journey-event kind-leadership"><p class="journey-date">2024 – Present</p><div class="journey-content"><details><summary class="journey-row"><span class="journey-thumb journey-monogram" aria-hidden="true">LE</span><span class="journey-title"><span class="kind">Leadership</span><span class="journey-name">Assistant Coach · Brazilian Jiu-Jitsu Club</span></span><span class="journey-arrow" aria-hidden="true">+</span></summary><div class="journey-detail"><p>Coach classes, coordinate club events and organise guest seminars.</p></div></details></div></li><li class="journey-event kind-project"><p class="journey-date">Date to be added</p><div class="journey-content"><a class="journey-row" href="projects/humanoid-eye.html"><span class="journey-thumb journey-monogram" aria-hidden="true">↗</span><span class="journey-title"><span class="kind">Project</span><span class="journey-name">Autonomous Humanoid Eye</span></span><span class="journey-arrow" aria-hidden="true">↗</span></a></div></li></ol></section>
 <!-- ── ABOUT ── -->
 <div id="about" class="section-wrap">
   <div class="section-header">
@@ -746,52 +765,6 @@
   </div>
 </div>
 
-<!-- ── LEADERSHIP ── -->
-<div id="leadership-bg">
-  <div id="leadership" class="section-wrap" style="border-bottom: none;">
-    <div class="section-header">
-      <div class="section-eyebrow">Roles</div>
-      <h2 class="section-title">LEADERSHIP</h2>
-    </div>
-    <div class="leadership-grid">
-
-      <div class="lead-card">
-        <span class="lead-card-date">2025 – Present</span>
-        <h3 class="lead-card-title">President</h3>
-        <div class="lead-card-org">Engineering &amp; Robotics Society — Maynooth University</div>
-        <ul class="lead-card-list">
-          <li>Grew society from 5 to 60 active members within 2 weeks through cross-programme outreach and inter-society collaboration</li>
-          <li>Delivers at least one structured event per week — technical lectures, weekly Makers Club, cross-society competitions</li>
-          <li>Plans and executes society trips, managing all logistics, budgeting, and scheduling</li>
-        </ul>
-      </div>
-
-      <div class="lead-card">
-        <span class="lead-card-date">2024 – Present</span>
-        <h3 class="lead-card-title">Head Student Rep</h3>
-        <div class="lead-card-org">Robotics &amp; Intelligent Devices Programme — Maynooth University</div>
-        <ul class="lead-card-list">
-          <li>Represents the student cohort — presents student feedback to faculty and drives curriculum change</li>
-          <li>Secured adoption of Altium Designer across three lab courses for the programme</li>
-        </ul>
-      </div>
-
-      <div class="lead-card">
-        <span class="lead-card-date">2024 – Present</span>
-        <h3 class="lead-card-title">Assistant Coach</h3>
-        <div class="lead-card-org">Brazilian Jiu-Jitsu Club — Maynooth University</div>
-        <ul class="lead-card-list">
-          <li>Coaches regular BJJ classes across all skill levels, 2+ years of continued involvement</li>
-          <li>Manages competition logistics and coordinates club events and scheduling</li>
-          <li>Sourced world-class guest coaches to deliver seminars at Maynooth, raising the club's profile and training standard</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<section id="experience" class="resume-band" aria-label="Education and experience"><div class="resume-columns"><div id="education" class="resume-column"><h2>Education</h2><div class="resume-line"><article class="resume-entry"><p class="resume-date">September 2024 – 2028</p><h3>Maynooth University — Maynooth, Ireland</h3><p class="resume-role">BSc Robotics &amp; Intelligent Devices</p><p>3rd Year · Expected: First Class Honours (1.1)</p><h4>Coursework</h4><ul><li>Analog/Digital Circuit Design</li><li>Embedded Systems and Control Dynamics</li><li>Digital Logic and PCB Design</li></ul><h4>Involvement</h4><ul><li>Engineering &amp; Robotics Society — President</li><li>IEEE Maynooth Student Branch — Treasurer</li><li>Robotics &amp; Intelligent Devices — Student Representative</li></ul></article></div></div><div class="resume-column"><h2>Experience</h2><div class="resume-line"><article class="resume-entry"><p class="resume-date">2026 – Present</p><h3>Maynooth University — Maynooth, Ireland</h3><p class="resume-role">Python Lab Demonstrator — upcoming</p><ul><li>Selected to support Introduction to Programming laboratories for around 40 students; the role is due to begin in September 2026.</li></ul></article><article class="resume-entry"><p class="resume-date">Summer 2026</p><h3>North Shore Day Camp — New York, USA</h3><p class="resume-role">Robotics Teacher &amp; Programme Lead</p><ul><li>Established and ran the camp’s first Robotics Lab, designing a two-month programme for students aged 8–12.</li><li>Taught robotics, programming, CAD, electronics and structural engineering through robot kits, bridges and functional 3D-printed tools.</li><li>Helped students with no prior robotics experience program robots to autonomously navigate a maze within hours.</li></ul></article><article class="resume-entry"><p class="resume-date">2025 – Present</p><h3>Engineering &amp; Robotics Society — Maynooth University</h3><p class="resume-role">President</p><ul><li>Grew active membership from 5 to 60 members in two weeks.</li><li>Organised an international robotics hackathon in which a Maynooth team placed third.</li><li>Lead weekly engineering lectures, Makers Club sessions, robotics competitions and member development.</li></ul></article><article class="resume-entry"><p class="resume-date">2025 – Present</p><h3>IEEE Maynooth Student Branch</h3><p class="resume-role">Treasurer</p><ul><li>Manage finances and budgeting for IEEE events.</li><li>Selected to represent IEEE UK &amp; Ireland at the upcoming IEEE Global Robotics Championship in a two-person team. The SO-101 competition build is in preparation.</li></ul></article></div></div></div></section>
 <!-- ── CONTACT ── -->
 <div id="contact" class="section-wrap" style="border-bottom: none;">
   <div id="contact-inner">
