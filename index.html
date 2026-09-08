@@ -747,41 +747,10 @@ details[open] .journey-arrow{transform:rotate(45deg)}
 #hero .hero-cta a:hover{color:#162318;text-decoration-color:currentColor}
 @media(max-width:768px){#hero{padding:56px 5% 44px}#hero .hero-desc{font-size:1rem}#hero .hero-cta{gap:8px 22px}}
 
-/* Sage paper and restrained, architectural edges. */
-:root{--white:#f3f5ed;--bg:#edf0e5;--bg2:#e5eadd;--border:#d4dbc9;--border2:#b8c4ad;--text:#28372c;--muted:#5c695c;--soft:#657260;--accent:#526749;--accent-l:#e5eadc;--blue:#435e53;--blue-l:#e9eee4}
-body{background:var(--white);color:var(--text)}
-nav{background:rgba(243,245,237,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
-.nav-logo-name{font-family:Georgia,'Times New Roman',serif;font-size:1.12rem;font-weight:400}
-#hero{border-bottom:1px solid var(--border);padding-top:140px;padding-bottom:70px}
-#hero h1.hero-name{color:#2b3c2e;font-weight:400}
-.intro-label{color:#617056;letter-spacing:.14em;text-transform:uppercase;font-size:.7rem}
-#hero .hero-desc{color:#586653}
-#hero .hero-cta a{color:#54634d;text-decoration-color:#b4c0a8}
-#hero .hero-cta a:first-child{color:#2e442f}
-.section-title{font-family:Georgia,'Times New Roman',serif;font-weight:400;letter-spacing:-.025em}
-.unified-header h2{color:#344831}
-.journey:before{background:linear-gradient(#e2e7d9,#b6c2ac 12%,#b6c2ac 88%,#e2e7d9)}
-.journey-date{background:var(--white);color:#626f5c}
-.journey-row,.journey-event:nth-child(3n) .journey-row,.journey-event:nth-child(4n+1) .journey-row{border-radius:2px;background:#f8f9f3;border:1px solid #d1dac6;box-shadow:0 2px 0 rgba(57,75,45,.025)}
-.journey-event:nth-child(4n+1) .journey-row{background:#eaf0e1}
-.journey-row:hover{background:#e5ecdb;border-color:#95a785;transform:translateY(-2px)}
-.journey-name{font-family:Georgia,'Times New Roman',serif;font-size:1.18rem;font-weight:400}
-.journey-thumb{border-radius:1px;background:#edf1e6;border:1px solid #dce3d2}
-.journey-detail{background:transparent}
-.kind-project{--kind-color:#586b3e}.kind-experience{--kind-color:#38645b}.kind-education{--kind-color:#736146}.kind-leadership{--kind-color:#685c77}
-.mini-card,.project-card,.lead-card,.btn-primary,.btn-outline,.metric,.chip,.project-tag,.lead-card-date{border-radius:2px}
-.mini-card{background:#edf1e6}
-.btn-primary{background:#354b35;border-color:#354b35;color:#f8f9f3}
-.btn-primary:hover{background:#263e2a}
-.btn-outline:hover{background:#e7ecde}
-.case-meta span{background:#e6ecdc;border:1px solid #d5dec9;border-radius:2px}
-.case-gallery img,.media-pending{background:#ebefe3}
-.media-pending{border-color:#bdc9b0}
-.case-page h1,.case-page h2{color:#30452f}
-footer{border-color:var(--border);color:#65725e}
-@media(max-width:768px){#hero{padding-top:58px;padding-bottom:48px}}
-@media(max-width:760px){.journey-date{background:transparent}}
 
+/* Restrained card corners. */
+.journey-row,.journey-event:nth-child(3n) .journey-row,.journey-event:nth-child(4n+1) .journey-row,.mini-card,.project-card,.lead-card,.btn-primary,.btn-outline{border-radius:2px}
+.journey-thumb{border-radius:2px}
 </style>
 </head>
 <body>
