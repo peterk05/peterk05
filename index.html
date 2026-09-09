@@ -1075,17 +1075,18 @@ details[open] .journey-arrow{transform:rotate(45deg)}
 (()=>{
 const canvas=document.querySelector('.ds-map'),g=canvas.getContext('2d'),section=document.querySelector('.unified-timeline'),list=section.querySelector('.journey');
 const SCALE=3,events=[...list.querySelectorAll('.journey-event')],help=section.querySelector('.world-help'),keys=new Set();
-let W,H,points=[],lanes=[],obstacles=[],cardBodies=[],dateTabs=[],scenePlatforms=[],sprites=[],hero=null,gameActive=false,clock=0,raf,last=0,visible=true,paused=false;const motion=matchMedia('(prefers-reduced-motion: reduce)');
-const P={ink:'#25355a',sky:'#83cdf5',green:'#58b947',light:'#b9ed65',deep:'#278945',soil:'#cf8755',shade:'#a65d45',cream:'#fff1c1',gold:'#ffd54c',orange:'#d98c25'};
+let W,H,points=[],lanes=[],obstacles=[],cardBodies=[],dateTabs=[],scenePlatforms=[],sprites=[],hero=null,zombie=null,dead=false,respawnGrace=0,gameActive=false,clock=0,raf,last=0,visible=true,paused=false;const motion=matchMedia('(prefers-reduced-motion: reduce)');
+const NORMAL={ink:'#25355a',sky:'#83cdf5',green:'#58b947',light:'#b9ed65',deep:'#278945',soil:'#cf8755',shade:'#a65d45',cream:'#fff1c1',gold:'#ffd54c',orange:'#d98c25',cloud:'#fff',cloudShade:'#d9efff',hillLight:'#84d65d',mushroom:'#ed6559',stone:'#c5d4db',stoneLine:'#889cab'};
+const HELL={ink:'#1b1024',sky:'#4c183f',green:'#74243a',light:'#ff6848',deep:'#250b22',soil:'#522337',shade:'#2c111f',cream:'#ffd29d',gold:'#ff9a35',orange:'#d83a32',cloud:'#a44250',cloudShade:'#692840',hillLight:'#a82f3f',mushroom:'#ff4938',stone:'#75515e',stoneLine:'#39202d'};let P=NORMAL;
 function R(x,y,w,h,c){g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),w,h)}
 function oval(x,y,rx,ry,c){for(let j=-ry;j<=ry;j++){const dx=Math.floor(rx*Math.sqrt(1-j*j/(ry*ry)));R(x-dx,y+j,dx*2+1,1,c)}}
 function cloud(x,y){
-[[0,5,9,5],[8,0,11,9],[18,4,10,6]].forEach(([a,b,w,h])=>{oval(x+a+w/2,y+b+h/2,w/2|0,h/2|0,'#d9efff')});
-R(x+5,y+5,19,6,'#fff');R(x+10,y+1,7,7,'#fff');R(x+22,y+6,5,3,'#fff');
+[[0,5,9,5],[8,0,11,9],[18,4,10,6]].forEach(([a,b,w,h])=>{oval(x+a+w/2,y+b+h/2,w/2|0,h/2|0,P.cloudShade)});
+R(x+5,y+5,19,6,P.cloud);R(x+10,y+1,7,7,P.cloud);R(x+22,y+6,5,3,P.cloud);
 }
 function hill(x,y,w,height){
 oval(x,y,w,height,P.ink);oval(x,y,w-2,height-2,P.green);
-oval(x-w*.3,y-height*.15,Math.max(2,w*.26|0),Math.max(3,height*.68|0),'#84d65d');
+oval(x-w*.3,y-height*.15,Math.max(2,w*.26|0),Math.max(3,height*.68|0),P.hillLight);
 R(x-3,y-height+9,2,5,P.deep);R(x+4,y-height+9,2,5,P.deep);
 }
 function block(x,y,q=false){
@@ -1106,12 +1107,12 @@ const w=motion.matches?5:Math.max(1,Math.round(5*Math.abs(Math.cos(clock*.002+x)
 oval(x,y,w+1,8,P.ink);oval(x,y,w,7,P.orange);oval(x-1,y-1,Math.max(1,w-1),6,P.gold);R(x-1,y-4,1,7,'#fff3a4');
 }
 function mushroom(x,y){
-R(x-5,y,10,12,P.ink);R(x-3,y+1,6,9,P.cream);oval(x,y,15,10,P.ink);oval(x,y-1,13,8,'#ed6559');
+R(x-5,y,10,12,P.ink);R(x-3,y+1,6,9,P.cream);oval(x,y,15,10,P.ink);oval(x,y-1,13,8,P.mushroom);
 R(x-4,y-7,7,5,'#fff4d7');R(x-11,y-2,5,4,'#fff4d7');R(x+7,y-3,4,5,'#fff4d7');
 }
 function castle(x,y){
-R(x,y,54,40,P.ink);R(x+2,y+2,50,38,'#c5d4db');
-for(let j=3;j<39;j+=7){R(x+2,y+j,50,1,'#889cab');for(let k=3;k<51;k+=10)R(x+k+(j%2?3:0),y+j,1,7,'#889cab')}
+R(x,y,54,40,P.ink);R(x+2,y+2,50,38,P.stone);
+for(let j=3;j<39;j+=7){R(x+2,y+j,50,1,P.stoneLine);for(let k=3;k<51;k+=10)R(x+k+(j%2?3:0),y+j,1,7,P.stoneLine)}
 for(let k=0;k<54;k+=12)R(x+k,y-6,7,8,P.ink);
 R(x+20,y+21,14,19,P.ink);R(x+7,y+9,5,8,P.ink);R(x+41,y+9,5,8,P.ink);
 }
@@ -1121,6 +1122,11 @@ R(x+1,y,8,2,P.ink);R(x,y+2,10,7,P.ink);R(x+1,y+3,8,5,heroSprite?'#fff1ff':'#f8f1
 R(x+(s.dir>0?6:2),y+5,2,2,body);R(x+2,y+9,6,5,body);R(x+3,y+10,2,2,'#ffe15a');
 R(x+1,y+14-step,3,2+step,P.ink);R(x+6,y+14-(1-step),3,3-step,P.ink);
 if(heroSprite){R(x-2,y-3,2,2,'#6be4ff');R(x+11,y-6,2,2,'#ffe15a')}
+}
+function drawZombie(s){
+const x=Math.round(s.x),y=Math.round(s.y),step=Math.floor(clock/180)%2;
+R(x+1,y,8,2,'#190f24');R(x,y+2,10,8,'#190f24');R(x+1,y+3,8,6,'#86c94f');R(x+2,y+5,2,2,'#ff563e');R(x+7,y+5,1,2,'#fff4bd');
+R(x+2,y+10,7,5,'#4c6f38');R(x-1,y+11,3,2,'#86c94f');R(x+8,y+12,3,2,'#86c94f');R(x+1,y+15-step,3,2+step,'#190f24');R(x+7,y+15-(1-step),3,3-step,'#190f24');
 }
 function blocked(s,nx){return obstacles.some(o=>nx+11>o.x&&nx<o.x+o.w&&s.y+16>o.y&&s.y<o.y+o.h)}
 function makeSprites(){
@@ -1133,16 +1139,28 @@ s.jump=0;s.jumpV=0;
 const nx=s.x+s.dir*s.speed*dt;if(nx<lane.x+2||nx>lane.x+lane.w-12||blocked(s,nx)){s.dir*=-1;s.wait=.18}else if(s.wait<=0)s.x=nx;
 }
 function overlaps(a,b){return a.x+a.w>b.x&&a.x<b.x+b.w&&a.y+a.h>b.y&&a.y<b.y+b.h}
+function landActor(actor,oldY,ny){
+let landed=false;if(actor.vy>=0){for(const o of obstacles){if(actor.x+actor.w>o.x&&actor.x<o.x+o.w&&oldY+actor.h<=o.y&&ny+actor.h>=o.y){ny=o.y-actor.h;actor.vy=0;landed=true;break}}}
+const vertical={x:actor.x,y:ny,w:actor.w,h:actor.h};if(!landed&&obstacles.some(o=>overlaps(vertical,o))){actor.vy=0;ny=oldY}actor.y=ny;actor.grounded=landed;
+}
+function checkpoint(y){return obstacles.filter(o=>o.y<=y+18).sort((a,b)=>b.y-a.y)[0]||dateTabs[0]}
+function spawnZombie(surface,behind=false){return{x:Math.max(surface.x+3,Math.min(surface.x+surface.w-13,behind?surface.x+4:surface.x+surface.w-20)),y:surface.y-17,w:10,h:17,vx:0,vy:0,grounded:true,dir:-1}}
+function respawn(){const safe=checkpoint(hero?.y||0),others=obstacles.filter(o=>o!==safe&&Math.abs(o.y-safe.y)<180).sort((a,b)=>Math.abs(b.y-safe.y)-Math.abs(a.y-safe.y));P=NORMAL;dead=false;respawnGrace=2.2;hero.x=Math.min(safe.x+14,safe.x+safe.w-26);hero.y=safe.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true;zombie=spawnZombie(others[0]||safe,true);help.textContent='Timeline game active · the zombie is hunting you · A D / ← → steer · Space jumps'}
+function killHero(){if(dead||respawnGrace>0)return;dead=true;P=HELL;keys.clear();hero.vx=0;hero.vy=0;zombie.vx=0;help.textContent='YOU DIED · press Space to return at your last platform';draw()}
+function updateZombie(dt){
+if(!zombie||!hero)return;const below=obstacles.filter(o=>o.y>zombie.y+22&&o.y<zombie.y+125).sort((a,b)=>a.y-b.y)[0],targetX=hero.y>zombie.y+34&&below?below.x+below.w/2:hero.x,dir=targetX>zombie.x?1:-1,oldY=zombie.y;
+zombie.dir=dir;zombie.vx+=(dir*69-zombie.vx)*Math.min(1,dt*5);let nx=Math.max(0,Math.min(W-zombie.w,zombie.x+zombie.vx*dt)),side={x:nx,y:zombie.y,w:zombie.w,h:zombie.h};
+if(obstacles.some(o=>overlaps(side,o))){zombie.vx=0;if(zombie.grounded){zombie.vy=-72;zombie.grounded=false}}else zombie.x=nx;
+zombie.vy=Math.min(175,zombie.vy+120*dt);landActor(zombie,oldY,zombie.y+zombie.vy*dt);
+if(zombie.y>H+30||Math.abs(zombie.y-hero.y)>280){const safe=checkpoint(hero.y-35);zombie=spawnZombie(safe,true)}
+if(overlaps({x:hero.x-1,y:hero.y-1,w:hero.w+2,h:hero.h+2},zombie))killHero();
+}
 function updateHero(dt){
 if(!hero)return;const dir=(keys.has('a')||keys.has('arrowleft')?-1:0)+(keys.has('d')||keys.has('arrowright')?1:0),oldY=hero.y;
 if(dir)hero.dir=dir;const target=dir*96;hero.vx+=(target-hero.vx)*Math.min(1,dt*8);if(!dir)hero.vx*=Math.max(0,1-dt*7);
 let nx=Math.max(0,Math.min(W-hero.w,hero.x+hero.vx*dt)),side={x:nx,y:hero.y,w:hero.w,h:hero.h};
 if(obstacles.some(o=>overlaps(side,o))){hero.vx=0;nx=hero.x}hero.x=nx;hero.vy=Math.min(175,hero.vy+120*dt);let ny=hero.y+hero.vy*dt,landed=false;
-if(hero.vy>=0){
-for(const o of obstacles){if(hero.x+hero.w>o.x&&hero.x<o.x+o.w&&oldY+hero.h<=o.y&&ny+hero.h>=o.y){ny=o.y-hero.h;hero.vy=0;landed=true;break}}
-}
-const vertical={x:hero.x,y:ny,w:hero.w,h:hero.h};if(!landed&&obstacles.some(o=>overlaps(vertical,o))){hero.vy=0;ny=oldY}
-hero.y=ny;hero.grounded=landed;
+landActor(hero,oldY,ny);
 if(hero.y>H+30){const first=obstacles[0];hero.x=first.x+18;hero.y=first.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true;events[0]?.scrollIntoView({behavior:'smooth',block:'center'})}
 const pageY=section.getBoundingClientRect().top+scrollY+hero.y*SCALE,targetScroll=Math.max(0,pageY-innerHeight*.55);if(Math.abs(scrollY-targetScroll)>innerHeight*.24)scrollTo({top:targetScroll,behavior:'smooth'});
 }
@@ -1158,7 +1176,8 @@ if(i<points.length-1){const next=points[i+1];for(let n=1;n<=3;n++){const u=n/4;c
 });
 scenePlatforms.forEach((s,i)=>{platform(s.x,s.y,s.w);if(i%4===0)castle(s.x+7,s.y-40);else if(i%3===0)pipe(s.x+20,s.y-28,28);else if(i%3===1){mushroom(s.x+22,s.y-10);mushroom(s.x+48,s.y-8)}else{block(s.x+18,s.y-20,true);block(s.x+34,s.y-20)}});
 cardBodies.forEach(o=>{R(o.x,o.y+o.h,o.w,3,P.ink);R(o.x+1,o.y+o.h,o.w-2,2,P.light)});
-sprites.forEach(s=>robot(s));if(hero)robot(hero,true);
+sprites.forEach(s=>robot(s));if(zombie)drawZombie(zombie);if(hero)robot(hero,true);
+if(dead&&hero){const x=Math.max(4,Math.min(W-92,hero.x-40)),y=Math.max(8,hero.y-48);R(x,y,92,27,'#170916ee');R(x+2,y+2,88,23,'#5e193d');g.fillStyle='#ffd09a';g.font='bold 8px monospace';g.fillText('YOU DIED',x+24,y+11);g.font='bold 6px monospace';g.fillText('PRESS SPACE TO RETURN',x+8,y+21)}
 }
 function resize(){
 const a=section.getBoundingClientRect(),b=list.getBoundingClientRect();W=Math.floor(b.width/SCALE);H=Math.ceil(b.height/SCALE);
@@ -1169,13 +1188,13 @@ dateTabs=[...list.querySelectorAll('.journey-date')].map(el=>{const r=el.getBoun
 scenePlatforms=cardBodies.slice(0,-1).map((o,i)=>{const next=dateTabs[i+1],left=o.x<W/2;return{x:left?W-82:14,y:o.y+o.h+(next.y-(o.y+o.h))*.55,w:68,h:44}});
 obstacles=[...dateTabs,...cardBodies,...scenePlatforms];
 lanes=cardBodies.map((o,i)=>i%2===0?{x:dateTabs[i].x+2,y:dateTabs[i].y,w:Math.max(18,dateTabs[i].w-4)}:{x:o.x+Math.min(o.w-34,dateTabs[i].w+6),y:o.y,w:Math.max(28,o.w-dateTabs[i].w-12)}).concat(scenePlatforms.map(s=>({x:s.x,y:s.y,w:s.w})));
-makeSprites();if(hero){const first=dateTabs[0];hero.x=first.x+12;hero.y=first.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true}
+makeSprites();if(hero){const first=dateTabs[0];hero.x=first.x+12;hero.y=first.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true;zombie=spawnZombie(first)}
 draw();
 }
-function tick(t){raf=requestAnimationFrame(tick);if(paused||motion.matches||!visible||t-last<80)return;const dt=Math.min(.12,(t-last)/1000||.08);last=t;clock=t;sprites.forEach(s=>updateSprite(s,dt));if(gameActive)updateHero(dt);draw()}
+function tick(t){raf=requestAnimationFrame(tick);if(paused||motion.matches||!visible||t-last<80)return;const dt=Math.min(.12,(t-last)/1000||.08);last=t;clock=t;sprites.forEach(s=>updateSprite(s,dt));if(respawnGrace>0)respawnGrace=Math.max(0,respawnGrace-dt);if(gameActive&&!dead){updateHero(dt);updateZombie(dt)}draw()}
 const pauseButton=section.querySelector('.world-motion');pauseButton.addEventListener('click',()=>{paused=!paused;pauseButton.textContent=paused?'Play animation':'Pause animation';pauseButton.setAttribute('aria-pressed',String(paused))});
-section.addEventListener('timeline-game-start',()=>{gameActive=true;const first=dateTabs[0];hero={x:first.x+12,y:first.y-16,w:10,h:16,vx:0,vy:0,grounded:true,dir:1,color:'#a93acf',seed:2,jump:0};help.classList.add('is-active');help.textContent='Timeline game active · every card and pixel platform is solid · A D / ← → steer · Space jumps';draw()});
-window.addEventListener('keydown',e=>{if(!gameActive)return;const k=e.key.toLowerCase();if(['a','d','arrowleft','arrowright',' ','w','arrowup'].includes(k)){e.preventDefault();keys.add(k)}if([' ','w','arrowup'].includes(k)&&hero?.grounded){hero.vy=-84;hero.grounded=false}if(k==='escape'){gameActive=false;hero=null;keys.clear();help.classList.remove('is-active');draw()}});
+section.addEventListener('timeline-game-start',()=>{gameActive=true;dead=false;P=NORMAL;const first=dateTabs[0];hero={x:first.x+12,y:first.y-16,w:10,h:16,vx:0,vy:0,grounded:true,dir:1,color:'#a93acf',seed:2,jump:0};zombie=spawnZombie(first);help.classList.add('is-active');help.textContent='Timeline game active · the zombie is hunting you · A D / ← → steer · Space jumps';draw()});
+window.addEventListener('keydown',e=>{if(!gameActive)return;const k=e.key.toLowerCase();if(dead&&[' ','w','arrowup'].includes(k)){e.preventDefault();respawn();return}if(['a','d','arrowleft','arrowright',' ','w','arrowup'].includes(k)){e.preventDefault();keys.add(k)}if([' ','w','arrowup'].includes(k)&&hero?.grounded){hero.vy=-84;hero.grounded=false}if(k==='escape'){gameActive=false;dead=false;P=NORMAL;hero=null;zombie=null;keys.clear();help.classList.remove('is-active');draw()}});
 window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
 new ResizeObserver(resize).observe(list);new IntersectionObserver(([e])=>{visible=e.isIntersecting}).observe(section);
 window.addEventListener('resize',resize);document.fonts.ready.then(resize);motion.addEventListener('change',draw);resize();requestAnimationFrame(tick);
