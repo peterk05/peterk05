@@ -1075,9 +1075,11 @@ details[open] .journey-arrow{transform:rotate(45deg)}
 (()=>{
 const canvas=document.querySelector('.ds-map'),g=canvas.getContext('2d'),section=document.querySelector('.unified-timeline'),list=section.querySelector('.journey');
 const SCALE=3,events=[...list.querySelectorAll('.journey-event')],help=section.querySelector('.world-help'),keys=new Set();
-let W,H,points=[],lanes=[],obstacles=[],cardBodies=[],dateTabs=[],scenePlatforms=[],sprites=[],hero=null,zombie=null,dead=false,respawnGrace=0,gameActive=false,clock=0,raf,last=0,visible=true,paused=false;const motion=matchMedia('(prefers-reduced-motion: reduce)');
+let W,H,points=[],lanes=[],obstacles=[],cardBodies=[],dateTabs=[],scenePlatforms=[],sprites=[],collectibles=[],hero=null,zombie=null,dead=false,deathFade=0,respawnGrace=0,coinCount=0,gameActive=false,clock=0,raf,last=0,visible=true,paused=false;const motion=matchMedia('(prefers-reduced-motion: reduce)');
 const NORMAL={ink:'#25355a',sky:'#83cdf5',green:'#58b947',light:'#b9ed65',deep:'#278945',soil:'#cf8755',shade:'#a65d45',cream:'#fff1c1',gold:'#ffd54c',orange:'#d98c25',cloud:'#fff',cloudShade:'#d9efff',hillLight:'#84d65d',mushroom:'#ed6559',stone:'#c5d4db',stoneLine:'#889cab'};
 const HELL={ink:'#1b1024',sky:'#4c183f',green:'#74243a',light:'#ff6848',deep:'#250b22',soil:'#522337',shade:'#2c111f',cream:'#ffd29d',gold:'#ff9a35',orange:'#d83a32',cloud:'#a44250',cloudShade:'#692840',hillLight:'#a82f3f',mushroom:'#ff4938',stone:'#75515e',stoneLine:'#39202d'};let P=NORMAL;
+function mixHex(a,b,t){const A=parseInt(a.slice(1),16),B=parseInt(b.slice(1),16),out=[16,8,0].map(s=>Math.round(((A>>s)&255)*(1-t)+((B>>s)&255)*t));return '#'+out.map(v=>v.toString(16).padStart(2,'0')).join('')}
+function deathPalette(t){return Object.fromEntries(Object.keys(NORMAL).map(k=>[k,mixHex(NORMAL[k],HELL[k],t)]))}
 function R(x,y,w,h,c){g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),w,h)}
 function oval(x,y,rx,ry,c){for(let j=-ry;j<=ry;j++){const dx=Math.floor(rx*Math.sqrt(1-j*j/(ry*ry)));R(x-dx,y+j,dx*2+1,1,c)}}
 function cloud(x,y){
@@ -1106,6 +1108,7 @@ function coin(x,y){
 const w=motion.matches?5:Math.max(1,Math.round(5*Math.abs(Math.cos(clock*.002+x))));
 oval(x,y,w+1,8,P.ink);oval(x,y,w,7,P.orange);oval(x-1,y-1,Math.max(1,w-1),6,P.gold);R(x-1,y-4,1,7,'#fff3a4');
 }
+function coinBurst(c){const t=c.pop/.45;for(let i=0;i<5;i++){const a=i*1.256+clock*.002,Rx=Math.cos(a)*(8*(1-t)),Ry=Math.sin(a)*(7*(1-t));R(c.x+Rx,c.y+Ry-9*(1-t),2,2,i%2?P.gold:'#fff3a4')}}
 function mushroom(x,y){
 R(x-5,y,10,12,P.ink);R(x-3,y+1,6,9,P.cream);oval(x,y,15,10,P.ink);oval(x,y-1,13,8,P.mushroom);
 R(x-4,y-7,7,5,'#fff4d7');R(x-11,y-2,5,4,'#fff4d7');R(x+7,y-3,4,5,'#fff4d7');
@@ -1144,15 +1147,17 @@ let landed=false;if(actor.vy>=0){for(const o of obstacles){if(actor.x+actor.w>o.
 const vertical={x:actor.x,y:ny,w:actor.w,h:actor.h};if(!landed&&obstacles.some(o=>overlaps(vertical,o))){actor.vy=0;ny=oldY}actor.y=ny;actor.grounded=landed;
 }
 function checkpoint(y){return obstacles.filter(o=>o.y<=y+18).sort((a,b)=>b.y-a.y)[0]||dateTabs[0]}
-function spawnZombie(surface,behind=false){return{x:Math.max(surface.x+3,Math.min(surface.x+surface.w-13,behind?surface.x+4:surface.x+surface.w-20)),y:surface.y-17,w:10,h:17,vx:0,vy:0,grounded:true,dir:-1}}
-function respawn(){const safe=checkpoint(hero?.y||0),others=obstacles.filter(o=>o!==safe&&Math.abs(o.y-safe.y)<180).sort((a,b)=>Math.abs(b.y-safe.y)-Math.abs(a.y-safe.y));P=NORMAL;dead=false;respawnGrace=2.2;hero.x=Math.min(safe.x+14,safe.x+safe.w-26);hero.y=safe.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true;zombie=spawnZombie(others[0]||safe,true);help.textContent='Timeline game active · the zombie is hunting you · A D / ← → steer · Space jumps'}
-function killHero(){if(dead||respawnGrace>0)return;dead=true;P=HELL;keys.clear();hero.vx=0;hero.vy=0;zombie.vx=0;help.textContent='YOU DIED · press Space to return at your last platform';draw()}
+function spawnZombie(surface,behind=false){return{x:Math.max(surface.x+3,Math.min(surface.x+surface.w-13,behind?surface.x+4:surface.x+surface.w-20)),y:surface.y-17,w:10,h:17,vx:0,vy:0,grounded:true,dir:-1,stuck:0,lastX:0,jumpLock:0}}
+function gameStatus(prefix='Timeline game active'){help.textContent=`${prefix} · coins ${coinCount}/${collectibles.length} · A D / ← → steer · Space jumps`}
+function respawn(){const safe=checkpoint(hero?.y||0),others=obstacles.filter(o=>o!==safe&&Math.abs(o.y-safe.y)<180).sort((a,b)=>Math.abs(b.y-safe.y)-Math.abs(a.y-safe.y));P=NORMAL;dead=false;deathFade=0;respawnGrace=2.2;hero.x=Math.min(safe.x+14,safe.x+safe.w-26);hero.y=safe.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true;zombie=spawnZombie(others[0]||safe,true);gameStatus('Timeline game active · the zombie is hunting you')}
+function killHero(){if(dead||respawnGrace>0)return;dead=true;deathFade=0;keys.clear();hero.vx=0;hero.vy=0;zombie.vx=0;help.textContent=`YOU DIED · ${coinCount}/${collectibles.length} coins · press Space to return`;draw()}
 function updateZombie(dt){
-if(!zombie||!hero)return;const below=obstacles.filter(o=>o.y>zombie.y+22&&o.y<zombie.y+125).sort((a,b)=>a.y-b.y)[0],targetX=hero.y>zombie.y+34&&below?below.x+below.w/2:hero.x,dir=targetX>zombie.x?1:-1,oldY=zombie.y;
-zombie.dir=dir;zombie.vx+=(dir*69-zombie.vx)*Math.min(1,dt*5);let nx=Math.max(0,Math.min(W-zombie.w,zombie.x+zombie.vx*dt)),side={x:nx,y:zombie.y,w:zombie.w,h:zombie.h};
-if(obstacles.some(o=>overlaps(side,o))){zombie.vx=0;if(zombie.grounded){zombie.vy=-72;zombie.grounded=false}}else zombie.x=nx;
+if(!zombie||!hero)return;zombie.jumpLock=Math.max(0,zombie.jumpLock-dt);const prediction=Math.max(0,Math.min(W-10,hero.x+hero.vx*.55)),below=obstacles.filter(o=>o.y>zombie.y+20&&o.y<zombie.y+145).sort((a,b)=>Math.abs((a.x+a.w/2)-prediction)-Math.abs((b.x+b.w/2)-prediction))[0],dropping=hero.y>zombie.y+28&&below,targetX=dropping?Math.max(below.x+5,Math.min(below.x+below.w-8,prediction)):prediction,dir=targetX>zombie.x?1:-1,oldY=zombie.y,far=Math.abs(hero.x-zombie.x)>80;
+zombie.dir=dir;zombie.vx+=(dir*(far?82:67)-zombie.vx)*Math.min(1,dt*7);let nx=Math.max(0,Math.min(W-zombie.w,zombie.x+zombie.vx*dt)),side={x:nx,y:zombie.y,w:zombie.w,h:zombie.h};
+const hit=obstacles.some(o=>overlaps(side,o));if(hit){zombie.vx=0;if(zombie.grounded&&zombie.jumpLock<=0){zombie.vy=-86;zombie.grounded=false;zombie.jumpLock=.7}}else zombie.x=nx;
 zombie.vy=Math.min(175,zombie.vy+120*dt);landActor(zombie,oldY,zombie.y+zombie.vy*dt);
-if(zombie.y>H+30||Math.abs(zombie.y-hero.y)>280){const safe=checkpoint(hero.y-35);zombie=spawnZombie(safe,true)}
+zombie.stuck=Math.abs(zombie.x-zombie.lastX)<.25?zombie.stuck+dt:0;zombie.lastX=zombie.x;if(zombie.stuck>.65&&zombie.grounded){zombie.vy=-92;zombie.grounded=false;zombie.stuck=0}
+if(zombie.y>H+30||Math.abs(zombie.y-hero.y)>220){const safe=checkpoint(hero.y-45),choices=obstacles.filter(o=>o!==safe&&Math.abs(o.y-safe.y)<145);zombie=spawnZombie(choices.sort((a,b)=>Math.abs((b.x+b.w/2)-hero.x)-Math.abs((a.x+a.w/2)-hero.x))[0]||safe,true);respawnGrace=Math.max(respawnGrace,.7)}
 if(overlaps({x:hero.x-1,y:hero.y-1,w:hero.w+2,h:hero.h+2},zombie))killHero();
 }
 function updateHero(dt){
@@ -1161,40 +1166,43 @@ if(dir)hero.dir=dir;const target=dir*96;hero.vx+=(target-hero.vx)*Math.min(1,dt*
 let nx=Math.max(0,Math.min(W-hero.w,hero.x+hero.vx*dt)),side={x:nx,y:hero.y,w:hero.w,h:hero.h};
 if(obstacles.some(o=>overlaps(side,o))){hero.vx=0;nx=hero.x}hero.x=nx;hero.vy=Math.min(175,hero.vy+120*dt);let ny=hero.y+hero.vy*dt,landed=false;
 landActor(hero,oldY,ny);
+collectibles.forEach(c=>{if(!c.collected&&Math.abs(hero.x+hero.w/2-c.x)<10&&Math.abs(hero.y+hero.h/2-c.y)<13){c.collected=true;c.pop=.45;coinCount++;gameStatus(coinCount===collectibles.length?'All coins collected!':'Timeline game active · the zombie is hunting you')}});
 if(hero.y>H+30){const first=obstacles[0];hero.x=first.x+18;hero.y=first.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true;events[0]?.scrollIntoView({behavior:'smooth',block:'center'})}
 const pageY=section.getBoundingClientRect().top+scrollY+hero.y*SCALE,targetScroll=Math.max(0,pageY-innerHeight*.55);if(Math.abs(scrollY-targetScroll)>innerHeight*.24)scrollTo({top:targetScroll,behavior:'smooth'});
 }
 function draw(){
-g.clearRect(0,0,W,H);R(0,0,W,H,P.sky);
+P=dead?deathPalette(deathFade):NORMAL;g.clearRect(0,0,W,H);R(0,0,W,H,P.sky);
 points.forEach((p,i)=>{
 const floor=p.y+30,side=i%2===0;
 if(i%2===0)cloud((i*59+clock*.0015)%(W+35)-30,p.y-48);
 if(i%3===0){hill(side?W-10:10,floor,30,25);hill(side?W-43:43,floor,18,32)}
 const markerX=i%2?W*.46:W*.54;
-if(i%2===0)coin(markerX,p.y);
 if(i<points.length-1){const next=points[i+1];for(let n=1;n<=3;n++){const u=n/4;const xx=markerX+( (i%2?W*.54:W*.46)-markerX)*u;R(xx,p.y+(next.y-p.y)*u,2,2,'#fff5c0')}}
 });
+collectibles.forEach(c=>{if(!c.collected)coin(c.x,c.y);else if(c.pop>0)coinBurst(c)});
 scenePlatforms.forEach((s,i)=>{platform(s.x,s.y,s.w);if(i%4===0)castle(s.x+7,s.y-40);else if(i%3===0)pipe(s.x+20,s.y-28,28);else if(i%3===1){mushroom(s.x+22,s.y-10);mushroom(s.x+48,s.y-8)}else{block(s.x+18,s.y-20,true);block(s.x+34,s.y-20)}});
 cardBodies.forEach(o=>{R(o.x,o.y+o.h,o.w,3,P.ink);R(o.x+1,o.y+o.h,o.w-2,2,P.light)});
 sprites.forEach(s=>robot(s));if(zombie)drawZombie(zombie);if(hero)robot(hero,true);
-if(dead&&hero){const x=Math.max(4,Math.min(W-92,hero.x-40)),y=Math.max(8,hero.y-48);R(x,y,92,27,'#170916ee');R(x+2,y+2,88,23,'#5e193d');g.fillStyle='#ffd09a';g.font='bold 8px monospace';g.fillText('YOU DIED',x+24,y+11);g.font='bold 6px monospace';g.fillText('PRESS SPACE TO RETURN',x+8,y+21)}
+if(gameActive){R(5,5,58,15,P.ink);R(7,7,54,11,P.cream);g.fillStyle=P.ink;g.font='bold 6px monospace';g.fillText(`COINS ${coinCount}/${collectibles.length}`,12,14)}
+if(dead&&hero){const a=Math.max(0,Math.min(1,(deathFade-.18)/.82)),x=Math.max(4,Math.min(W-92,hero.x-40)),y=Math.max(8,hero.y-48);g.globalAlpha=a;R(x,y,92,27,'#170916');R(x+2,y+2,88,23,'#5e193d');g.fillStyle='#ffd09a';g.font='bold 8px monospace';g.fillText('YOU DIED',x+24,y+11);g.font='bold 6px monospace';g.fillText('PRESS SPACE TO RETURN',x+8,y+21);g.globalAlpha=1}
 }
 function resize(){
 const a=section.getBoundingClientRect(),b=list.getBoundingClientRect();W=Math.floor(b.width/SCALE);H=Math.ceil(b.height/SCALE);
 canvas.width=W;canvas.height=H;canvas.style.width=W*SCALE+'px';canvas.style.height=H*SCALE+'px';canvas.style.left=(b.left-a.left)+'px';canvas.style.top=(b.top-a.top)+'px';
 points=[...list.querySelectorAll('.journey-row')].map(el=>{const r=el.getBoundingClientRect();return {y:(r.top-b.top+r.height/2)/SCALE}});
+const savedCoins=collectibles.map(c=>c.collected);collectibles=points.map((p,i)=>({x:i%2?W*.46:W*.54,y:p.y,collected:!!savedCoins[i],pop:0}));coinCount=collectibles.filter(c=>c.collected).length;
 cardBodies=[...list.querySelectorAll('.journey-row')].map(el=>{const r=el.getBoundingClientRect();return{x:(r.left-b.left)/SCALE,y:(r.top-b.top)/SCALE,w:r.width/SCALE,h:r.height/SCALE}});
 dateTabs=[...list.querySelectorAll('.journey-date')].map(el=>{const r=el.getBoundingClientRect();return{x:(r.left-b.left)/SCALE,y:(r.top-b.top)/SCALE,w:r.width/SCALE,h:r.height/SCALE}});
 scenePlatforms=cardBodies.slice(0,-1).map((o,i)=>{const next=dateTabs[i+1],left=o.x<W/2;return{x:left?W-82:14,y:o.y+o.h+(next.y-(o.y+o.h))*.55,w:68,h:44}});
 obstacles=[...dateTabs,...cardBodies,...scenePlatforms];
 lanes=cardBodies.map((o,i)=>i%2===0?{x:dateTabs[i].x+2,y:dateTabs[i].y,w:Math.max(18,dateTabs[i].w-4)}:{x:o.x+Math.min(o.w-34,dateTabs[i].w+6),y:o.y,w:Math.max(28,o.w-dateTabs[i].w-12)}).concat(scenePlatforms.map(s=>({x:s.x,y:s.y,w:s.w})));
-makeSprites();if(hero){const first=dateTabs[0];hero.x=first.x+12;hero.y=first.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true;zombie=spawnZombie(first)}
+makeSprites();if(hero){const first=dateTabs[0];hero.x=first.x+12;hero.y=first.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true;zombie=spawnZombie(cardBodies[0]||first);respawnGrace=3.5}
 draw();
 }
-function tick(t){raf=requestAnimationFrame(tick);if(paused||motion.matches||!visible||t-last<80)return;const dt=Math.min(.12,(t-last)/1000||.08);last=t;clock=t;sprites.forEach(s=>updateSprite(s,dt));if(respawnGrace>0)respawnGrace=Math.max(0,respawnGrace-dt);if(gameActive&&!dead){updateHero(dt);updateZombie(dt)}draw()}
+function tick(t){raf=requestAnimationFrame(tick);if(paused||motion.matches||!visible||t-last<80)return;const dt=Math.min(.12,(t-last)/1000||.08);last=t;clock=t;sprites.forEach(s=>updateSprite(s,dt));collectibles.forEach(c=>c.pop=Math.max(0,c.pop-dt));if(respawnGrace>0)respawnGrace=Math.max(0,respawnGrace-dt);if(dead)deathFade=Math.min(1,deathFade+dt*1.25);if(gameActive&&!dead){updateHero(dt);updateZombie(dt)}draw()}
 const pauseButton=section.querySelector('.world-motion');pauseButton.addEventListener('click',()=>{paused=!paused;pauseButton.textContent=paused?'Play animation':'Pause animation';pauseButton.setAttribute('aria-pressed',String(paused))});
-section.addEventListener('timeline-game-start',()=>{gameActive=true;dead=false;respawnGrace=3.5;P=NORMAL;const first=dateTabs[0],zombieStart=cardBodies[0]||dateTabs[1]||first;hero={x:first.x+12,y:first.y-16,w:10,h:16,vx:0,vy:0,grounded:true,dir:1,color:'#a93acf',seed:2,jump:0};zombie=spawnZombie(zombieStart);help.classList.add('is-active');help.textContent='Timeline game active · 3 second head start · A D / ← → steer · Space jumps';draw()});
-window.addEventListener('keydown',e=>{if(!gameActive)return;const k=e.key.toLowerCase();if(dead&&[' ','w','arrowup'].includes(k)){e.preventDefault();respawn();return}if(['a','d','arrowleft','arrowright',' ','w','arrowup'].includes(k)){e.preventDefault();keys.add(k)}if([' ','w','arrowup'].includes(k)&&hero?.grounded){hero.vy=-84;hero.grounded=false}if(k==='escape'){gameActive=false;dead=false;P=NORMAL;hero=null;zombie=null;keys.clear();help.classList.remove('is-active');draw()}});
+section.addEventListener('timeline-game-start',()=>{gameActive=true;dead=false;deathFade=0;respawnGrace=3.5;P=NORMAL;coinCount=0;collectibles.forEach(c=>{c.collected=false;c.pop=0});const first=dateTabs[0],zombieStart=cardBodies[0]||dateTabs[1]||first;hero={x:first.x+12,y:first.y-16,w:10,h:16,vx:0,vy:0,grounded:true,dir:1,color:'#a93acf',seed:2,jump:0};zombie=spawnZombie(zombieStart);help.classList.add('is-active');gameStatus('Timeline game active · 3 second head start');draw()});
+window.addEventListener('keydown',e=>{if(!gameActive)return;const k=e.key.toLowerCase();if(dead&&[' ','w','arrowup'].includes(k)){e.preventDefault();respawn();return}if(['a','d','arrowleft','arrowright',' ','w','arrowup'].includes(k)){e.preventDefault();keys.add(k)}if([' ','w','arrowup'].includes(k)&&hero?.grounded){hero.vy=-84;hero.grounded=false}if(k==='escape'){gameActive=false;dead=false;deathFade=0;P=NORMAL;hero=null;zombie=null;keys.clear();help.classList.remove('is-active');draw()}});
 window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
 new ResizeObserver(resize).observe(list);new IntersectionObserver(([e])=>{visible=e.isIntersecting}).observe(section);
 window.addEventListener('resize',resize);document.fonts.ready.then(resize);motion.addEventListener('change',draw);resize();requestAnimationFrame(tick);
