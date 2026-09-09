@@ -13,7 +13,7 @@ trigger.addEventListener('click',()=>{dialog.showModal();active=true;reset();las
 dialog.querySelector('[data-close]').addEventListener('click',close);
 dialog.addEventListener('cancel',e=>{e.preventDefault();close()});
 dialog.querySelector('[data-restart]').addEventListener('click',reset);
-pauseButton.addEventListener('click',()=>pause(!paused));
+pauseButton.addEventListener('click',()=>{pause(!paused);canvas.focus()});
 canvas.addEventListener('keydown',e=>{
  const k=e.key.toLowerCase();if(['arrowleft','arrowright','arrowup',' ','a','d','w'].includes(k)){e.preventDefault();if(!keys.has(k)&&['arrowup',' ','w'].includes(k))jump=true;keys.add(k)}
  if(k==='p')pause(!paused);if(k==='r')reset();
