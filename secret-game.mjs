@@ -4,6 +4,8 @@ const trigger=document.querySelector('.secret-star'),dialog=document.querySelect
 const status=dialog.querySelector('.game-status'),pauseButton=dialog.querySelector('[data-pause]');
 let p=fresh(),active=false,paused=false,frame=0,last=0,acc=0,camera=0,time=0,jump=false;
 const keys=new Set(),touch=new Set();
+// The star now launches the playable character inside the timeline world.
+trigger.addEventListener('click',e=>{e.stopImmediatePropagation();const timeline=document.querySelector('#timeline');timeline.dispatchEvent(new CustomEvent('timeline-game-start'));timeline.scrollIntoView({behavior:'smooth',block:'start'});trigger.setAttribute('aria-pressed','true');trigger.querySelector('span').textContent='Game on'},true);
 const pressed=k=>keys.has(k)||touch.has(k);
 function clear(){keys.clear();touch.clear();jump=false}
 function pause(value){paused=value;clear();pauseButton.textContent=paused?'Resume':'Pause';pauseButton.setAttribute('aria-pressed',String(paused))}
@@ -76,3 +78,4 @@ function loop(now){
  }else acc=0;
  draw();frame=requestAnimationFrame(loop);
 }
+
