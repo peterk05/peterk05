@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Peter Kernohan’s engineering portfolio: robotics, embedded systems, control dynamics and computer vision projects at Maynooth University.">
 <title>Peter Kernohan — Robotics & Electronics Engineering Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -118,7 +119,7 @@
 
   h1.hero-name {
     font-family: var(--display);
-    font-size: clamp(3.8rem, 9vw, 8rem);
+    font-size: clamp(2.45rem, 8.3vw, 7rem);
     font-weight: 800;
     letter-spacing: -0.03em;
     line-height: 0.92;
@@ -192,7 +193,7 @@
 
   .section-header {
     margin-bottom: 3rem;
-    opacity: 0;
+    opacity: 1;
     transform: translateY(16px);
     transition: opacity 0.5s, transform 0.5s;
   }
@@ -220,7 +221,7 @@
   /* ── PROJECTS ── */
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
     gap: 1.25rem;
   }
 
@@ -230,7 +231,7 @@
     border-radius: 10px;
     padding: 1.8rem;
     transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-    opacity: 0;
+    opacity: 1;
     transform: translateY(24px);
   }
 
@@ -330,7 +331,7 @@
   }
 
   .about-text {
-    opacity: 0;
+    opacity: 1;
     transform: translateY(16px);
     transition: opacity 0.5s 0.1s, transform 0.5s 0.1s;
   }
@@ -352,7 +353,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    opacity: 0;
+    opacity: 1;
     transform: translateY(16px);
     transition: opacity 0.5s 0.2s, transform 0.5s 0.2s;
   }
@@ -404,7 +405,7 @@
 
   .leadership-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
     gap: 1.25rem;
   }
 
@@ -413,7 +414,7 @@
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 1.8rem;
-    opacity: 0;
+    opacity: 1;
     transform: translateY(20px);
     transition: opacity 0.5s, transform 0.5s, box-shadow 0.2s, border-color 0.2s;
   }
@@ -475,7 +476,7 @@
     padding-left: 2rem;
     padding-bottom: 2.5rem;
     position: relative;
-    opacity: 0;
+    opacity: 1;
     transform: translateY(16px);
     transition: opacity 0.4s, transform 0.4s;
   }
@@ -559,7 +560,7 @@
 
   /* ── FADE UTILITY ── */
   .fade-in {
-    opacity: 0;
+    opacity: 1;
     transform: translateY(14px);
     transition: opacity 0.5s, transform 0.5s;
   }
@@ -567,7 +568,7 @@
   .fade-in.visible { opacity: 1; transform: none; }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 1; transform: translateY(20px); }
     to   { opacity: 1; transform: none; }
   }
 
@@ -575,170 +576,448 @@
     #about-wrap { grid-template-columns: 1fr; gap: 2rem; }
     .nav-links { display: none; }
   }
+
+  /* Readable, resilient portfolio layout */
+  :root { --muted: #535d6c; --soft: #657080; --accent: #b83d08; }
+  :focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; }
+  .skip-link { position: fixed; top: 8px; left: 8px; z-index: 200; padding: 12px 20px; background: var(--text); color: white; transform: translateY(-160%); }
+  .skip-link:focus { transform: none; }
+  .nav-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: .875rem; }
+  #hero { background-image: linear-gradient(90deg, transparent 99%, var(--border) 99%), linear-gradient(transparent 99%, var(--border) 99%); background-size: 48px 48px; }
+  .hero-tag { max-width: 100%; border: 1px solid #dbe7fc; border-radius: 6px; font-size: .875rem; }
+  .hero-desc { color: var(--text); max-width: 610px; font-size: 1.125rem; }
+  .btn-primary, .btn-outline { min-height: 48px; font-size: .875rem; }
+  .section-header, .about-text, .about-cards, .project-card, .lead-card, .tl-item, .fade-in { transform: none; }
+  .project-card { display: flex; flex-direction: column; border-top: 3px solid var(--accent); padding: 1.5rem; }
+  .project-card .stack { margin-top: auto; }
+  .project-desc, .lead-card-list li, .tl-list li, .mini-list li { font-size: 1rem; }
+  .project-role, .metric, .chip, .project-tag, .lead-card-date, .lead-card-org, .tl-date, .tl-org, .mini-card-title { font-size: .875rem; }
+  .project-num { color: var(--muted); }
+  .contact-email { max-width: 100%; overflow-wrap: anywhere; }
+  @media (max-width: 768px) {
+    nav { position: sticky; height: auto; flex-direction: column; align-items: stretch; padding: 10px 5% 0; }
+    .nav-links { display: flex; overflow-x: auto; gap: 1.25rem; }
+    .nav-links li { flex: 0 0 auto; }
+    .nav-logo-sub { font-size: .75rem; }
+    #hero { padding: 48px 5% 56px; }
+    .hero-tag { margin-bottom: 1.5rem; }
+    .section-wrap { padding: 56px 5%; }
+    .section-header { margin-bottom: 2rem; }
+    #projects, #about, #leadership, #experience, #contact, #main, #hero { scroll-margin-top: 120px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+/* Editorial timelines */
+.resume-band { background:#d2d2d0; color:#232526; padding:76px 5%; }
+.resume-columns { max-width:1280px; margin:auto; display:grid; grid-template-columns:1fr 1fr; gap:7%; }
+.resume-column h2,.project-heading { font-family:Georgia,'Times New Roman',serif; font-weight:400; font-style:italic; font-size:clamp(2.6rem,5vw,4rem); }
+.resume-column h2 { text-align:center; margin-bottom:56px; }
+.resume-line { border-left:1px solid #737574; margin-left:8px; }
+.resume-entry { position:relative; padding:0 0 48px 28px; }
+.resume-entry:before { content:""; position:absolute; width:14px; height:14px; border-radius:50%; background:#111; left:-7.5px; top:52px; }
+.resume-date { font-size:1.05rem; margin-bottom:14px; }
+.resume-entry h3 { font-size:1.15rem; font-weight:600; line-height:1.5; }
+.resume-role { font-style:italic; margin:12px 0 18px; font-size:1.1rem; }
+.resume-entry ul { padding-left:22px; }
+.resume-entry li { margin-bottom:12px; line-height:1.8; }
+.resume-entry h4 { margin:24px 0 12px; font-weight:500; font-size:1.1rem; }
+.project-section { max-width:1180px; margin:auto; padding:88px 5%; }
+.project-heading { margin-bottom:16px; }
+.timeline-intro { max-width:620px; margin-bottom:52px; color:var(--muted); }
+.project-timeline { list-style:none; position:relative; }
+.project-timeline:before { content:""; position:absolute; top:0; bottom:0; left:170px; width:1px; background:#a5a8aa; }
+.project-event { display:grid; grid-template-columns:170px 1fr; padding-bottom:58px; }
+.project-date { padding:20px 28px 0 0; font-size:.95rem; }
+.project-link { position:relative; display:block; margin-left:34px; padding:30px; border:1px solid var(--border); border-radius:4px; color:inherit; text-decoration:none; background:#fafaf8; }
+.project-link:before { content:""; position:absolute; left:-41px; top:26px; width:13px; height:13px; border-radius:50%; background:#111; }
+.project-link:hover { border-color:var(--accent); background:#fff7f2; }
+.project-link h3 { font-size:clamp(1.35rem,3vw,2rem); line-height:1.25; margin:12px 0; }
+.project-link p { margin:12px 0; }
+.project-cover { width:100%; max-height:300px; object-fit:contain; background:white; margin:14px 0; }
+.project-category { color:var(--accent); font-size:.875rem; }
+.case-action { display:inline-block; margin-top:18px; font-weight:600; text-decoration:underline; text-underline-offset:5px; }
+.case-page { max-width:1060px; margin:auto; padding:110px 5% 60px; }
+.case-page h1 { font-family:Georgia,serif; font-size:clamp(2.5rem,6vw,4.8rem); line-height:1.1; font-weight:400; margin:22px 0; }
+.case-page h2 { font:italic 2.3rem Georgia,serif; margin:0 0 26px; }
+.case-page h3 { margin-bottom:12px; font-size:1.25rem; }
+.case-page section { margin:56px 0; scroll-margin-top:120px; }
+.case-summary { font-size:1.2rem; max-width:780px; }
+.case-meta,.case-nav { display:flex; flex-wrap:wrap; gap:12px 24px; margin:24px 0; }
+.case-nav a,.back-link { color:inherit; text-underline-offset:5px; }
+.case-meta span { padding:8px 12px; background:#f0f0ec; }
+.process-step { display:grid; grid-template-columns:48px 1fr; gap:16px; padding:26px 0; border-top:1px solid var(--border); }
+.step-number { color:var(--accent); font-family:Georgia,serif; font-size:1.6rem; }
+.process-step p { line-height:1.85; }
+.case-gallery { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.case-gallery img { width:100%; height:320px; object-fit:contain; background:#f4f4f0; }
+.case-gallery figcaption { margin-top:10px; color:var(--muted); font-size:.95rem; }
+.media-pending { padding:28px; border:1px dashed #b5b8bb; color:var(--muted); background:#f8f8f5; }
+.case-page video,.case-page iframe { width:100%; aspect-ratio:16/9; border:0; }
+.project-pagination { display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; border-top:1px solid var(--border); padding-top:28px; }
+@media(max-width:760px) {
+ .resume-columns { grid-template-columns:1fr; gap:24px; }
+ .resume-column h2 { text-align:left; margin-bottom:36px; }
+ .resume-band { padding:56px 6%; }
+ .project-timeline:before { left:7px; }
+ .project-event { grid-template-columns:1fr; padding-left:34px; padding-bottom:36px; }
+ .project-date { padding:0 0 12px; }
+ .project-link { margin-left:0; padding:22px; }
+ .project-link:before { left:-34px; }
+ .case-page { padding-top:44px; }
+ .case-gallery { grid-template-columns:1fr; }
+ .case-gallery img { height:auto; max-height:420px; }
+}
+
+
+.unified-timeline{max-width:1080px;margin:auto;padding:80px 5%;position:relative}
+.timeline-anchor{display:block;scroll-margin-top:120px}
+#timeline{scroll-margin-top:90px}
+.unified-header{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:56px;flex-wrap:wrap}
+.unified-header h2{font:italic clamp(2.5rem,5vw,4rem) Georgia,serif;letter-spacing:-.04em}
+.timeline-key{display:flex;gap:16px;flex-wrap:wrap}
+.kind{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--kind-color,#67717a)}
+.kind-project{--kind-color:#b74717}.kind-experience{--kind-color:#246377}.kind-education{--kind-color:#655594}.kind-leadership{--kind-color:#4f7046}
+.journey{list-style:none}
+.journey-event{display:grid;grid-template-columns:168px 1fr;position:relative}
+.journey-date{font-size:.85rem;color:#646c74;padding:30px 26px 30px 0}
+.journey-content{border-left:1px solid #d3d6d7;padding:12px 0 12px 34px;position:relative}
+.journey-content:before{content:"";position:absolute;left:-5px;top:44px;width:9px;height:9px;border-radius:50%;background:var(--kind-color);box-shadow:0 0 0 5px white}
+.journey-row{display:flex;align-items:center;gap:20px;padding:14px 18px;min-height:92px;text-decoration:none;color:inherit;border-radius:8px;cursor:pointer;list-style:none}
+.journey-row::-webkit-details-marker{display:none}
+.journey-row:hover{background:#f5f5f2}
+.journey-thumb{width:64px;height:64px;object-fit:contain;flex:0 0 64px;border-radius:5px;background:#f1f2ee}
+.journey-monogram{display:grid;place-items:center;color:var(--kind-color);font:italic 1.15rem Georgia,serif}
+.journey-title{display:grid;gap:6px}.journey-name{font-size:1.05rem;line-height:1.45;font-weight:500}
+.journey-arrow{margin-left:auto;color:#78818a;font-size:1.25rem}
+.journey-detail{padding:10px 24px 24px 102px;color:var(--muted);font-size:.95rem;line-height:1.8}
+.journey-detail ul{padding-left:18px}.journey-detail li{margin-bottom:8px}
+details[open] .journey-arrow{transform:rotate(45deg)}
+@media(max-width:640px){.unified-timeline{padding:52px 5%}.unified-header{margin-bottom:32px}.journey-event{grid-template-columns:1fr;padding-left:14px;border-left:1px solid #d3d6d7;margin-left:5px}.journey-date{padding:20px 12px 0;font-size:.8rem}.journey-content{border:0;padding:0 0 12px}.journey-content:before{left:-19px;top:37px}.journey-row{gap:12px;padding:12px}.journey-thumb{width:48px;height:48px;flex-basis:48px}.journey-name{font-size:.95rem}.journey-detail{padding:8px 12px 20px}.timeline-key{gap:12px}.kind{font-size:.65rem}}
+
+/* Branching chronology: a central trunk with alternating nodes. */
+.unified-timeline{max-width:1280px}
+.unified-header{justify-content:center;text-align:center}
+.unified-header h2{width:100%}
+.timeline-key{justify-content:center}
+.journey{position:relative;padding:24px 0 48px}
+.journey:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(#e6e5df,#adb3ad 12%,#adb3ad 88%,#e6e5df);transform:translateX(-50%)}
+.journey-event{display:grid;grid-template-columns:minmax(0,1fr) 100px minmax(0,1fr);min-height:148px;align-items:center;margin:0}
+.journey-date{grid-column:2;grid-row:1;position:relative;z-index:2;text-align:center;padding:7px 3px;background:white;font-size:.72rem;line-height:1.55;color:#60686c}
+.journey-content{grid-column:1;grid-row:1;justify-self:end;width:100%;border:0;padding:0 18px 0 0}
+.journey-event:nth-child(even) .journey-content{grid-column:3;justify-self:start;padding:0 0 0 18px}
+.journey-content:before{height:1px;width:42px;left:auto;right:-24px;top:50%;border-radius:0;background:var(--kind-color);box-shadow:none;opacity:.55}
+.journey-event:nth-child(even) .journey-content:before{left:-24px;right:auto}
+.journey-row{position:relative;background:#f8f8f5;border:1px solid #e0e3de;border-radius:18px;min-height:104px;padding:18px;gap:15px;transition:background .2s,border-color .2s,transform .2s}
+.journey-row:hover{background:#f0f2ed;border-color:var(--kind-color);transform:translateY(-3px)}
+.journey-row:before{content:"";position:absolute;right:-5px;top:calc(50% - 5px);height:9px;width:9px;border-radius:50%;background:var(--kind-color)}
+.journey-event:nth-child(even) .journey-row:before{left:-5px;right:auto}
+.journey-event:nth-child(3n+2) .journey-content{width:86%}
+.journey-event:nth-child(4n+1) .journey-row{min-height:140px;padding:24px;background:#f1f3ec}
+.journey-event:nth-child(4n+1) .journey-name{font-size:1.25rem}
+.journey-event:nth-child(4n+1) .journey-thumb{width:78px;height:78px;flex-basis:78px}
+.journey-event:nth-child(3n) .journey-row{border-radius:8px 24px 24px 24px}
+.journey-title{min-width:0}
+.journey-name{overflow-wrap:anywhere}
+.journey-thumb{background:white}
+.journey-detail{padding:20px 18px;position:relative;background:white}
+@media(max-width:760px){
+.journey:before{left:12px}
+.journey-event{display:grid;grid-template-columns:1fr;min-height:0;margin:0 0 28px 12px;padding:0 0 0 28px;border:0}
+.journey-date{grid-column:1;grid-row:1;text-align:left;padding:0 0 9px;background:transparent;font-size:.8rem}
+.journey-content,.journey-event:nth-child(even) .journey-content,.journey-event:nth-child(3n+2) .journey-content{grid-column:1;grid-row:2;width:100%;padding:0}
+.journey-content:before,.journey-event:nth-child(even) .journey-content:before{left:-28px;right:auto;width:28px}
+.journey-row:before,.journey-event:nth-child(even) .journey-row:before{left:-5px;right:auto}
+.journey-row,.journey-event:nth-child(4n+1) .journey-row{padding:16px;min-height:90px}
+.journey-event:nth-child(4n+1) .journey-name{font-size:1.08rem}
+.journey-event:nth-child(4n+1) .journey-thumb{width:58px;height:58px;flex-basis:58px}
+}
+
+
+/* Quiet portfolio introduction */
+#hero{max-width:1080px;padding:130px 5% 64px;background:none;border-bottom:1px solid #eceeea}
+.intro-label{font-size:.78rem;letter-spacing:.05em;color:#727971;margin-bottom:20px}
+#hero h1.hero-name{font-family:Georgia,'Times New Roman',serif;font-size:clamp(2.2rem,4.5vw,3.6rem);font-weight:400;letter-spacing:-.045em;line-height:1.15;color:#303530;animation:none}
+#hero .hero-desc{font-size:1rem;line-height:1.85;max-width:570px;color:#626a63;margin-top:20px;animation:none}
+#hero .hero-cta{gap:12px 28px;margin-top:24px;animation:none}
+#hero .hero-cta a{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:.85rem;color:#626a63;text-decoration:underline;text-decoration-color:#c9cec8;text-underline-offset:6px}
+#hero .hero-cta a:first-child{color:#343c34}
+#hero .hero-cta a:hover{color:#162318;text-decoration-color:currentColor}
+@media(max-width:768px){#hero{padding:56px 5% 44px}#hero .hero-desc{font-size:1rem}#hero .hero-cta{gap:8px 22px}}
+
+
+/* Restrained card corners. */
+.journey-row,.journey-event:nth-child(3n) .journey-row,.journey-event:nth-child(4n+1) .journey-row,.mini-card,.project-card,.lead-card,.btn-primary,.btn-outline{border-radius:2px}
+.journey-thumb{border-radius:2px}
+
+/* Soft cream surfaces. */
+.journey-row,.journey-event:nth-child(3n) .journey-row,.journey-event:nth-child(4n+1) .journey-row{border-radius:12px;background:#faf6ee;border-color:#e5ded1}
+.journey-event:nth-child(4n+1) .journey-row{background:#f5efe3}
+.journey-row:hover{background:#f3ecdf;border-color:#c9bca5}
+.journey-thumb{border-radius:8px;background:#fffdf8}
+.mini-card,.project-card,.lead-card{border-radius:12px;background:#faf6ee;border-color:#e5ded1}
+.case-meta span{border-radius:6px;background:#f5efe4}
+.media-pending,.case-gallery img{border-radius:10px;background:#faf6ee}
+.btn-primary,.btn-outline{border-radius:8px}
+
+/* Fluid, interleaved timeline with measured curved connections. */
+.unified-timeline{max-width:none;width:100%;padding:64px clamp(20px,3.5vw,72px)}
+.unified-header{margin-bottom:36px}
+.journey{padding:24px 0 32px;isolation:isolate}
+.journey-event{grid-template-columns:minmax(0,1fr) clamp(90px,10vw,180px) minmax(0,1fr);min-height:110px;align-items:start;padding:0 0 12px}
+.journey-date{grid-column:1;grid-row:1;text-align:left;justify-self:stretch;background:none;padding:0 18px 8px 0;line-height:1.4;font-size:.78rem}
+.journey-content{grid-column:1;grid-row:2;width:100%;padding:0 18px 0 0}
+.journey-event:nth-child(even) .journey-date{grid-column:3;padding:0 0 8px 18px}
+.journey-event:nth-child(even) .journey-content{grid-row:2;grid-column:3;padding:0 0 0 18px}
+.journey-event:nth-child(3n+2) .journey-content{width:94%}
+.journey-event:nth-child(3n+2) .journey-date{width:94%;justify-self:end}
+.journey-event:nth-child(even):nth-child(3n+2) .journey-date{justify-self:start}
+.journey-row,.journey-event:nth-child(4n+1) .journey-row{min-height:94px;padding:18px 22px;border-radius:14px}
+.journey-event:nth-child(4n+1) .journey-row{min-height:112px}
+.journey-event:nth-child(4n+1) .journey-name{font-size:1.18rem}
+.journey-event:nth-child(4n+1) .journey-thumb{width:64px;height:64px;flex-basis:64px}
+.journey-name{font-size:1.05rem}
+.journey-event + .journey-event{margin-top:-36px}
+.journey-content:before{display:none}
+.journey-detail{padding:18px 22px}
+.unified-timeline{isolation:isolate}.journey{z-index:1}.journey-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible}
+.journey.has-curves:before{display:none}
+@media(max-width:760px){
+.unified-timeline{padding:44px 18px}
+.journey-event,.journey-event + .journey-event{display:grid;grid-template-columns:1fr;margin:0 0 22px 12px;padding:0 0 0 28px;min-height:0}
+.journey-date,.journey-event:nth-child(even) .journey-date,.journey-event:nth-child(3n+2) .journey-date{grid-column:1;grid-row:1;width:100%;padding:0 0 8px;justify-self:stretch}
+.journey-content,.journey-event:nth-child(even) .journey-content,.journey-event:nth-child(3n+2) .journey-content{grid-column:1;grid-row:2;width:100%;padding:0}
+.journey-row,.journey-event:nth-child(4n+1) .journey-row{padding:14px;min-height:88px}
+.journey-event:nth-child(4n+1) .journey-thumb{width:48px;height:48px;flex-basis:48px}
+.journey-event:nth-child(4n+1) .journey-name{font-size:1rem}
+}
+
+/* Precise, restrained chronology. Connectors share the card centre. */
+.unified-timeline{max-width:1500px;width:100%;padding:56px clamp(20px,4vw,64px)}
+.journey{padding:16px 0 32px}
+.journey:before{display:block;left:50%;top:0;bottom:0;width:3px;transform:translateX(-50%);background:#9c9b92}
+.journey-event,.journey-event + .journey-event{display:grid;grid-template-columns:minmax(0,1fr) 96px minmax(0,1fr);min-height:0;margin:0;padding:0 0 24px;align-items:start}
+.journey-date,.journey-event:nth-child(3n+2) .journey-date{grid-column:1;grid-row:1;width:100%;padding:0 0 9px;text-align:left;justify-self:stretch;background:transparent}
+.journey-event:nth-child(even) .journey-date{grid-column:3;padding:0 0 9px}
+.journey-content,.journey-event:nth-child(3n+2) .journey-content{grid-column:1;grid-row:2;position:relative;width:100%;padding:0;justify-self:stretch}
+.journey-event:nth-child(even) .journey-content{grid-column:3;grid-row:2;padding:0;justify-self:stretch}
+.journey-content:before,.journey-event:nth-child(even) .journey-content:before{content:"";display:block;position:absolute;top:52px;left:auto;right:-48px;width:48px;height:3px;background:#9c9b92;opacity:1;box-shadow:none;border-radius:0}
+.journey-event:nth-child(even) .journey-content:before{left:-48px;right:auto}
+.journey-content:after{content:"";position:absolute;top:48px;right:-53px;width:11px;height:11px;border-radius:50%;background:var(--kind-color);border:2px solid white}
+.journey-event:nth-child(even) .journey-content:after{left:-53px;right:auto}
+.journey-row,.journey-event:nth-child(3n) .journey-row,.journey-event:nth-child(4n+1) .journey-row{height:106px;min-height:106px;padding:18px 22px;gap:16px;border-radius:6px;background:#faf6ee;border:1px solid #ded7ca;box-shadow:none;transform:none}
+.journey-row:hover{background:#f3ecdf;border-color:#b8ae9c;transform:none}
+.journey-row:before,.journey-event:nth-child(even) .journey-row:before{display:none}
+.journey-thumb,.journey-event:nth-child(4n+1) .journey-thumb{width:56px;height:56px;flex-basis:56px;border-radius:4px}
+.journey-name,.journey-event:nth-child(4n+1) .journey-name{font-size:1rem;line-height:1.4}
+.journey-detail{padding:20px 22px}
+@media(max-width:760px){
+.journey:before{left:8px}
+.journey-event,.journey-event + .journey-event{grid-template-columns:1fr;margin:0;padding:0 0 24px 34px}
+.journey-date,.journey-event:nth-child(even) .journey-date,.journey-event:nth-child(3n+2) .journey-date{grid-column:1;grid-row:1;padding:0 0 8px}
+.journey-content,.journey-event:nth-child(even) .journey-content,.journey-event:nth-child(3n+2) .journey-content{grid-column:1;grid-row:2;padding:0}
+.journey-content:before,.journey-event:nth-child(even) .journey-content:before{left:-26px;right:auto;width:26px;top:52px}
+.journey-content:after,.journey-event:nth-child(even) .journey-content:after{left:-31px;right:auto;top:48px}
+.journey-row,.journey-event:nth-child(4n+1) .journey-row{padding:12px;gap:10px}
+.journey-thumb,.journey-event:nth-child(4n+1) .journey-thumb{width:44px;height:44px;flex-basis:44px}
+.journey-name,.journey-event:nth-child(4n+1) .journey-name{font-size:.9rem}
+}
+
+/* Pixel robotics world */
+.unified-timeline{position:relative;isolation:isolate;max-width:none;padding:52px 5%;background:#e7f1d0;overflow:hidden;border-block:4px solid #364b48}
+.unified-header{position:relative;z-index:2;margin-bottom:40px}
+.unified-header h2{font-family:Georgia,serif;color:#233d46;text-shadow:2px 2px #fff9dd}
+.world-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;image-rendering:pixelated;pointer-events:none}
+.journey{z-index:1;max-width:1200px;margin:auto}
+.journey:before,.journey-content:before,.journey-content:after,.journey-row:before{display:none!important}
+.journey-event,.journey-event + .journey-event{grid-template-columns:minmax(0,1fr) clamp(100px,20vw,280px) minmax(0,1fr);padding-bottom:60px;margin:0}
+.journey-row,.journey-event:nth-child(3n) .journey-row,.journey-event:nth-child(4n+1) .journey-row{background:#fff9e8;border:3px solid #34474c;border-radius:4px;box-shadow:5px 5px 0 #34474c;min-height:112px;height:auto}
+.journey-row:hover{background:#fff0bf;border-color:#34474c;transform:translateY(-3px);box-shadow:5px 8px 0 #34474c}
+.journey-date{color:#213f46;font-weight:600;text-shadow:1px 1px #fff9e8}
+.journey-thumb{border:2px solid #485c60;background:#e0edee;border-radius:0}
+.journey-detail{background:#fff9e8;border:3px solid #34474c;border-top:0;margin-top:6px}
+.timeline-key{background:#fff9e8;border:2px solid #34474c;padding:12px 18px;box-shadow:3px 3px #34474c}
+.world-motion{font:500 .8rem var(--body);padding:10px 16px;background:#fff9e8;border:2px solid #34474c;color:#243d45;cursor:pointer;min-height:44px}
+@media(max-width:760px){
+.unified-timeline{padding:38px 18px}
+.journey-event,.journey-event + .journey-event{grid-template-columns:1fr;padding:0 0 70px 48px}
+.journey-row,.journey-event:nth-child(4n+1) .journey-row{padding:14px;min-height:104px}
+}
+
+/* Illustrated milestone worlds: conceptual artwork, not project photographs. */
+.unified-timeline{background:#b9e2da}
+.milestone-art{height:clamp(230px,26vw,390px);width:100%;background-image:url('assets/robotics-world.png');background-size:300% 300%;background-position:var(--scene-x) var(--scene-y);image-rendering:pixelated;border:3px solid #34474c;border-bottom:0;border-radius:6px 6px 0 0;box-shadow:5px 0 #34474c}
+.journey-row,.journey-event:nth-child(3n) .journey-row,.journey-event:nth-child(4n+1) .journey-row{border-radius:0 0 6px 6px;min-height:100px}
+.journey-event,.journey-event + .journey-event{padding-bottom:44px}
+.journey-event:nth-child(even) .journey-content{margin-top:80px}
+.journey-date{background:#fff9e8;width:fit-content!important;padding:6px 10px!important;border:2px solid #34474c;border-bottom:0;margin-bottom:0}
+.world-art-note{text-align:center;font-size:.78rem;position:relative;z-index:2;color:#233d46;margin:12px auto 24px}
+@media(max-width:760px){.milestone-art{height:260px}.journey-event:nth-child(even) .journey-content{margin-top:0}}
+
+/* One continuous illustrated world; small signposts sit within the landscape. */
+.unified-timeline{background:#f8f7f2;padding:40px 0 0;border:0;overflow:hidden}
+.unified-header{padding:0 24px;margin:0 auto 18px;max-width:1000px}
+.unified-header h2{font-size:clamp(2rem,4vw,3rem);text-shadow:none}
+.world-art-note{margin:0 auto 22px;padding:0 20px}
+.journey{position:relative;isolation:isolate;width:100%;max-width:1320px;height:3300px;margin:0 auto;padding:0;background:#57cde6 url('assets/portfolio-world.png') center/100% 100% no-repeat;border:0}
+.journey:before{display:none!important}
+.journey:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse at 15% 20%,#fff9 0,transparent 8%),radial-gradient(ellipse at 85% 75%,#fff7 0,transparent 7%);animation:world-drift 18s ease-in-out infinite alternate}
+@keyframes world-drift{from{transform:translateY(-15px);opacity:.35}to{transform:translateY(25px);opacity:.65}}
+.unified-timeline.is-paused .journey:after{animation-play-state:paused}
+.journey-event,.journey-event + .journey-event{position:absolute;top:var(--stop);left:5%;width:35%;display:block;min-height:0;margin:0;padding:0;z-index:2}
+.journey-event:nth-child(even){left:auto;right:5%}
+.journey-date,.journey-event:nth-child(even) .journey-date,.journey-event:nth-child(3n+2) .journey-date{display:inline-block;width:auto!important;background:#fff8e7;padding:4px 9px!important;border:1px solid #514936;border-bottom:0;color:#423e33;font-size:.72rem;text-shadow:none}
+.journey-content,.journey-event:nth-child(even) .journey-content,.journey-event:nth-child(3n+2) .journey-content{width:100%;margin:0;padding:0}
+.journey-row,.journey-event:nth-child(3n) .journey-row,.journey-event:nth-child(4n+1) .journey-row{min-height:0;height:auto;padding:12px 14px;background:#fff9e9f5;border:2px solid #514936;border-radius:3px;box-shadow:2px 3px 0 #3b3b3266;gap:10px}
+.journey-row:hover{background:#fff3ce;transform:translateY(-2px);box-shadow:2px 4px #3b3b3266}
+.journey-thumb,.journey-event:nth-child(4n+1) .journey-thumb{display:none}
+.journey-title{gap:4px}.journey-name,.journey-event:nth-child(4n+1) .journey-name{font-size:.95rem;line-height:1.35}
+.kind{font-size:.65rem}.journey-arrow{font-size:1rem}
+.journey-detail{background:#fff9e9;border:2px solid #514936;padding:16px;max-height:280px;overflow:auto}
+.journey-event:has(details[open]){z-index:5}
+@media(min-width:761px) and (max-width:1320px){.journey{height:250vw}}
+@media(max-width:760px){
+.journey{height:2600px;background-size:auto 100%;background-position:center}
+.journey-event,.journey-event + .journey-event{left:3%;width:72%;padding:0;margin:0}
+.journey-event:nth-child(even){right:3%;left:auto}
+.journey-name,.journey-event:nth-child(4n+1) .journey-name{font-size:.85rem}
+}
+@media(prefers-reduced-motion:reduce){.journey:after{animation:none}}
+
+/* A transparent, integer-grid pixel garden. */
+.unified-timeline{background:#fffdf8;padding:56px 5%;border:0;isolation:isolate}
+.unified-header{margin-bottom:36px}
+.timeline-key{background:none;border:0;box-shadow:none;padding:0}
+.world-motion{background:transparent;border:1px solid #ddd8cc;border-radius:5px;color:#67695d}
+.world-help{display:block;visibility:hidden;width:100%;min-height:1.1rem;font:700 .76rem/1.1rem monospace;color:#25355a;letter-spacing:.025em}
+.world-help.is-active{visibility:visible}
+.journey{position:relative;background:none!important;height:auto!important;max-width:1160px;width:100%;padding:16px 0;margin:auto}
+.journey:after{display:none}
+.pixel-garden{position:absolute;pointer-events:none;image-rendering:pixelated;z-index:0}
+.journey-event,.journey-event + .journey-event{position:relative;top:auto;left:auto;right:auto;width:100%;display:grid;grid-template-columns:minmax(0,1fr) 112px minmax(0,1fr);padding:0 0 52px;margin:0;min-height:184px;z-index:1}
+.journey-event:nth-child(even){left:auto;right:auto}
+.journey-date,.journey-event:nth-child(even) .journey-date,.journey-event:nth-child(3n+2) .journey-date{border:0;background:none;font:500 .78rem var(--body);color:#79796c;padding:0 0 10px!important;grid-column:1;grid-row:1;align-self:end;text-shadow:none}
+.journey-event:nth-child(even) .journey-date{grid-column:3}
+.journey-content,.journey-event:nth-child(even) .journey-content,.journey-event:nth-child(3n+2) .journey-content{position:relative;grid-column:1;grid-row:2;padding:0;margin:0;width:100%}
+.journey-event:nth-child(even) .journey-content{grid-column:3}
+.journey-row,.journey-event:nth-child(3n) .journey-row,.journey-event:nth-child(4n+1) .journey-row{background:#fffdf8ed;border:1px solid #e1ddd2;border-radius:7px;box-shadow:none;padding:16px 18px;min-height:78px;height:auto;color:#343a35;transform:none}
+.journey-row:hover{background:#f6f3e9;border-color:#b8bdac;box-shadow:none;transform:translateY(-2px)}
+.journey-name,.journey-event:nth-child(4n+1) .journey-name{font:500 1rem/1.45 var(--body)}
+.journey-detail{background:#fffdf8;border:1px solid #ddd8cc}
+.kind{color:#69745e;font-size:.64rem}
+@media(max-width:760px){
+.unified-timeline{padding:36px 20px}
+.journey-event,.journey-event + .journey-event{grid-template-columns:1fr;width:100%;padding:0 0 90px 28px;min-height:210px;left:auto;right:auto}
+.journey-date,.journey-event:nth-child(even) .journey-date,.journey-content,.journey-event:nth-child(even) .journey-content{grid-column:1}
+.journey-name,.journey-event:nth-child(4n+1) .journey-name{font-size:.9rem}
+}
+
+/* Original 320-pixel tilemap, enlarged without smoothing. */
+.unified-timeline{background:#eef0d2;padding:42px 0 0;position:relative;isolation:isolate}
+.unified-header{padding:0 20px 24px}
+.ds-map{position:absolute;left:0;width:100%;image-rendering:pixelated;pointer-events:none;z-index:0}
+.timeline-death{position:fixed;left:50%;top:50%;z-index:150;display:grid;gap:8px;min-width:390px;padding:24px 34px;transform:translate(-50%,-45%) scale(.92);border:9px solid #170916;outline:5px solid #8e2d55;background:#260d26;color:#ffd09a;text-align:center;font:700 15px/1.2 monospace;letter-spacing:.06em;box-shadow:0 16px 0 #17091688;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1),visibility 0s linear .7s}
+.timeline-death strong{font-size:36px;line-height:1}.timeline-death.is-visible{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1);transition-delay:0s}
+@media(max-width:560px){.timeline-death{min-width:min(82vw,390px);padding:20px 18px}.timeline-death strong{font-size:28px}}
+.journey{max-width:none;width:100%;padding:30px 0;min-height:2800px;display:flex;flex-direction:column;justify-content:space-around}
+.journey-event,.journey-event + .journey-event{display:block;width:40%;min-height:0;padding:0;margin:0 0 0 23%;position:relative}
+.journey-event:nth-child(even){margin-left:37%}
+.journey-date,.journey-event:nth-child(even) .journey-date{background:#fff8df;padding:5px 9px!important;width:fit-content!important;border:2px solid #505d45;border-bottom:0;font-size:.75rem}
+.journey-content,.journey-event:nth-child(even) .journey-content{width:100%;padding:0;margin:0}
+.journey-row,.journey-event:nth-child(4n+1) .journey-row{background:#fff8e5f5;border:2px solid #505d45;border-radius:0;box-shadow:3px 3px #43563e50;padding:13px 16px}
+@media(max-width:760px){.journey{min-height:2600px}.journey-event,.journey-event + .journey-event{width:76%;margin-left:8%}.journey-event:nth-child(even){margin-left:16%}}
+
+/* Platform-game level select. */
+.unified-timeline{background:#83cdf5;padding:38px 0 0;border-top:4px solid #253a63}
+.unified-header h2{font-family:var(--body);font-weight:800;letter-spacing:-.035em;color:#fff;text-shadow:3px 3px #24355b}
+.timeline-key .kind{color:#17365d}
+.journey{min-height:0!important;padding:36px 0 80px;gap:0}
+.journey-event,.journey-event + .journey-event{width:36%;min-height:210px!important;margin:0 0 0 14%;padding:0!important;display:flex;flex-direction:column;justify-content:center}
+.journey-event:nth-child(even){margin-left:50%}
+.journey-date,.journey-event:nth-child(even) .journey-date,.journey-event:nth-child(3n+2) .journey-date{font-family:monospace;font-weight:bold;color:#fff!important;background:#25355a!important;border:0!important;padding:6px 10px!important;margin:0!important;font-size:.8rem;align-self:flex-start}
+.journey-row,.journey-event:nth-child(3n) .journey-row,.journey-event:nth-child(4n+1) .journey-row{border:3px solid #25355a!important;border-radius:0!important;box-shadow:4px 4px 0 #25355a!important;background:#fff4d0!important;padding:13px 16px!important;min-height:84px!important}
+.journey-row:hover{background:#ffe88c!important;transform:translateY(-3px)}
+.journey-name,.journey-event:nth-child(4n+1) .journey-name{font-size:.97rem;font-weight:650;color:#25355a}
+.journey-row .kind{color:#8d492a}
+.journey-detail{background:#fff4d0;border:3px solid #25355a;max-height:220px;overflow:auto}
+.ds-map{image-rendering:pixelated}
+@media(min-width:761px){
+.journey-event:nth-child(13n+1){width:39%;margin-left:9%}
+.journey-event:nth-child(13n+2){width:34%;margin-left:54%}
+.journey-event:nth-child(13n+3){width:38%;margin-left:16%}
+.journey-event:nth-child(13n+4){width:36%;margin-left:47%}
+.journey-event:nth-child(13n+5){width:33%;margin-left:11%}
+.journey-event:nth-child(13n+6){width:40%;margin-left:51%}
+.journey-event:nth-child(13n+7){width:35%;margin-left:21%}
+.journey-event:nth-child(13n+8){width:37%;margin-left:57%}
+.journey-event:nth-child(13n+9){width:41%;margin-left:7%}
+.journey-event:nth-child(13n+10){width:34%;margin-left:46%}
+.journey-event:nth-child(13n+11){width:38%;margin-left:18%}
+.journey-event:nth-child(13n+12){width:36%;margin-left:55%}
+.journey-event:nth-child(13n){width:40%;margin-left:12%}
+}
+@media(max-width:760px){.journey-event,.journey-event + .journey-event{width:74%;margin-left:7%;min-height:220px!important}.journey-event:nth-child(even){margin-left:19%}.journey-name,.journey-event:nth-child(4n+1) .journey-name{font-size:.86rem}}
+
+.secret-star{position:relative;display:inline-flex;align-items:center;gap:7px;border:2px solid #56318f;background:#fff4ff;color:#7b35c8;font:700 .72rem var(--body);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;padding:7px 11px 7px 9px;min-height:42px;border-radius:999px;box-shadow:0 0 0 3px #f1ddff,0 3px 0 #56318f;transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.secret-star::before{content:'✦';font-size:22px;line-height:1;color:#b327d6;text-shadow:0 0 8px #e3a8ff;animation:star-magic 1.8s ease-in-out infinite}
+.secret-star::after{content:'✧';position:absolute;top:-9px;right:4px;color:#2aa9d8;font-size:15px;animation:star-sparkle 1.8s .35s ease-in-out infinite}
+.secret-star:hover,.secret-star:focus-visible{background:#f8dcff;transform:translateY(-2px) rotate(-1deg);box-shadow:0 0 0 4px #e8c4ff,0 5px 0 #56318f,0 0 20px #d99cff}
+.secret-star:active{transform:translateY(2px);box-shadow:0 0 0 3px #e8c4ff,0 1px 0 #56318f}
+@keyframes star-magic{0%,100%{transform:scale(1) rotate(-8deg);filter:brightness(1)}50%{transform:scale(1.22) rotate(10deg);filter:brightness(1.18)}}
+@keyframes star-sparkle{0%,100%{opacity:.25;transform:scale(.65) rotate(0)}50%{opacity:1;transform:scale(1.2) rotate(28deg)}}
+@media(prefers-reduced-motion:reduce){.secret-star::before,.secret-star::after{animation:none}}
+#secret-game{width:min(1000px,96vw);max-height:96dvh;margin:auto;padding:0;background:#f8f2df;border:3px solid #334955;border-radius:10px;color:#334955;overflow:auto}
+#secret-game::backdrop{background:#152832dc}
+.game-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;flex-wrap:wrap}
+.game-bar strong{font-family:Georgia,serif;font-size:1.3rem}
+.game-actions{display:flex;gap:8px}
+#secret-game button{font:600 .85rem var(--body);padding:9px 12px;min-height:44px;border:1px solid #9aa89d;border-radius:4px;background:#fff9e9;color:#334955;cursor:pointer}
+#secret-game canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;image-rendering:pixelated;background:#90d7ed;outline-offset:-4px}
+.game-help{padding:0 16px 12px;font-size:.85rem}
+.game-touch{display:flex;justify-content:space-between;padding:0 16px 12px;gap:12px}
+.game-touch button{min-width:64px;touch-action:none;user-select:none}
+.game-status{font-size:.85rem}
+@media(max-width:768px){.secret-star{position:absolute;top:8px;right:4%;padding-right:9px}.secret-star span{display:none}}
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <!-- ── NAV ── -->
-<nav>
+<nav aria-label="Main navigation">
   <a class="nav-logo" href="#hero">
     <div class="nav-logo-name">Peter Kernohan</div>
     <span class="nav-logo-sub">Robotics &amp; Electronics Engineering Portfolio</span>
   </a>
-  <ul class="nav-links">
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#leadership">Leadership</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+  <ul class="nav-links"><li><a href="#timeline">Timeline</a></li><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li></ul>
+<button class="secret-star" type="button" aria-label="Play the secret platform game" title="Open the secret level"><span>Secret level</span></button></nav>
 
+<main id="main" tabindex="-1">
 <!-- ── HERO ── -->
-<div id="hero">
-  <div class="hero-tag">BSc Robotics &amp; Intelligent Devices · Maynooth University · 2nd Year</div>
-  <h1 class="hero-name">PETER<br><span class="accent">KERNOHAN</span></h1>
-  <p class="hero-desc">
-    Robotics &amp; Electronics Engineering Portfolio. Embedded systems, autonomous robots, control dynamics, and computer vision — building hardware that delivers measurable results.
-  </p>
+<section id="hero" aria-labelledby="intro-name">
+  <p class="intro-label">Robotics &amp; electronics · Portfolio</p>
+  <h1 id="intro-name" class="hero-name">Peter Kernohan</h1>
+  <p class="hero-desc">I’m a robotics student at Maynooth University. This is a collection of the things I’ve built, the teams I’ve worked with, and what I’m learning along the way.</p>
   <div class="hero-cta">
-    <a class="btn-outline" href="#about">About Me</a>
-    <a class="btn-outline" href="#leadership">Leadership</a>
-    <a class="btn-outline" href="https://github.com/peterk05" target="_blank">GitHub ↗</a>
-    <a class="btn-outline" href="https://www.linkedin.com/in/peter-kernohan-a4b788356/" target="_blank">LinkedIn ↗</a>
-    <a class="btn-outline" href="#contact">Contact</a>
+    <a href="#timeline">Explore my work <span aria-hidden="true">↓</span></a>
+    <a href="mailto:peterjohnkernohan@gmail.com">Get in touch</a>
+    <a href="https://github.com/peterk05" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    <a href="https://www.linkedin.com/in/peter-kernohan-a4b788356/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
   </div>
-</div>
+</section>
 
-<!-- ── PROJECTS ── -->
-<div id="projects" class="section-wrap">
-  <div class="section-header">
-    <div class="section-eyebrow">Work</div>
-    <div class="section-title">PROJECTS</div>
-  </div>
-
-  <div class="projects-grid">
-
-    <div class="project-card">
-      <div class="project-card-top">
-        <span class="project-tag">Combat Robotics</span>
-        <span class="project-num">01</span>
-      </div>
-      <div class="project-title">RoboRiotz Combat Robot</div>
-      <div class="project-role">Team Lead — Featherweight Class</div>
-      <p class="project-desc">Led full system architecture of a featherweight combat robot. Secured €2,000 in independent sponsorship. Applied MATLAB modelling to optimise rotational dynamics, achieving a 35% increase in rotational force and 95% competition reliability.</p>
-      <div class="metrics">
-        <span class="metric">€2K Sponsored</span>
-        <span class="metric">+35% Rotational Force</span>
-        <span class="metric">95% Reliability</span>
-      </div>
-      <div class="stack">
-        <span class="chip">MATLAB</span>
-        <span class="chip">BLDC Motors</span>
-        <span class="chip">Power Systems</span>
-        <span class="chip">System Architecture</span>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-card-top">
-        <span class="project-tag">Autonomous Systems</span>
-        <span class="project-num">02</span>
-      </div>
-      <div class="project-title">Autonomous Pick-and-Place Robot</div>
-      <div class="project-role">Developer</div>
-      <p class="project-desc">Ultrasonic sensor-based object detection with PID motor control on Raspberry Pi. Encoder feedback maintains speed stability within 5% across variable loads up to 5 kg, achieving 92% detection accuracy with 38 mm max positional error.</p>
-      <div class="metrics">
-        <span class="metric">92% Accuracy</span>
-        <span class="metric">±38mm Max Error</span>
-        <span class="metric">5% Speed Stability</span>
-      </div>
-      <div class="stack">
-        <span class="chip">Raspberry Pi</span>
-        <span class="chip">Python</span>
-        <span class="chip">PID Control</span>
-        <span class="chip">Ultrasonic</span>
-        <span class="chip">Encoders</span>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-card-top">
-        <span class="project-tag">AI · Computer Vision</span>
-        <span class="project-num">03</span>
-      </div>
-      <div class="project-title">Intelligent Bird Recognition System</div>
-      <div class="project-role">Co-Project Leader</div>
-      <p class="project-desc">End-to-end YOLOv8 inference pipeline on Raspberry Pi 5. Model quantisation and pruning achieve 15 FPS on embedded hardware with 87% species classification accuracy for population monitoring applications.</p>
-      <div class="metrics">
-        <span class="metric">87% Accuracy</span>
-        <span class="metric">15 FPS Embedded</span>
-        <span class="metric">RPi 5</span>
-      </div>
-      <div class="stack">
-        <span class="chip">YOLOv8</span>
-        <span class="chip">Python</span>
-        <span class="chip">Raspberry Pi 5</span>
-        <span class="chip">Quantisation</span>
-        <span class="chip">Pruning</span>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-card-top">
-        <span class="project-tag">Control Systems</span>
-        <span class="project-num">04</span>
-      </div>
-      <div class="project-title">Reaction Wheel Inverted Pendulum</div>
-      <div class="project-role">EE291 Project-Based Learning</div>
-      <p class="project-desc">Reaction wheel arm balancing system modelled from first principles. Full derivation of rotational dynamics, control strategy design and implementation, interactive mathematical reference materials, and structured video presentation.</p>
-      <div class="metrics">
-        <span class="metric">Full Derivation</span>
-        <span class="metric">Control Design</span>
-        <span class="metric">Interactive Docs</span>
-      </div>
-      <div class="stack">
-        <span class="chip">MATLAB/Simulink</span>
-        <span class="chip">Control Theory</span>
-        <span class="chip">Rotational Dynamics</span>
-        <span class="chip">PID</span>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-card-top">
-        <span class="project-tag">Computer Vision · Robotics</span>
-        <span class="project-num">05</span>
-      </div>
-      <div class="project-title">Autonomous Humanoid Eye</div>
-      <div class="project-role">Developer</div>
-      <p class="project-desc">Camera-driven animatronic eye system that detects and tracks a person's position in real time, physically moving the eye mechanism to follow them around the room. Computer vision pipeline on Raspberry Pi drives servo-actuated eye movement with smooth, continuous tracking.</p>
-      <div class="metrics">
-        <span class="metric">Real-time Tracking</span>
-        <span class="metric">Person Detection</span>
-        <span class="metric">Servo Actuation</span>
-      </div>
-      <div class="stack">
-        <span class="chip">Raspberry Pi</span>
-        <span class="chip">OpenCV</span>
-        <span class="chip">Python</span>
-        <span class="chip">Servo Control</span>
-        <span class="chip">Computer Vision</span>
-      </div>
-    </div>
-
-  </div>
-</div>
-
+<section id="timeline" class="unified-timeline"><span id="projects" class="timeline-anchor"></span><span id="experience" class="timeline-anchor"></span><span id="education" class="timeline-anchor"></span><span id="leadership" class="timeline-anchor"></span><header class="unified-header"><h2>Choose a level.</h2><button class="world-motion" type="button" aria-pressed="false">Pause animation</button><div class="timeline-key" aria-label="Timeline categories"><span class="kind kind-project">Project</span><span class="kind kind-experience">Experience</span><span class="kind kind-education">Education</span><span class="kind kind-leadership">Leadership</span></div><span class="world-help" role="status" aria-live="polite">Timeline game active · A D / ← → move · Space jumps · run to an edge to warp</span></header><canvas class="ds-map" width="320" height="1120" aria-label="Animated pixel world with roaming robot characters"></canvas><div class="timeline-death" aria-hidden="true"><strong>YOU DIED</strong><span data-death-coins>COINS 0/0</span><span>PRESS SPACE TO RETURN</span></div><ol class="journey"><li class="journey-event kind-experience" style="--stop:8%"><p class="journey-date">September 2026 · Upcoming</p><div class="journey-content"><details><summary class="journey-row"><span class="journey-thumb journey-monogram" aria-hidden="true">EX</span><span class="journey-title"><span class="kind">Experience</span><span class="journey-name">Python Lab Demonstrator — upcoming · Maynooth University — Maynooth, Ireland</span></span><span class="journey-arrow" aria-hidden="true">+</span></summary><div class="journey-detail"><ul><li>Selected to support Introduction to Programming laboratories for around 40 students; the role is due to begin in September 2026.</li></ul></div></details></div></li><li class="journey-event kind-project" style="--stop:12%"><p class="journey-date">July 2026 – Present</p><div class="journey-content"><a class="journey-row" href="projects/mobile-manipulator.html"><span class="journey-thumb journey-monogram" aria-hidden="true">↗</span><span class="journey-title"><span class="kind">Project</span><span class="journey-name">Autonomous Mobile Manipulator</span></span><span class="journey-arrow" aria-hidden="true">↗</span></a></div></li><li class="journey-event kind-experience" style="--stop:23%"><p class="journey-date">Summer 2026</p><div class="journey-content"><details><summary class="journey-row"><span class="journey-thumb journey-monogram" aria-hidden="true">EX</span><span class="journey-title"><span class="kind">Experience</span><span class="journey-name">Robotics Teacher &amp; Programme Lead · North Shore Day Camp — New York, USA</span></span><span class="journey-arrow" aria-hidden="true">+</span></summary><div class="journey-detail"><ul><li>Established and ran the camp’s first Robotics Lab, designing a two-month programme for students aged 8–12.</li><li>Taught robotics, programming, CAD, electronics and structural engineering through robot kits, bridges and functional 3D-printed tools.</li><li>Helped students with no prior robotics experience program robots to autonomously navigate a maze within hours.</li></ul></div></details></div></li><li class="journey-event kind-project" style="--stop:29%"><p class="journey-date">January – June 2026</p><div class="journey-content"><a class="journey-row" href="projects/reaction-wheel.html"><span class="journey-thumb journey-monogram" aria-hidden="true">↗</span><span class="journey-title"><span class="kind">Project</span><span class="journey-name">Reaction Wheel Inverted Pendulum</span></span><span class="journey-arrow" aria-hidden="true">↗</span></a></div></li><li class="journey-event kind-project" style="--stop:37%"><p class="journey-date">September – December 2025</p><div class="journey-content"><a class="journey-row" href="projects/bird-recognition.html"><span class="journey-thumb journey-monogram" aria-hidden="true">↗</span><span class="journey-title"><span class="kind">Project</span><span class="journey-name">Intelligent Bird Recognition System</span></span><span class="journey-arrow" aria-hidden="true">↗</span></a></div></li><li class="journey-event kind-leadership" style="--stop:43%"><p class="journey-date">2025 – Present</p><div class="journey-content"><details><summary class="journey-row"><span class="journey-thumb journey-monogram" aria-hidden="true">LE</span><span class="journey-title"><span class="kind">Leadership</span><span class="journey-name">President · Engineering &amp; Robotics Society — Maynooth University</span></span><span class="journey-arrow" aria-hidden="true">+</span></summary><div class="journey-detail"><ul><li>Grew active membership from 5 to 60 members in two weeks.</li><li>Organised an international robotics hackathon in which a Maynooth team placed third.</li><li>Lead weekly engineering lectures, Makers Club sessions, robotics competitions and member development.</li></ul></div></details></div></li><li class="journey-event kind-leadership" style="--stop:48%"><p class="journey-date">2025 – Present</p><div class="journey-content"><details><summary class="journey-row"><span class="journey-thumb journey-monogram" aria-hidden="true">LE</span><span class="journey-title"><span class="kind">Leadership</span><span class="journey-name">Treasurer · IEEE Maynooth Student Branch</span></span><span class="journey-arrow" aria-hidden="true">+</span></summary><div class="journey-detail"><ul><li>Manage finances and budgeting for IEEE events.</li><li>Selected to represent IEEE UK &amp; Ireland at the upcoming IEEE Global Robotics Championship in a two-person team. The SO-101 competition build is in preparation.</li></ul></div></details></div></li><li class="journey-event kind-project" style="--stop:54%"><p class="journey-date">May – August 2025</p><div class="journey-content"><a class="journey-row" href="projects/roboriotz.html"><img class="journey-thumb" src="https://raw.githubusercontent.com/peterk05/peterk05/main/assets/images/roboriotz/img%201%20how%20robot%20hits.png" alt="" loading="lazy" width="64" height="64"><span class="journey-title"><span class="kind">Project</span><span class="journey-name">RoboRiotz Combat Robot</span></span><span class="journey-arrow" aria-hidden="true">↗</span></a></div></li><li class="journey-event kind-project" style="--stop:60%"><p class="journey-date">January – June 2025</p><div class="journey-content"><a class="journey-row" href="projects/pick-and-place.html"><img class="journey-thumb" src="https://raw.githubusercontent.com/peterk05/peterk05/main/assets/images/pick-place/pick%20and%20place%20robot%20onshape%201.png" alt="" loading="lazy" width="64" height="64"><span class="journey-title"><span class="kind">Project</span><span class="journey-name">Autonomous Pick-and-Place Robot</span></span><span class="journey-arrow" aria-hidden="true">↗</span></a></div></li><li class="journey-event kind-education" style="--stop:68%"><p class="journey-date">September 2024 – 2028</p><div class="journey-content"><details><summary class="journey-row"><span class="journey-thumb journey-monogram" aria-hidden="true">ED</span><span class="journey-title"><span class="kind">Education</span><span class="journey-name">BSc Robotics &amp; Intelligent Devices · Maynooth University</span></span><span class="journey-arrow" aria-hidden="true">+</span></summary><div class="journey-detail"><p>3rd Year · Expected: First Class Honours (1.1)</p><h4>Coursework</h4><ul><li>Analog/Digital Circuit Design</li><li>Embedded Systems and Control Dynamics</li><li>Digital Logic and PCB Design</li></ul><h4>Involvement</h4><ul><li>Engineering &amp; Robotics Society — President</li><li>IEEE Maynooth Student Branch — Treasurer</li><li>Robotics &amp; Intelligent Devices — Student Representative</li></ul></div></details></div></li><li class="journey-event kind-leadership" style="--stop:73%"><p class="journey-date">2024 – Present</p><div class="journey-content"><details><summary class="journey-row"><span class="journey-thumb journey-monogram" aria-hidden="true">LE</span><span class="journey-title"><span class="kind">Leadership</span><span class="journey-name">Head Student Representative · Maynooth University</span></span><span class="journey-arrow" aria-hidden="true">+</span></summary><div class="journey-detail"><p>Represent student feedback to faculty and support improvements to the programme.</p></div></details></div></li><li class="journey-event kind-leadership" style="--stop:79%"><p class="journey-date">2024 – Present</p><div class="journey-content"><details><summary class="journey-row"><span class="journey-thumb journey-monogram" aria-hidden="true">LE</span><span class="journey-title"><span class="kind">Leadership</span><span class="journey-name">Assistant Coach · Brazilian Jiu-Jitsu Club</span></span><span class="journey-arrow" aria-hidden="true">+</span></summary><div class="journey-detail"><p>Coach classes, coordinate club events and organise guest seminars.</p></div></details></div></li><li class="journey-event kind-project" style="--stop:85%"><p class="journey-date">Date to be added</p><div class="journey-content"><a class="journey-row" href="projects/humanoid-eye.html"><span class="journey-thumb journey-monogram" aria-hidden="true">↗</span><span class="journey-title"><span class="kind">Project</span><span class="journey-name">Autonomous Humanoid Eye</span></span><span class="journey-arrow" aria-hidden="true">↗</span></a></div></li></ol></section>
 <!-- ── ABOUT ── -->
 <div id="about" class="section-wrap">
   <div class="section-header">
     <div class="section-eyebrow">Background</div>
-    <div class="section-title">ABOUT</div>
+    <h2 class="section-title">ABOUT</h2>
   </div>
   <div id="about-wrap">
     <div class="about-text">
-      <p>I'm a <span class="em">2nd year BSc Robotics &amp; Intelligent Devices student</span> at Maynooth University, driven by a genuine interest in building intelligent systems from the ground up.</p>
+      <p>I'm a <span class="em">3rd year BSc Robotics &amp; Intelligent Devices student</span> at Maynooth University, driven by a genuine interest in building intelligent systems from the ground up.</p>
       <p>My work spans the full stack: embedded firmware, circuit design, computer vision, and control theory. I build hardware that demonstrates these disciplines with real, measurable outcomes.</p>
       <p>Alongside my studies I hold leadership roles across the university — running the Engineering &amp; Robotics Society, representing my year group to faculty, and coaching at the BJJ Club.</p>
     </div>
@@ -757,106 +1036,12 @@
           <li>Embedded Systems — Arduino, Raspberry Pi, ESP32</li>
           <li>Circuit &amp; PCB Design — Altium Designer</li>
           <li>Programming — C, C++, Python, MATLAB</li>
-          <li>Robotics &amp; Control — PID, dynamics, state machines</li>
-          <li>AI &amp; Vision — YOLOv8, edge inference, OpenCV</li>
+          <li>Robotics &amp; Control — ROS 2, PID, state-feedback control</li>
+          <li>AI &amp; Vision — YOLOv11s, edge inference, OpenCV</li>
           <li>CAD — Fusion 360, 3D prototyping</li>
         </ul>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ── LEADERSHIP ── -->
-<div id="leadership-bg">
-  <div id="leadership" class="section-wrap" style="border-bottom: none;">
-    <div class="section-header">
-      <div class="section-eyebrow">Roles</div>
-      <div class="section-title">LEADERSHIP</div>
-    </div>
-    <div class="leadership-grid">
-
-      <div class="lead-card">
-        <span class="lead-card-date">2025 – Present</span>
-        <div class="lead-card-title">President</div>
-        <div class="lead-card-org">Engineering &amp; Robotics Society — Maynooth University</div>
-        <ul class="lead-card-list">
-          <li>Grew society from 5 to 60 active members within 2 weeks through cross-programme outreach and inter-society collaboration</li>
-          <li>Delivers at least one structured event per week — technical lectures, weekly Makers Club, cross-society competitions</li>
-          <li>Plans and executes society trips, managing all logistics, budgeting, and scheduling</li>
-        </ul>
-      </div>
-
-      <div class="lead-card">
-        <span class="lead-card-date">2024 – Present</span>
-        <div class="lead-card-title">Head Student Rep</div>
-        <div class="lead-card-org">Robotics &amp; Intelligent Devices Programme — Maynooth University</div>
-        <ul class="lead-card-list">
-          <li>Represents the 2nd year cohort — presents student feedback to faculty and drives curriculum change</li>
-          <li>Secured adoption of Altium Designer across three lab courses for the programme</li>
-        </ul>
-      </div>
-
-      <div class="lead-card">
-        <span class="lead-card-date">2024 – Present</span>
-        <div class="lead-card-title">Assistant Coach</div>
-        <div class="lead-card-org">Brazilian Jiu-Jitsu Club — Maynooth University</div>
-        <ul class="lead-card-list">
-          <li>Coaches regular BJJ classes across all skill levels, 2+ years of continued involvement</li>
-          <li>Manages competition logistics and coordinates club events and scheduling</li>
-          <li>Sourced world-class guest coaches to deliver seminars at Maynooth, raising the club's profile and training standard</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- ── EXPERIENCE ── -->
-<div id="experience" class="section-wrap">
-  <div class="section-header">
-    <div class="section-eyebrow">History</div>
-    <div class="section-title">EXPERIENCE</div>
-  </div>
-  <div class="timeline">
-
-    <div class="tl-item">
-      <div class="tl-date">2025 – Present</div>
-      <div class="tl-title">President — Engineering &amp; Robotics Society</div>
-      <div class="tl-org">Maynooth University</div>
-      <ul class="tl-list">
-        <li>Grew society from 5 to 60 active members within 2 weeks of election</li>
-        <li>Runs weekly structured events — technical lectures, Makers Club, competitions</li>
-      </ul>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-date">2024 – Present</div>
-      <div class="tl-title">Head 2nd Year Student Representative</div>
-      <div class="tl-org">Robotics &amp; Intelligent Devices Programme, Maynooth University</div>
-      <ul class="tl-list">
-        <li>Presents student feedback to faculty; secured adoption of Altium Designer across three lab courses</li>
-      </ul>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-date">2024 – Present</div>
-      <div class="tl-title">Assistant Coach &amp; Committee Member — BJJ Club</div>
-      <div class="tl-org">Maynooth University</div>
-      <ul class="tl-list">
-        <li>Coaches regular classes across all levels; sourced world-class guest coaches for club seminars</li>
-      </ul>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-date">2024 – Present</div>
-      <div class="tl-title">BSc Student — Robotics &amp; Intelligent Devices</div>
-      <div class="tl-org">Maynooth University</div>
-      <ul class="tl-list">
-        <li>Coursework: Analog/Digital Circuit Design, Embedded Systems, Control Dynamics, Digital Logic, PCB Design</li>
-        <li>All major projects completed alongside and beyond formal coursework requirements</li>
-      </ul>
-    </div>
-
   </div>
 </div>
 
@@ -865,41 +1050,174 @@
   <div id="contact-inner">
     <div class="section-header" style="margin-bottom: 0;">
       <div class="section-eyebrow">Get In Touch</div>
-      <div class="section-title">CONTACT</div>
+      <h2 class="section-title">CONTACT</h2>
     </div>
     <p class="contact-sub fade-in" style="margin-top: 1rem; margin-bottom: 0;">Open to internships, collaborations, robotics competitions, and new projects.</p>
     <a class="contact-email fade-in" href="mailto:peterjohnkernohan@gmail.com">peterjohnkernohan@gmail.com</a>
     <div class="contact-btns fade-in">
       <a class="btn-primary" href="mailto:peterjohnkernohan@gmail.com">Email Me</a>
-      <a class="btn-outline" href="https://github.com/peterk05" target="_blank">GitHub ↗</a>
-      <a class="btn-outline" href="https://www.linkedin.com/in/peter-kernohan-a4b788356/" target="_blank">LinkedIn ↗</a>
+      <a class="btn-outline" href="https://github.com/peterk05" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      <a class="btn-outline" href="https://www.linkedin.com/in/peter-kernohan-a4b788356/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
     </div>
   </div>
 </div>
 
+</main>
 <footer>
   © 2025 Peter Kernohan · BSc Robotics &amp; Intelligent Devices · Maynooth University · Ireland
 </footer>
 
-<script>
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el = entry.target;
-      const staggered = ['project-card', 'lead-card', 'tl-item', 'fade-in'];
-      if (staggered.some(c => el.classList.contains(c))) {
-        const idx = [...el.parentElement.children].indexOf(el);
-        setTimeout(() => el.classList.add('visible'), idx * 80);
-      } else {
-        el.classList.add('visible');
-      }
-      io.unobserve(el);
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
 
-  document.querySelectorAll(
-    '.section-header, .about-text, .about-cards, .project-card, .lead-card, .tl-item, .fade-in'
-  ).forEach(el => io.observe(el));
+
+
+
+
+
+
+<script>
+(()=>{
+const canvas=document.querySelector('.ds-map'),g=canvas.getContext('2d'),section=document.querySelector('.unified-timeline'),list=section.querySelector('.journey'),deathOverlay=section.querySelector('.timeline-death'),deathCoins=deathOverlay.querySelector('[data-death-coins]');
+const SCALE=3,events=[...list.querySelectorAll('.journey-event')],help=section.querySelector('.world-help'),keys=new Set();
+let W,H,points=[],lanes=[],obstacles=[],cardBodies=[],dateTabs=[],scenePlatforms=[],sprites=[],collectibles=[],hero=null,zombie=null,dead=false,deathFade=0,respawnGrace=0,coinCount=0,gameActive=false,clock=0,raf,last=0,visible=true,paused=false;const motion=matchMedia('(prefers-reduced-motion: reduce)');
+const NORMAL={ink:'#25355a',sky:'#83cdf5',green:'#58b947',light:'#b9ed65',deep:'#278945',soil:'#cf8755',shade:'#a65d45',cream:'#fff1c1',gold:'#ffd54c',orange:'#d98c25',cloud:'#fff',cloudShade:'#d9efff',hillLight:'#84d65d',mushroom:'#ed6559',stone:'#c5d4db',stoneLine:'#889cab'};
+const HELL={ink:'#1b1024',sky:'#4c183f',green:'#74243a',light:'#ff6848',deep:'#250b22',soil:'#522337',shade:'#2c111f',cream:'#ffd29d',gold:'#ff9a35',orange:'#d83a32',cloud:'#a44250',cloudShade:'#692840',hillLight:'#a82f3f',mushroom:'#ff4938',stone:'#75515e',stoneLine:'#39202d'};let P=NORMAL;
+function mixHex(a,b,t){const A=parseInt(a.slice(1),16),B=parseInt(b.slice(1),16),out=[16,8,0].map(s=>Math.round(((A>>s)&255)*(1-t)+((B>>s)&255)*t));return '#'+out.map(v=>v.toString(16).padStart(2,'0')).join('')}
+function deathPalette(t){return Object.fromEntries(Object.keys(NORMAL).map(k=>[k,mixHex(NORMAL[k],HELL[k],t)]))}
+function R(x,y,w,h,c){g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),w,h)}
+function oval(x,y,rx,ry,c){for(let j=-ry;j<=ry;j++){const dx=Math.floor(rx*Math.sqrt(1-j*j/(ry*ry)));R(x-dx,y+j,dx*2+1,1,c)}}
+function cloud(x,y){
+[[0,5,9,5],[8,0,11,9],[18,4,10,6]].forEach(([a,b,w,h])=>{oval(x+a+w/2,y+b+h/2,w/2|0,h/2|0,P.cloudShade)});
+R(x+5,y+5,19,6,P.cloud);R(x+10,y+1,7,7,P.cloud);R(x+22,y+6,5,3,P.cloud);
+}
+function hill(x,y,w,height){
+oval(x,y,w,height,P.ink);oval(x,y,w-2,height-2,P.green);
+oval(x-w*.3,y-height*.15,Math.max(2,w*.26|0),Math.max(3,height*.68|0),P.hillLight);
+R(x-3,y-height+9,2,5,P.deep);R(x+4,y-height+9,2,5,P.deep);
+}
+function block(x,y,q=false){
+R(x,y,16,16,P.ink);R(x+1,y+1,14,14,q?P.gold:P.soil);R(x+2,y+2,12,2,q?'#fff19a':'#efa56d');R(x+13,y+3,2,12,q?P.orange:P.shade);
+if(q){R(x+5,y+4,6,2,P.ink);R(x+9,y+6,2,3,P.ink);R(x+7,y+8,3,2,P.ink);R(x+7,y+12,2,2,P.ink)}
+else{R(x+1,y+7,13,1,P.ink);R(x+7,y+1,1,6,P.ink);R(x+4,y+8,1,7,P.ink)}
+}
+function platform(x,y,w){
+R(x,y,w,12,P.ink);R(x+1,y+2,w-2,5,P.light);R(x+1,y+7,w-2,4,P.green);
+for(let xx=x;xx<x+w;xx+=16){block(xx,y+12);block(xx,y+28)}
+}
+function pipe(x,y,height){
+R(x+3,y,25,height,P.ink);R(x+5,y+2,21,height-2,P.green);R(x+7,y+2,5,height-2,P.light);R(x+23,y+2,3,height-2,P.deep);
+R(x,y,31,12,P.ink);R(x+2,y+2,27,8,P.green);R(x+4,y+2,6,8,P.light);R(x+25,y+2,3,8,P.deep);
+}
+function coin(x,y){
+const w=motion.matches?5:Math.max(1,Math.round(5*Math.abs(Math.cos(clock*.002+x))));
+oval(x,y,w+1,8,P.ink);oval(x,y,w,7,P.orange);oval(x-1,y-1,Math.max(1,w-1),6,P.gold);R(x-1,y-4,1,7,'#fff3a4');
+}
+function coinBurst(c){const t=c.pop/.45;for(let i=0;i<5;i++){const a=i*1.256+clock*.002,Rx=Math.cos(a)*(8*(1-t)),Ry=Math.sin(a)*(7*(1-t));R(c.x+Rx,c.y+Ry-9*(1-t),2,2,i%2?P.gold:'#fff3a4')}}
+function mushroom(x,y){
+R(x-5,y,10,12,P.ink);R(x-3,y+1,6,9,P.cream);oval(x,y,15,10,P.ink);oval(x,y-1,13,8,P.mushroom);
+R(x-4,y-7,7,5,'#fff4d7');R(x-11,y-2,5,4,'#fff4d7');R(x+7,y-3,4,5,'#fff4d7');
+}
+function castle(x,y){
+R(x,y,54,40,P.ink);R(x+2,y+2,50,38,P.stone);
+for(let j=3;j<39;j+=7){R(x+2,y+j,50,1,P.stoneLine);for(let k=3;k<51;k+=10)R(x+k+(j%2?3:0),y+j,1,7,P.stoneLine)}
+for(let k=0;k<54;k+=12)R(x+k,y-6,7,8,P.ink);
+R(x+20,y+21,14,19,P.ink);R(x+7,y+9,5,8,P.ink);R(x+41,y+9,5,8,P.ink);
+}
+function robot(s,heroSprite=false){
+const bob=s.jump||0,x=Math.round(s.x),y=Math.round(s.y-bob),step=Math.floor(clock/150+s.seed)%2,body=heroSprite?'#a93acf':s.color;
+R(x+1,y,8,2,P.ink);R(x,y+2,10,7,P.ink);R(x+1,y+3,8,5,heroSprite?'#fff1ff':'#f8f1cf');
+R(x+(s.dir>0?6:2),y+5,2,2,body);R(x+2,y+9,6,5,body);R(x+3,y+10,2,2,'#ffe15a');
+R(x+1,y+14-step,3,2+step,P.ink);R(x+6,y+14-(1-step),3,3-step,P.ink);
+if(heroSprite){R(x-2,y-3,2,2,'#6be4ff');R(x+11,y-6,2,2,'#ffe15a')}
+}
+function drawZombie(s){
+const x=Math.round(s.x),y=Math.round(s.y),step=Math.floor(clock/180)%2;
+R(x+1,y,8,2,'#190f24');R(x,y+2,10,8,'#190f24');R(x+1,y+3,8,6,'#86c94f');R(x+2,y+5,2,2,'#ff563e');R(x+7,y+5,1,2,'#fff4bd');
+R(x+2,y+10,7,5,'#4c6f38');R(x-1,y+11,3,2,'#86c94f');R(x+8,y+12,3,2,'#86c94f');R(x+1,y+15-step,3,2+step,'#190f24');R(x+7,y+15-(1-step),3,3-step,'#190f24');
+}
+function blocked(s,nx){return obstacles.some(o=>nx+11>o.x&&nx<o.x+o.w&&s.y+16>o.y&&s.y<o.y+o.h)}
+function makeSprites(){
+sprites=lanes.filter((_,i)=>i%2===0).map((lane,i)=>({lane:i*2,x:lane.x+12+(i%3)*8,y:lane.y-16,dir:i%2?1:-1,speed:5+i%3*2,color:['#eb6c50','#487ea8','#8259aa','#e2a73a'][i%4],seed:i*7,wait:i*.24,jump:0,jumpV:0}));
+}
+function updateSprite(s,dt){
+const lane=lanes[s.lane];if(!lane)return;
+s.wait-=dt;if(s.wait<=0&&Math.random()<.035){s.wait=.4+Math.random()*1.2;if(Math.random()<.45)s.dir*=-1}
+s.jump=0;s.jumpV=0;
+const nx=s.x+s.dir*s.speed*dt;if(nx<lane.x+2||nx>lane.x+lane.w-12||blocked(s,nx)){s.dir*=-1;s.wait=.18}else if(s.wait<=0)s.x=nx;
+}
+function overlaps(a,b){return a.x+a.w>b.x&&a.x<b.x+b.w&&a.y+a.h>b.y&&a.y<b.y+b.h}
+function landActor(actor,oldY,ny){
+let landed=false;if(actor.vy>=0){for(const o of obstacles){if(actor.x+actor.w>o.x&&actor.x<o.x+o.w&&oldY+actor.h<=o.y&&ny+actor.h>=o.y){ny=o.y-actor.h;actor.vy=0;landed=true;break}}}
+const vertical={x:actor.x,y:ny,w:actor.w,h:actor.h};if(!landed&&obstacles.some(o=>overlaps(vertical,o))){actor.vy=0;ny=oldY}actor.y=ny;actor.grounded=landed;
+}
+function checkpoint(y){return obstacles.filter(o=>o.y<=y+18).sort((a,b)=>b.y-a.y)[0]||dateTabs[0]}
+function spawnZombie(surface,behind=false){return{x:Math.max(surface.x+3,Math.min(surface.x+surface.w-13,behind?surface.x+4:surface.x+surface.w-20)),y:surface.y-17,w:10,h:17,vx:0,vy:0,grounded:true,dir:-1,stuck:0,lastX:0,jumpLock:0}}
+function gameStatus(prefix='Timeline game active'){help.textContent=`${prefix} · coins ${coinCount}/${collectibles.length} · A D / ← → steer · Space jumps`}
+function respawn(){const safe=checkpoint(hero?.y||0),others=obstacles.filter(o=>o!==safe&&Math.abs(o.y-safe.y)<180).sort((a,b)=>Math.abs(b.y-safe.y)-Math.abs(a.y-safe.y));P=NORMAL;dead=false;deathFade=0;deathOverlay.classList.remove('is-visible');deathOverlay.setAttribute('aria-hidden','true');respawnGrace=2.2;hero.x=Math.min(safe.x+14,safe.x+safe.w-26);hero.y=safe.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true;zombie=spawnZombie(others[0]||safe,true);gameStatus('Timeline game active · the zombie is hunting you')}
+function killHero(){if(dead||respawnGrace>0)return;dead=true;deathFade=0;keys.clear();hero.vx=0;hero.vy=0;zombie.vx=0;deathCoins.textContent=`COINS ${coinCount}/${collectibles.length}`;deathOverlay.classList.add('is-visible');deathOverlay.setAttribute('aria-hidden','false');help.textContent=`YOU DIED · ${coinCount}/${collectibles.length} coins · press Space to return`;draw()}
+function updateZombie(dt){
+if(!zombie||!hero)return;zombie.jumpLock=Math.max(0,zombie.jumpLock-dt);const prediction=Math.max(0,Math.min(W-10,hero.x+hero.vx*.55)),below=obstacles.filter(o=>o.y>zombie.y+20&&o.y<zombie.y+145).sort((a,b)=>Math.abs((a.x+a.w/2)-prediction)-Math.abs((b.x+b.w/2)-prediction))[0],dropping=hero.y>zombie.y+28&&below,targetX=dropping?Math.max(below.x+5,Math.min(below.x+below.w-8,prediction)):prediction,dir=targetX>zombie.x?1:-1,oldY=zombie.y,far=Math.abs(hero.x-zombie.x)>80;
+const chaseSpeed=zombie.grounded?(far?70:58):(far?38:30),steering=zombie.grounded?6.2:1.8;zombie.dir=dir;zombie.vx+=(dir*chaseSpeed-zombie.vx)*Math.min(1,dt*steering);let nx=Math.max(0,Math.min(W-zombie.w,zombie.x+zombie.vx*dt)),side={x:nx,y:zombie.y,w:zombie.w,h:zombie.h};
+const hit=obstacles.some(o=>overlaps(side,o));if(hit){zombie.vx=0;if(zombie.grounded&&zombie.jumpLock<=0){zombie.vy=-86;zombie.grounded=false;zombie.jumpLock=.7}}else zombie.x=nx;
+zombie.vy=Math.min(175,zombie.vy+120*dt);landActor(zombie,oldY,zombie.y+zombie.vy*dt);
+zombie.stuck=Math.abs(zombie.x-zombie.lastX)<.25?zombie.stuck+dt:0;zombie.lastX=zombie.x;if(zombie.stuck>.65&&zombie.grounded){zombie.vy=-92;zombie.grounded=false;zombie.stuck=0}
+if(zombie.y>H+30||Math.abs(zombie.y-hero.y)>220){const safe=checkpoint(hero.y-45),choices=obstacles.filter(o=>o!==safe&&Math.abs(o.y-safe.y)<145);zombie=spawnZombie(choices.sort((a,b)=>Math.abs((b.x+b.w/2)-hero.x)-Math.abs((a.x+a.w/2)-hero.x))[0]||safe,true);respawnGrace=Math.max(respawnGrace,.7)}
+if(overlaps({x:hero.x+2,y:hero.y+3,w:hero.w-4,h:hero.h-4},{x:zombie.x+2,y:zombie.y+3,w:zombie.w-4,h:zombie.h-4}))killHero();
+}
+function updateHero(dt){
+if(!hero)return;const dir=(keys.has('a')||keys.has('arrowleft')?-1:0)+(keys.has('d')||keys.has('arrowright')?1:0),oldY=hero.y;
+if(dir)hero.dir=dir;const target=dir*96;hero.vx+=(target-hero.vx)*Math.min(1,dt*8);if(!dir)hero.vx*=Math.max(0,1-dt*7);
+let nx=Math.max(0,Math.min(W-hero.w,hero.x+hero.vx*dt)),side={x:nx,y:hero.y,w:hero.w,h:hero.h};
+if(obstacles.some(o=>overlaps(side,o))){hero.vx=0;nx=hero.x}hero.x=nx;hero.vy=Math.min(175,hero.vy+120*dt);let ny=hero.y+hero.vy*dt,landed=false;
+landActor(hero,oldY,ny);
+collectibles.forEach(c=>{if(!c.collected&&Math.abs(hero.x+hero.w/2-c.x)<10&&Math.abs(hero.y+hero.h/2-c.y)<13){c.collected=true;c.pop=.45;coinCount++;gameStatus(coinCount===collectibles.length?'All coins collected!':'Timeline game active · the zombie is hunting you')}});
+if(hero.y>H+30){const first=obstacles[0];hero.x=first.x+18;hero.y=first.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true;events[0]?.scrollIntoView({behavior:'smooth',block:'center'})}
+const pageY=section.getBoundingClientRect().top+scrollY+hero.y*SCALE,targetScroll=Math.max(0,pageY-innerHeight*.55);if(Math.abs(scrollY-targetScroll)>innerHeight*.24)scrollTo({top:targetScroll,behavior:'smooth'});
+}
+function draw(){
+P=dead?deathPalette(deathFade):NORMAL;g.clearRect(0,0,W,H);R(0,0,W,H,P.sky);
+points.forEach((p,i)=>{
+const floor=p.y+30,side=i%2===0;
+if(i%2===0)cloud((i*59+clock*.0015)%(W+35)-30,p.y-48);
+if(i%3===0){hill(side?W-10:10,floor,30,25);hill(side?W-43:43,floor,18,32)}
+const markerX=i%2?W*.46:W*.54;
+if(i<points.length-1){const next=points[i+1];for(let n=1;n<=3;n++){const u=n/4;const xx=markerX+( (i%2?W*.54:W*.46)-markerX)*u;R(xx,p.y+(next.y-p.y)*u,2,2,'#fff5c0')}}
+});
+collectibles.forEach(c=>{if(!c.collected)coin(c.x,c.y);else if(c.pop>0)coinBurst(c)});
+scenePlatforms.forEach((s,i)=>{platform(s.x,s.y,s.w);if(i%4===0)castle(s.x+7,s.y-40);else if(i%3===0)pipe(s.x+20,s.y-28,28);else if(i%3===1){mushroom(s.x+22,s.y-10);mushroom(s.x+48,s.y-8)}else{block(s.x+18,s.y-20,true);block(s.x+34,s.y-20)}});
+cardBodies.forEach(o=>{R(o.x,o.y+o.h,o.w,3,P.ink);R(o.x+1,o.y+o.h,o.w-2,2,P.light)});
+sprites.forEach(s=>robot(s));if(zombie)drawZombie(zombie);if(hero)robot(hero,true);
+if(gameActive){R(5,5,58,15,P.ink);R(7,7,54,11,P.cream);g.fillStyle=P.ink;g.font='bold 6px monospace';g.fillText(`COINS ${coinCount}/${collectibles.length}`,12,14)}
+}
+function resize(){
+const a=section.getBoundingClientRect(),b=list.getBoundingClientRect();W=Math.floor(b.width/SCALE);H=Math.ceil(b.height/SCALE);
+canvas.width=W;canvas.height=H;canvas.style.width=W*SCALE+'px';canvas.style.height=H*SCALE+'px';canvas.style.left=(b.left-a.left)+'px';canvas.style.top=(b.top-a.top)+'px';
+points=[...list.querySelectorAll('.journey-row')].map(el=>{const r=el.getBoundingClientRect();return {y:(r.top-b.top+r.height/2)/SCALE}});
+const savedCoins=collectibles.map(c=>c.collected);collectibles=points.map((p,i)=>({x:i%2?W*.46:W*.54,y:p.y,collected:!!savedCoins[i],pop:0}));coinCount=collectibles.filter(c=>c.collected).length;
+cardBodies=[...list.querySelectorAll('.journey-row')].map(el=>{const r=el.getBoundingClientRect();return{x:(r.left-b.left)/SCALE,y:(r.top-b.top)/SCALE,w:r.width/SCALE,h:r.height/SCALE}});
+dateTabs=[...list.querySelectorAll('.journey-date')].map(el=>{const r=el.getBoundingClientRect();return{x:(r.left-b.left)/SCALE,y:(r.top-b.top)/SCALE,w:r.width/SCALE,h:r.height/SCALE}});
+scenePlatforms=cardBodies.slice(0,-1).map((o,i)=>{const next=dateTabs[i+1],left=o.x<W/2;return{x:left?W-82:14,y:o.y+o.h+(next.y-(o.y+o.h))*.55,w:68,h:44}});
+obstacles=[...dateTabs,...cardBodies,...scenePlatforms];
+lanes=cardBodies.map((o,i)=>i%2===0?{x:dateTabs[i].x+2,y:dateTabs[i].y,w:Math.max(18,dateTabs[i].w-4)}:{x:o.x+Math.min(o.w-34,dateTabs[i].w+6),y:o.y,w:Math.max(28,o.w-dateTabs[i].w-12)}).concat(scenePlatforms.map(s=>({x:s.x,y:s.y,w:s.w})));
+makeSprites();if(hero){const first=dateTabs[0];hero.x=first.x+12;hero.y=first.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true;zombie=spawnZombie(cardBodies[0]||first);respawnGrace=3.5}
+draw();
+}
+function tick(t){raf=requestAnimationFrame(tick);if(paused||motion.matches||!visible||t-last<80)return;const dt=Math.min(.12,(t-last)/1000||.08);last=t;clock=t;sprites.forEach(s=>updateSprite(s,dt));collectibles.forEach(c=>c.pop=Math.max(0,c.pop-dt));if(respawnGrace>0)respawnGrace=Math.max(0,respawnGrace-dt);if(dead)deathFade=Math.min(1,deathFade+dt*1.25);if(gameActive&&!dead){updateHero(dt);updateZombie(dt)}draw()}
+const pauseButton=section.querySelector('.world-motion');pauseButton.addEventListener('click',()=>{paused=!paused;pauseButton.textContent=paused?'Play animation':'Pause animation';pauseButton.setAttribute('aria-pressed',String(paused))});
+section.addEventListener('timeline-game-start',()=>{gameActive=true;dead=false;deathFade=0;deathOverlay.classList.remove('is-visible');deathOverlay.setAttribute('aria-hidden','true');respawnGrace=3.5;P=NORMAL;coinCount=0;collectibles.forEach(c=>{c.collected=false;c.pop=0});const first=dateTabs[0],zombieStart=cardBodies[0]||dateTabs[1]||first;hero={x:first.x+12,y:first.y-16,w:10,h:16,vx:0,vy:0,grounded:true,dir:1,color:'#a93acf',seed:2,jump:0};zombie=spawnZombie(zombieStart);help.classList.add('is-active');gameStatus('Timeline game active · 3 second head start');draw()});
+window.addEventListener('keydown',e=>{if(!gameActive)return;const k=e.key.toLowerCase();if(dead&&[' ','w','arrowup'].includes(k)){e.preventDefault();respawn();return}if(['a','d','arrowleft','arrowright',' ','w','arrowup'].includes(k)){e.preventDefault();keys.add(k)}if([' ','w','arrowup'].includes(k)&&hero?.grounded){hero.vy=-84;hero.grounded=false}if(k==='escape'){gameActive=false;dead=false;deathFade=0;deathOverlay.classList.remove('is-visible');deathOverlay.setAttribute('aria-hidden','true');P=NORMAL;hero=null;zombie=null;keys.clear();help.classList.remove('is-active');draw()}});
+window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
+new ResizeObserver(resize).observe(list);new IntersectionObserver(([e])=>{visible=e.isIntersecting}).observe(section);
+window.addEventListener('resize',resize);document.fonts.ready.then(resize);motion.addEventListener('change',draw);resize();requestAnimationFrame(tick);
+})();
 </script>
+<dialog id="secret-game" aria-labelledby="game-title">
+<div class="game-bar"><strong id="game-title">Secret level · Robot run</strong><div class="game-actions"><button data-pause aria-pressed="false">Pause</button><button data-restart>Restart</button><button data-close>Close ✕</button></div></div>
+<canvas width="480" height="270" tabindex="0" aria-label="Robot platformer. Arrow keys or A and D to move. Space, W or up arrow to jump. Reach the lab on the right."></canvas>
+<div class="game-bar"><span class="game-status" role="status"></span></div>
+<p class="game-help">← → / A D move · Space / ↑ jump · P pause · R restart · Esc exit</p>
+<div class="game-touch"><div><button data-control="arrowleft" aria-label="Move left">←</button> <button data-control="arrowright" aria-label="Move right">→</button></div><button data-control=" " aria-label="Jump">Jump ↑</button></div>
+</dialog>
+<script type="module" src="secret-game.mjs?v=3"></script>
 </body>
 </html>
+
