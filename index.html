@@ -891,8 +891,8 @@ details[open] .journey-arrow{transform:rotate(45deg)}
 .unified-header{margin-bottom:36px}
 .timeline-key{background:none;border:0;box-shadow:none;padding:0}
 .world-motion{background:transparent;border:1px solid #ddd8cc;border-radius:5px;color:#67695d}
-.world-help{display:none;width:100%;font:700 .76rem monospace;color:#25355a;letter-spacing:.025em}
-.world-help.is-active{display:block}
+.world-help{display:block;visibility:hidden;width:100%;min-height:1.1rem;font:700 .76rem/1.1rem monospace;color:#25355a;letter-spacing:.025em}
+.world-help.is-active{visibility:visible}
 .journey{position:relative;background:none!important;height:auto!important;max-width:1160px;width:100%;padding:16px 0;margin:auto}
 .journey:after{display:none}
 .pixel-garden{position:absolute;pointer-events:none;image-rendering:pixelated;z-index:0}
@@ -1075,7 +1075,7 @@ details[open] .journey-arrow{transform:rotate(45deg)}
 (()=>{
 const canvas=document.querySelector('.ds-map'),g=canvas.getContext('2d'),section=document.querySelector('.unified-timeline'),list=section.querySelector('.journey');
 const SCALE=3,events=[...list.querySelectorAll('.journey-event')],help=section.querySelector('.world-help'),keys=new Set();
-let W,H,points=[],lanes=[],obstacles=[],sprites=[],hero=null,gameActive=false,clock=0,raf,last=0,visible=true,paused=false;const motion=matchMedia('(prefers-reduced-motion: reduce)');
+let W,H,points=[],lanes=[],obstacles=[],cardBodies=[],dateTabs=[],scenePlatforms=[],sprites=[],hero=null,gameActive=false,clock=0,raf,last=0,visible=true,paused=false;const motion=matchMedia('(prefers-reduced-motion: reduce)');
 const P={ink:'#25355a',sky:'#83cdf5',green:'#58b947',light:'#b9ed65',deep:'#278945',soil:'#cf8755',shade:'#a65d45',cream:'#fff1c1',gold:'#ffd54c',orange:'#d98c25'};
 function R(x,y,w,h,c){g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),w,h)}
 function oval(x,y,rx,ry,c){for(let j=-ry;j<=ry;j++){const dx=Math.floor(rx*Math.sqrt(1-j*j/(ry*ry)));R(x-dx,y+j,dx*2+1,1,c)}}
@@ -1128,8 +1128,8 @@ sprites=lanes.filter((_,i)=>i%2===0).map((lane,i)=>({lane:i*2,x:lane.x+12+(i%3)*
 }
 function updateSprite(s,dt){
 const lane=lanes[s.lane];if(!lane)return;
-s.wait-=dt;if(s.wait<=0&&Math.random()<.035){s.wait=.4+Math.random()*1.2;if(Math.random()<.45)s.dir*=-1;if(Math.random()<.65)s.jumpV=28+Math.random()*16}
-s.jump=Math.max(0,s.jump+s.jumpV*dt);s.jumpV-=90*dt;if(s.jump<=0){s.jump=0;s.jumpV=0}
+s.wait-=dt;if(s.wait<=0&&Math.random()<.035){s.wait=.4+Math.random()*1.2;if(Math.random()<.45)s.dir*=-1}
+s.jump=0;s.jumpV=0;
 const nx=s.x+s.dir*s.speed*dt;if(nx<lane.x+2||nx>lane.x+lane.w-12||blocked(s,nx)){s.dir*=-1;s.wait=.18}else if(s.wait<=0)s.x=nx;
 }
 function overlaps(a,b){return a.x+a.w>b.x&&a.x<b.x+b.w&&a.y+a.h>b.y&&a.y<b.y+b.h}
@@ -1152,27 +1152,29 @@ points.forEach((p,i)=>{
 const floor=p.y+30,side=i%2===0;
 if(i%2===0)cloud((i*59+clock*.0015)%(W+35)-30,p.y-48);
 if(i%3===0){hill(side?W-10:10,floor,30,25);hill(side?W-43:43,floor,18,32)}
-if(i%4===1){const edge=side?W-45:14;block(edge,floor-18,true);block(edge+16,floor-18)}
-if(i%5===3){const edge=side?W-48:14;pipe(edge,floor-25,25)}
 const markerX=i%2?W*.46:W*.54;
 if(i%2===0)coin(markerX,p.y);
 if(i<points.length-1){const next=points[i+1];for(let n=1;n<=3;n++){const u=n/4;const xx=markerX+( (i%2?W*.54:W*.46)-markerX)*u;R(xx,p.y+(next.y-p.y)*u,2,2,'#fff5c0')}}
 });
-obstacles.forEach(o=>{R(o.x,o.y+o.h,o.w,3,P.ink);R(o.x+1,o.y+o.h,o.w-2,2,P.light)});
+scenePlatforms.forEach((s,i)=>{platform(s.x,s.y,s.w);if(i%4===0)castle(s.x+7,s.y-40);else if(i%3===0)pipe(s.x+20,s.y-28,28);else if(i%3===1){mushroom(s.x+22,s.y-10);mushroom(s.x+48,s.y-8)}else{block(s.x+18,s.y-20,true);block(s.x+34,s.y-20)}});
+cardBodies.forEach(o=>{R(o.x,o.y+o.h,o.w,3,P.ink);R(o.x+1,o.y+o.h,o.w-2,2,P.light)});
 sprites.forEach(s=>robot(s));if(hero)robot(hero,true);
 }
 function resize(){
 const a=section.getBoundingClientRect(),b=list.getBoundingClientRect();W=Math.floor(b.width/SCALE);H=Math.ceil(b.height/SCALE);
 canvas.width=W;canvas.height=H;canvas.style.width=W*SCALE+'px';canvas.style.height=H*SCALE+'px';canvas.style.left=(b.left-a.left)+'px';canvas.style.top=(b.top-a.top)+'px';
 points=[...list.querySelectorAll('.journey-row')].map(el=>{const r=el.getBoundingClientRect();return {y:(r.top-b.top+r.height/2)/SCALE}});
-obstacles=[...list.querySelectorAll('.journey-row')].map(el=>{const r=el.getBoundingClientRect();return{x:(r.left-b.left)/SCALE,y:(r.top-b.top)/SCALE,w:r.width/SCALE,h:r.height/SCALE}});
-lanes=obstacles.map(o=>({x:o.x,y:o.y,w:o.w}));
-makeSprites();if(hero){const first=obstacles[0];hero.x=first.x+18;hero.y=first.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true}
+cardBodies=[...list.querySelectorAll('.journey-row')].map(el=>{const r=el.getBoundingClientRect();return{x:(r.left-b.left)/SCALE,y:(r.top-b.top)/SCALE,w:r.width/SCALE,h:r.height/SCALE}});
+dateTabs=[...list.querySelectorAll('.journey-date')].map(el=>{const r=el.getBoundingClientRect();return{x:(r.left-b.left)/SCALE,y:(r.top-b.top)/SCALE,w:r.width/SCALE,h:r.height/SCALE}});
+scenePlatforms=cardBodies.slice(0,-1).map((o,i)=>{const next=dateTabs[i+1],left=o.x<W/2;return{x:left?W-82:14,y:o.y+o.h+(next.y-(o.y+o.h))*.55,w:68,h:44}});
+obstacles=[...dateTabs,...cardBodies,...scenePlatforms];
+lanes=cardBodies.map((o,i)=>i%2===0?{x:dateTabs[i].x+2,y:dateTabs[i].y,w:Math.max(18,dateTabs[i].w-4)}:{x:o.x+Math.min(o.w-34,dateTabs[i].w+6),y:o.y,w:Math.max(28,o.w-dateTabs[i].w-12)}).concat(scenePlatforms.map(s=>({x:s.x,y:s.y,w:s.w})));
+makeSprites();if(hero){const first=dateTabs[0];hero.x=first.x+12;hero.y=first.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true}
 draw();
 }
 function tick(t){raf=requestAnimationFrame(tick);if(paused||motion.matches||!visible||t-last<80)return;const dt=Math.min(.12,(t-last)/1000||.08);last=t;clock=t;sprites.forEach(s=>updateSprite(s,dt));if(gameActive)updateHero(dt);draw()}
 const pauseButton=section.querySelector('.world-motion');pauseButton.addEventListener('click',()=>{paused=!paused;pauseButton.textContent=paused?'Play animation':'Pause animation';pauseButton.setAttribute('aria-pressed',String(paused))});
-section.addEventListener('timeline-game-start',()=>{gameActive=true;const first=obstacles[0];hero={x:first.x+18,y:first.y-16,w:10,h:16,vx:0,vy:0,grounded:true,dir:1,color:'#a93acf',seed:2,jump:0};help.classList.add('is-active');help.textContent='Timeline game active · run across the cards · A D / ← → steer · Space jumps';draw()});
+section.addEventListener('timeline-game-start',()=>{gameActive=true;const first=dateTabs[0];hero={x:first.x+12,y:first.y-16,w:10,h:16,vx:0,vy:0,grounded:true,dir:1,color:'#a93acf',seed:2,jump:0};help.classList.add('is-active');help.textContent='Timeline game active · every card and pixel platform is solid · A D / ← → steer · Space jumps';draw()});
 window.addEventListener('keydown',e=>{if(!gameActive)return;const k=e.key.toLowerCase();if(['a','d','arrowleft','arrowright',' ','w','arrowup'].includes(k)){e.preventDefault();keys.add(k)}if([' ','w','arrowup'].includes(k)&&hero?.grounded){hero.vy=-84;hero.grounded=false}if(k==='escape'){gameActive=false;hero=null;keys.clear();help.classList.remove('is-active');draw()}});
 window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
 new ResizeObserver(resize).observe(list);new IntersectionObserver(([e])=>{visible=e.isIntersecting}).observe(section);
