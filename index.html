@@ -940,6 +940,21 @@ details[open] .journey-arrow{transform:rotate(45deg)}
 .journey-row .kind{color:#8d492a}
 .journey-detail{background:#fff4d0;border:3px solid #25355a;max-height:220px;overflow:auto}
 .ds-map{image-rendering:pixelated}
+@media(min-width:761px){
+.journey-event:nth-child(13n+1){width:39%;margin-left:9%}
+.journey-event:nth-child(13n+2){width:34%;margin-left:54%}
+.journey-event:nth-child(13n+3){width:38%;margin-left:16%}
+.journey-event:nth-child(13n+4){width:36%;margin-left:47%}
+.journey-event:nth-child(13n+5){width:33%;margin-left:11%}
+.journey-event:nth-child(13n+6){width:40%;margin-left:51%}
+.journey-event:nth-child(13n+7){width:35%;margin-left:21%}
+.journey-event:nth-child(13n+8){width:37%;margin-left:57%}
+.journey-event:nth-child(13n+9){width:41%;margin-left:7%}
+.journey-event:nth-child(13n+10){width:34%;margin-left:46%}
+.journey-event:nth-child(13n+11){width:38%;margin-left:18%}
+.journey-event:nth-child(13n+12){width:36%;margin-left:55%}
+.journey-event:nth-child(13n){width:40%;margin-left:12%}
+}
 @media(max-width:760px){.journey-event,.journey-event + .journey-event{width:74%;margin-left:7%;min-height:220px!important}.journey-event:nth-child(even){margin-left:19%}.journey-name,.journey-event:nth-child(4n+1) .journey-name{font-size:.86rem}}
 
 .secret-star{position:relative;display:inline-flex;align-items:center;gap:7px;border:2px solid #56318f;background:#fff4ff;color:#7b35c8;font:700 .72rem var(--body);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;padding:7px 11px 7px 9px;min-height:42px;border-radius:999px;box-shadow:0 0 0 3px #f1ddff,0 3px 0 #56318f;transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
@@ -1117,21 +1132,29 @@ s.wait-=dt;if(s.wait<=0&&Math.random()<.035){s.wait=.4+Math.random()*1.2;if(Math
 s.jump=Math.max(0,s.jump+s.jumpV*dt);s.jumpV-=90*dt;if(s.jump<=0){s.jump=0;s.jumpV=0}
 const nx=s.x+s.dir*s.speed*dt;if(nx<lane.x+2||nx>lane.x+lane.w-12||blocked(s,nx)){s.dir*=-1;s.wait=.18}else if(s.wait<=0)s.x=nx;
 }
+function overlaps(a,b){return a.x+a.w>b.x&&a.x<b.x+b.w&&a.y+a.h>b.y&&a.y<b.y+b.h}
 function updateHero(dt){
-if(!hero||!lanes[hero.lane])return;const lane=lanes[hero.lane],dir=(keys.has('a')||keys.has('arrowleft')?-1:0)+(keys.has('d')||keys.has('arrowright')?1:0);
-if(dir)hero.dir=dir;const nx=hero.x+dir*34*dt;
-if(dir&&((dir<0&&nx<lane.x+1)||(dir>0&&nx>lane.x+lane.w-12))){hero.lane=(hero.lane+1)%lanes.length;const next=lanes[hero.lane];hero.x=hero.lane%2?next.x+2:next.x+next.w-13;hero.y=next.y-16;hero.jump=13;hero.jumpV=12;events[hero.lane]?.scrollIntoView({behavior:'smooth',block:'center'})}
-else if(dir&&!blocked(hero,nx))hero.x=nx;
-hero.jump=Math.max(0,hero.jump+hero.jumpV*dt);hero.jumpV-=100*dt;if(hero.jump<=0){hero.jump=0;hero.jumpV=0}
+if(!hero)return;const dir=(keys.has('a')||keys.has('arrowleft')?-1:0)+(keys.has('d')||keys.has('arrowright')?1:0),oldY=hero.y;
+if(dir)hero.dir=dir;const target=dir*62;hero.vx+=(target-hero.vx)*Math.min(1,dt*8);if(!dir)hero.vx*=Math.max(0,1-dt*7);
+let nx=Math.max(0,Math.min(W-hero.w,hero.x+hero.vx*dt)),side={x:nx,y:hero.y,w:hero.w,h:hero.h};
+if(obstacles.some(o=>overlaps(side,o))){hero.vx=0;nx=hero.x}hero.x=nx;hero.vy=Math.min(190,hero.vy+150*dt);let ny=hero.y+hero.vy*dt,landed=false;
+if(hero.vy>=0){
+for(const lane of lanes){if(hero.x+hero.w>lane.x&&hero.x<lane.x+lane.w&&oldY+hero.h<=lane.y+1&&ny+hero.h>=lane.y){ny=lane.y-hero.h;hero.vy=0;landed=true;break}}
+for(const o of obstacles){if(hero.x+hero.w>o.x&&hero.x<o.x+o.w&&oldY+hero.h<=o.y&&ny+hero.h>=o.y){ny=o.y-hero.h;hero.vy=0;landed=true;break}}
+}
+const vertical={x:hero.x,y:ny,w:hero.w,h:hero.h};if(!landed&&obstacles.some(o=>overlaps(vertical,o))){hero.vy=0;ny=oldY}
+hero.y=ny;hero.grounded=landed;
+if(hero.y>H+30){const lane=lanes[0];hero.x=lane.x+12;hero.y=lane.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true;events[0]?.scrollIntoView({behavior:'smooth',block:'center'})}
+const pageY=section.getBoundingClientRect().top+scrollY+hero.y*SCALE,targetScroll=Math.max(0,pageY-innerHeight*.55);if(Math.abs(scrollY-targetScroll)>innerHeight*.24)scrollTo({top:targetScroll,behavior:'smooth'});
 }
 function draw(){
 g.clearRect(0,0,W,H);R(0,0,W,H,P.sky);
 points.forEach((p,i)=>{
 const floor=p.y+24,side=i%2===0;
-const x=side?W*.76:W*.09;
+const lane=lanes[i]||{x:side?W*.76-5:W*.09-5,w:108},x=lane.x+5;
 cloud((i*47+clock*.002)%(W+35)-30,p.y-56);cloud((i*73+W*.5)%(W-20),p.y-35);
 hill(side?W-12:8,floor,38,30);hill(side?W-53:49,floor,23,40);
-platform(x-5,floor,80);
+platform(lane.x,floor,lane.w);
 if(i===0||i===9||i===12)castle(x+5,floor-40);
 else if(i%3===0){mushroom(x+22,floor-12);mushroom(x+56,floor-10)}
 else if(i%3===1)pipe(x+20,floor-39,39);
@@ -1148,15 +1171,16 @@ function resize(){
 const a=section.getBoundingClientRect(),b=list.getBoundingClientRect();W=Math.floor(b.width/SCALE);H=Math.ceil(b.height/SCALE);
 canvas.width=W;canvas.height=H;canvas.style.width=W*SCALE+'px';canvas.style.height=H*SCALE+'px';canvas.style.left=(b.left-a.left)+'px';canvas.style.top=(b.top-a.top)+'px';
 points=[...list.querySelectorAll('.journey-row')].map(el=>{const r=el.getBoundingClientRect();return {y:(r.top-b.top+r.height/2)/SCALE}});
-lanes=points.map((p,i)=>({x:(i%2===0?W*.76:W*.09)-5,y:p.y+24,w:80}));
+const stagger=[.72,.58,.43,.29,.50,.66,.47,.31,.55,.70,.52,.36,.61];
+lanes=points.map((p,i)=>({x:Math.max(4,Math.min(W-108,W*stagger[i%stagger.length]-50)),y:p.y+24,w:108}));
 obstacles=[...list.querySelectorAll('.journey-row')].map(el=>{const r=el.getBoundingClientRect();return{x:(r.left-b.left)/SCALE-3,y:(r.top-b.top)/SCALE-3,w:r.width/SCALE+6,h:r.height/SCALE+6}});
-makeSprites();if(hero){const lane=lanes[Math.min(hero.lane,lanes.length-1)];hero.x=lane.x+8;hero.y=lane.y-16}
+makeSprites();if(hero){const lane=lanes[0];hero.x=lane.x+12;hero.y=lane.y-hero.h;hero.vx=0;hero.vy=0;hero.grounded=true}
 draw();
 }
 function tick(t){raf=requestAnimationFrame(tick);if(paused||motion.matches||!visible||t-last<80)return;const dt=Math.min(.12,(t-last)/1000||.08);last=t;clock=t;sprites.forEach(s=>updateSprite(s,dt));if(gameActive)updateHero(dt);draw()}
 const pauseButton=section.querySelector('.world-motion');pauseButton.addEventListener('click',()=>{paused=!paused;pauseButton.textContent=paused?'Play animation':'Pause animation';pauseButton.setAttribute('aria-pressed',String(paused))});
-section.addEventListener('timeline-game-start',()=>{gameActive=true;const lane=lanes[0];hero={lane:0,x:lane.x+8,y:lane.y-16,dir:1,color:'#a93acf',seed:2,jump:0,jumpV:0};help.classList.add('is-active');help.textContent='Timeline game active · A D / ← → move · Space jumps · run to an edge to warp';draw()});
-window.addEventListener('keydown',e=>{if(!gameActive)return;const k=e.key.toLowerCase();if(['a','d','arrowleft','arrowright',' ','w','arrowup'].includes(k)){e.preventDefault();keys.add(k)}if([' ','w','arrowup'].includes(k)&&hero&&hero.jump===0)hero.jumpV=42;if(k==='escape'){gameActive=false;hero=null;keys.clear();help.classList.remove('is-active');draw()}});
+section.addEventListener('timeline-game-start',()=>{gameActive=true;const lane=lanes[0];hero={x:lane.x+12,y:lane.y-16,w:10,h:16,vx:0,vy:0,grounded:true,dir:1,color:'#a93acf',seed:2,jump:0};help.classList.add('is-active');help.textContent='Timeline game active · A D / ← → steer · Space jumps · walk off a platform to free-fall';draw()});
+window.addEventListener('keydown',e=>{if(!gameActive)return;const k=e.key.toLowerCase();if(['a','d','arrowleft','arrowright',' ','w','arrowup'].includes(k)){e.preventDefault();keys.add(k)}if([' ','w','arrowup'].includes(k)&&hero?.grounded){hero.vy=-92;hero.grounded=false}if(k==='escape'){gameActive=false;hero=null;keys.clear();help.classList.remove('is-active');draw()}});
 window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
 new ResizeObserver(resize).observe(list);new IntersectionObserver(([e])=>{visible=e.isIntersecting}).observe(section);
 window.addEventListener('resize',resize);document.fonts.ready.then(resize);motion.addEventListener('change',draw);resize();requestAnimationFrame(tick);
