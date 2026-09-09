@@ -939,6 +939,21 @@ details[open] .journey-arrow{transform:rotate(45deg)}
 .journey-detail{background:#fff4d0;border:3px solid #25355a;max-height:220px;overflow:auto}
 .ds-map{image-rendering:pixelated}
 @media(max-width:760px){.journey-event,.journey-event + .journey-event{width:74%;margin-left:7%;min-height:220px!important}.journey-event:nth-child(even){margin-left:19%}.journey-name,.journey-event:nth-child(4n+1) .journey-name{font-size:.86rem}}
+
+.secret-star{border:0;background:transparent;color:#b18d40;font-size:24px;cursor:pointer;padding:8px;min-width:44px;min-height:44px}
+.secret-star:hover{color:#655129;transform:rotate(15deg)}
+#secret-game{width:min(1000px,96vw);max-height:96dvh;margin:auto;padding:0;background:#f8f2df;border:3px solid #334955;border-radius:10px;color:#334955;overflow:auto}
+#secret-game::backdrop{background:#152832dc}
+.game-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;flex-wrap:wrap}
+.game-bar strong{font-family:Georgia,serif;font-size:1.3rem}
+.game-actions{display:flex;gap:8px}
+#secret-game button{font:600 .85rem var(--body);padding:9px 12px;min-height:44px;border:1px solid #9aa89d;border-radius:4px;background:#fff9e9;color:#334955;cursor:pointer}
+#secret-game canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;image-rendering:pixelated;background:#90d7ed;outline-offset:-4px}
+.game-help{padding:0 16px 12px;font-size:.85rem}
+.game-touch{display:flex;justify-content:space-between;padding:0 16px 12px;gap:12px}
+.game-touch button{min-width:64px;touch-action:none;user-select:none}
+.game-status{font-size:.85rem}
+@media(max-width:768px){.secret-star{position:absolute;top:8px;right:4%}}
 </style>
 </head>
 <body>
@@ -951,7 +966,7 @@ details[open] .journey-arrow{transform:rotate(45deg)}
     <span class="nav-logo-sub">Robotics &amp; Electronics Engineering Portfolio</span>
   </a>
   <ul class="nav-links"><li><a href="#timeline">Timeline</a></li><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li></ul>
-</nav>
+<button class="secret-star" type="button" aria-label="Play the secret platform game" title="A little detour?">✦</button></nav>
 
 <main id="main" tabindex="-1">
 <!-- ── HERO ── -->
@@ -1106,5 +1121,14 @@ const pauseButton=section.querySelector('.world-motion');pauseButton.addEventLis
 new ResizeObserver(resize).observe(list);new IntersectionObserver(([e])=>{visible=e.isIntersecting}).observe(section);
 window.addEventListener('resize',resize);document.fonts.ready.then(resize);motion.addEventListener('change',draw);resize();requestAnimationFrame(tick);
 })();
-</script></body>
+</script>
+<dialog id="secret-game" aria-labelledby="game-title">
+<div class="game-bar"><strong id="game-title">Secret level · Robot run</strong><div class="game-actions"><button data-pause aria-pressed="false">Pause</button><button data-restart>Restart</button><button data-close>Close ✕</button></div></div>
+<canvas width="480" height="270" tabindex="0" aria-label="Robot platformer. Arrow keys or A and D to move. Space, W or up arrow to jump. Reach the lab on the right."></canvas>
+<div class="game-bar"><span class="game-status" role="status"></span></div>
+<p class="game-help">← → / A D move · Space / ↑ jump · P pause · R restart · Esc exit</p>
+<div class="game-touch"><div><button data-control="arrowleft" aria-label="Move left">←</button> <button data-control="arrowright" aria-label="Move right">→</button></div><button data-control=" " aria-label="Jump">Jump ↑</button></div>
+</dialog>
+<script type="module" src="secret-game.mjs"></script>
+</body>
 </html>
