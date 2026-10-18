@@ -1,5 +1,0 @@
-tests/test_site.py::test_sitemap_lists_exactly_the_indexable_pages
-tests/test_site.py::test_robots_txt_allows_all_and_points_at_the_sitemap
-tests/test_site.py::test_legacy_pages_are_noindex
-tests/test_site.py::test_404_page
-tests/test_site.py::test_person_json_ld
