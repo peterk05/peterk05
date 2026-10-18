@@ -1,0 +1,30 @@
+# Tests are the agents' reward signal: any PR that edits them needs a human sign-off label.
+name: test-changes
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+jobs:
+  tests-signed-off:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Test changes need the tests-reviewed label
+        if: ${{ !contains(github.event.pull_request.labels.*.name, 'tests-reviewed') }}
+        run: |
+          # --no-renames: a rename shows up as delete + add, so a renamed-and-weakened test is still caught.
+          changed=$(git diff --no-renames --name-only "origin/${{ github.base_ref }}...HEAD" | grep -E '(^|/)tests?/|(^|/)test_[^/]*\.py$|_test\.py$|(^|/)conftest\.py$' || true)
+          # Brand-new test files are fine; only edits or deletions of existing ones need sign-off.
+          # `if`, not `&&`: under bash -e a failed cat-file as the last loop command aborts the step.
+          existing=$(for f in $changed; do if git cat-file -e "origin/${{ github.base_ref }}:$f" 2>/dev/null; then echo "$f"; fi; done)
+          # New or changed test config can skip tests without editing one: a conftest.py, pytest.ini,
+          # the gate scripts, or pytest settings in pyproject.toml.
+          config=$(git diff --no-renames --name-only "origin/${{ github.base_ref }}...HEAD" | grep -E '(^|/)conftest\.py$|(^|/)(pytest|tox)\.ini$|^\.claude/(fast-test\.sh|protected-paths\.txt)$|^scripts/check\.sh$' || true)
+          if git diff "origin/${{ github.base_ref }}...HEAD" -- pyproject.toml | grep -qE '^[+-][^+-].*(pytest|addopts|testpaths|deselect)'; then config="$config pyproject.toml"; fi
+          flagged=$(echo $existing $config | tr ' ' '\n' | sort -u | tr '\n' ' ')
+          if [ -n "${flagged// }" ]; then
+            echo "::error::This PR changes existing tests or test config: $flagged. Review them, then add the 'tests-reviewed' label."
+            exit 1
+          fi
