@@ -1,0 +1,13 @@
+{
+  "id": "rev-robots-blocks-projects",
+  "base": "c30e5535b5fddc342444db4878a665fb35558aab",
+  "label": "positive",
+  "patch": "evals/fixtures/reviewer-robots-blocks-projects.diff",
+  "prompt": "Review the uncommitted change in this repo (`git diff HEAD`) against specs/2-share-previews/spec.md. The site is served by GitHub Pages at https://www.peterkernohan.com. The change claims to: tidy robots.txt.",
+  "grader": {
+    "output_regex": [
+      "(?i)\\|\\s*blocking\\s*\\|"
+    ]
+  },
+  "timeout": 900
+}
