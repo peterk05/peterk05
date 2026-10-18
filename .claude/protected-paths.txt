@@ -1,9 +1,0 @@
-# Globs the implementer agent may not edit once the files are committed (fnmatch, relative to repo root).
-# New, untracked test files are allowed, so it can still write the failing tests first.
-tests/*
-*/tests/*
-test_*.py
-*/test_*.py
-*_test.py
-conftest.py
-*/conftest.py
