@@ -1,0 +1,2 @@
+tests/test_site.py::test_404_page
+tests/test_site.py::test_person_json_ld
